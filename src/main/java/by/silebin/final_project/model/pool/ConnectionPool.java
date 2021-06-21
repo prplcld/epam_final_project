@@ -5,8 +5,8 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ConnectionPool {
@@ -28,8 +28,8 @@ public class ConnectionPool {
     }
 
     private ConnectionPool() {
-        availableConnections = new ArrayBlockingQueue<>(DEFAULT_POOL_SIZE);
-        usedConnections = new ArrayBlockingQueue<>(DEFAULT_POOL_SIZE);
+        availableConnections = new LinkedBlockingQueue<>(DEFAULT_POOL_SIZE);
+        usedConnections = new LinkedBlockingQueue<>(DEFAULT_POOL_SIZE);
 
         ConnectionFactory connectionFactory = new ConnectionFactory();
         for(int i = 0; i < DEFAULT_POOL_SIZE; i++) {
@@ -58,10 +58,14 @@ public class ConnectionPool {
         return proxyConnection;
     }
 
-    public void releaseConnection(ProxyConnection connection) {
-        usedConnections.remove(connection);
+    public void releaseConnection(Connection connection) {
+        if(!(connection instanceof ProxyConnection)) {
+            throw new RuntimeException("unknown connection");
+        }
+        ProxyConnection proxyConnection = (ProxyConnection) connection;
+        usedConnections.remove(proxyConnection);
         try {
-            availableConnections.put(connection);
+            availableConnections.put(proxyConnection);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             //logger
@@ -71,7 +75,7 @@ public class ConnectionPool {
     public void destroyPool() {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
-                availableConnections.take().reallyClose();
+                availableConnections.take().closeConnection();
             } catch (SQLException | InterruptedException e) {
                 //logger
             }
