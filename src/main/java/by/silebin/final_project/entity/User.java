@@ -6,7 +6,7 @@ public class User {
     private String password;
     private String email;
 
-    //TODO how to store image, role? equals, hashcode
+    //TODO how to store image, role? equals, hashcode, remove password field
 
     public User(int userId, String login, String password, String email) {
         this.userId = userId;

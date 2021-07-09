@@ -12,7 +12,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> login(String login, String password) {
         UserDao userDao = UserDaoImpl.getInstance();
-
         return  userDao.login(login, password);
     }
 }

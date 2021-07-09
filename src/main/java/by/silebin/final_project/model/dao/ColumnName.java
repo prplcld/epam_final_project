@@ -8,5 +8,10 @@ public final class ColumnName {
     public static final String USERS_ROLE_ID = "role_id";
     public static final String USERS_ICON = "icon";
 
+    public static final String COCKTAILS_NAME = "name";
+    public static final String COCKTAILS_DESCRIPTION = "description";
+    public static final String COCKTAILS_USER_ID = "user_id";
+    public static final String COCKTAILS_ICON = "icon";
+
     private ColumnName() {}
 }

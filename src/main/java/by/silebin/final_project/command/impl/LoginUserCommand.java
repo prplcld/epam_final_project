@@ -1,21 +1,19 @@
-package by.silebin.final_project.command;
+package by.silebin.final_project.command.impl;
 
+import by.silebin.final_project.command.Command;
+import by.silebin.final_project.command.Router;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.model.service.UserService;
 import by.silebin.final_project.model.service.impl.UserServiceImpl;
-import com.mysql.cj.xdevapi.Session;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Optional;
 
-public class LoginUserCommand implements Command{
+public class LoginUserCommand implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public Router execute(HttpServletRequest request) {
         UserService userService = new UserServiceImpl();
         String login = request.getParameter("username");
         String password = request.getParameter("password");
@@ -25,8 +23,8 @@ public class LoginUserCommand implements Command{
             User user = userOptional.get();
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            request.setAttribute("login", user.getLogin());
-            request.getRequestDispatcher("pages/login.jsp").forward(request, response);
+            return new Router("/controller?command=go_to_list_page", Router.RouterType.FORWARD);
         }
+        return new Router("pages/login.jsp", Router.RouterType.FORWARD);
     }
 }
