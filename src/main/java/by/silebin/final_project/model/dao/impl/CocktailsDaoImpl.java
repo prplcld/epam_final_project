@@ -1,6 +1,7 @@
 package by.silebin.final_project.model.dao.impl;
 
 import by.silebin.final_project.entity.Cocktail;
+import by.silebin.final_project.exception.DaoException;
 import by.silebin.final_project.model.dao.CocktailsDao;
 import by.silebin.final_project.model.pool.ConnectionPool;
 
@@ -45,7 +46,7 @@ public class CocktailsDaoImpl implements CocktailsDao {
     }
 
     @Override
-    public boolean insert(Cocktail cocktail) {
+    public boolean insert(Cocktail cocktail) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COCKTAIL_SQL)) {
             preparedStatement.setString(1, cocktail.getName());
@@ -54,13 +55,12 @@ public class CocktailsDaoImpl implements CocktailsDao {
             preparedStatement.setInt(4, cocktail.getUserId());
             return  !preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new DaoException();
         }
-        return false;
     }
 
     @Override
-    public List<Cocktail> getAll() {
+    public List<Cocktail> getAll() throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_COCKTAILS_SQL)) {
@@ -75,7 +75,7 @@ public class CocktailsDaoImpl implements CocktailsDao {
                 cocktails.add(cocktail);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new DaoException();
         }
         return cocktails;
     }

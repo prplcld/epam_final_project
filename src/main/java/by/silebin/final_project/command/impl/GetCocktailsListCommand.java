@@ -3,11 +3,11 @@ package by.silebin.final_project.command.impl;
 import by.silebin.final_project.command.Command;
 import by.silebin.final_project.command.Router;
 import by.silebin.final_project.entity.Cocktail;
+import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.model.service.CocktailService;
 import by.silebin.final_project.model.service.impl.CocktailServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 
 public class GetCocktailsListCommand implements Command {
@@ -19,8 +19,8 @@ public class GetCocktailsListCommand implements Command {
         List<Cocktail> cocktails = null;
         try {
             cocktails = cocktailService.getAllCocktails();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }  catch (ServiceException e) {
+            //FIXME
         }
         request.setAttribute("cocktails", cocktails);
         return new Router("pages/list.jsp", Router.RouterType.FORWARD);

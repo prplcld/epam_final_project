@@ -1,6 +1,8 @@
 package by.silebin.final_project.model.service.impl;
 
 import by.silebin.final_project.entity.Cocktail;
+import by.silebin.final_project.exception.DaoException;
+import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.model.dao.CocktailsDao;
 import by.silebin.final_project.model.dao.impl.CocktailsDaoImpl;
 import by.silebin.final_project.model.service.CocktailService;
@@ -8,24 +10,39 @@ import by.silebin.final_project.model.service.CocktailService;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 public class CocktailServiceImpl implements CocktailService {
+
     @Override
-    public List<Cocktail> getAllCocktails() throws IOException{
+    public List<Cocktail> getAllCocktails() throws ServiceException {
         CocktailsDao cocktailsDao = CocktailsDaoImpl.getInstance();
-        List<Cocktail> cocktails = cocktailsDao.getAll();
-        for(Cocktail c : cocktails) {
-            encodeImage(c);
+        List<Cocktail> cocktails = new ArrayList<>();
+        try {
+            cocktails = cocktailsDao.getAll();
+            for(Cocktail c : cocktails) {
+                encodeImage(c);
+            }
+        } catch (IOException e) {
+            throw  new ServiceException();
+        } catch (DaoException e) {
+            throw  new ServiceException();
         }
+
         return cocktails;
     }
 
     @Override
-    public boolean insert(Cocktail cocktail) {
+    public boolean insert(Cocktail cocktail) throws ServiceException {
         CocktailsDao cocktailsDao = CocktailsDaoImpl.getInstance();
-        return cocktailsDao.insert(cocktail);
+        try {
+            boolean result = cocktailsDao.insert(cocktail);
+            return  result;
+        } catch (DaoException e) {
+            throw  new ServiceException();
+        }
     }
 
     private void encodeImage(Cocktail cocktail) throws IOException {

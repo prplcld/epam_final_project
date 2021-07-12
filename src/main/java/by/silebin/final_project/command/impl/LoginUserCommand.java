@@ -3,6 +3,7 @@ package by.silebin.final_project.command.impl;
 import by.silebin.final_project.command.Command;
 import by.silebin.final_project.command.Router;
 import by.silebin.final_project.entity.User;
+import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.model.service.UserService;
 import by.silebin.final_project.model.service.impl.UserServiceImpl;
 
@@ -18,7 +19,12 @@ public class LoginUserCommand implements Command {
         String login = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Optional<User> userOptional = userService.login(login, password);
+        Optional<User> userOptional = Optional.empty();
+        try {
+            userOptional = userService.login(login, password);
+        } catch (ServiceException e) {
+            //FIXME
+        }
         if(userOptional.isPresent()) {
             User user = userOptional.get();
             HttpSession session = request.getSession();

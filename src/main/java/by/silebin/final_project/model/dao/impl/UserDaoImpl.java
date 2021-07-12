@@ -1,6 +1,7 @@
 package by.silebin.final_project.model.dao.impl;
 
 import by.silebin.final_project.entity.User;
+import by.silebin.final_project.exception.DaoException;
 import by.silebin.final_project.model.dao.UserDao;
 import by.silebin.final_project.model.pool.ConnectionPool;
 import by.silebin.final_project.util.HashUtil;
@@ -28,7 +29,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> login(String login, String password) {
+    public Optional<User> login(String login, String password) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_LOGIN_SQL)) {
             preparedStatement.setString(1, login);
@@ -47,13 +48,13 @@ public class UserDaoImpl implements UserDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           throw  new DaoException();
         }
         return Optional.empty();
     }
 
     @Override
-    public boolean register(String login, String password) {
+    public boolean register(String login, String password) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
             String hashSaltPassword = HashUtil.hash(password);
@@ -64,13 +65,12 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setBlob(5, (Blob) null);
             return !preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new DaoException();
         }
-        return false;
     }
 
     @Override
-    public Optional<User> findById(int id) {
+    public Optional<User> findById(int id) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID)) {
             preparedStatement.setInt(1, id);
@@ -84,13 +84,13 @@ public class UserDaoImpl implements UserDao {
                 return Optional.of(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new DaoException();
         }
         return Optional.empty();
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean update(User user) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
             preparedStatement.setString(1, user.getLogin());
@@ -100,8 +100,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setBlob(5, (Blob) null);
             return !preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new DaoException();
         }
-        return false;
     }
 }
