@@ -23,6 +23,8 @@ public class CocktailsDaoImpl implements CocktailsDao {
     private static final String GET_COCKTAIL_BY_ID_SQL = "select id, name, description, user_id from cocktails where id = ?";
     private static final String GET_ALL_COCKTAILS_SQL = "select id, name, description, icon, user_id from cocktails";
     private static final String INSERT_COCKTAIL_SQL = "insert into cocktails(name, description, icon, user_id) values(?, ?, ?, ?)";
+    private static final String COUNT_COCKTAILS_SQL = "select count(*) from cocktails";
+    private static final String GET_LIMIT_COCKTAILS_SQL = "select id, name, description, icon, user_id from cocktails limit ?, ?";
 
     private CocktailsDaoImpl() {}
 
@@ -76,6 +78,45 @@ public class CocktailsDaoImpl implements CocktailsDao {
             }
         } catch (SQLException e) {
             throw  new DaoException();
+        }
+        return cocktails;
+    }
+
+    @Override
+    public int getCocktailsAmount() throws DaoException {
+        try(Connection connection = connectionPool.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(COUNT_COCKTAILS_SQL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt(1);
+            }
+            else {
+                throw new DaoException();
+            }
+        } catch (SQLException e) {
+            throw new DaoException();
+        }
+    }
+
+    @Override
+    public List<Cocktail> getLimited(int start, int amount) throws DaoException {
+        List<Cocktail> cocktails = new ArrayList<>();
+        try(Connection connection = connectionPool.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(GET_LIMIT_COCKTAILS_SQL)) {
+            preparedStatement.setInt(1, start);
+            preparedStatement.setInt(2, amount);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Cocktail cocktail = new Cocktail();
+                cocktail.setCocktailId(resultSet.getInt(ID));
+                cocktail.setName(resultSet.getString(COCKTAILS_NAME));
+                cocktail.setDescription(resultSet.getString(COCKTAILS_DESCRIPTION));
+                cocktail.setUserId(resultSet.getInt(COCKTAILS_USER_ID));
+                cocktail.setIcon(resultSet.getBlob(COCKTAILS_ICON).getBinaryStream());
+                cocktails.add(cocktail);
+            }
+        } catch (SQLException e) {
+            throw new DaoException();
         }
         return cocktails;
     }

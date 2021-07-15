@@ -12,4 +12,6 @@ public interface CocktailsDao {
     boolean delete(Cocktail cocktail);
     boolean insert(Cocktail cocktail) throws DaoException;
     List<Cocktail> getAll() throws DaoException;
+    int getCocktailsAmount() throws DaoException;
+    List<Cocktail> getLimited(int start, int amount) throws DaoException;
 }

@@ -6,7 +6,7 @@ public class Cocktail {
     private int cocktailId;
     private String name;
     private String description;
-    InputStream icon;
+    private transient InputStream icon;
     private int userId;
     private String base64Icon;
 

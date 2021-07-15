@@ -25,13 +25,12 @@ public class CocktailServiceImpl implements CocktailService {
             for(Cocktail c : cocktails) {
                 encodeImage(c);
             }
+            return cocktails;
         } catch (IOException e) {
             throw  new ServiceException();
         } catch (DaoException e) {
             throw  new ServiceException();
         }
-
-        return cocktails;
     }
 
     @Override
@@ -42,6 +41,34 @@ public class CocktailServiceImpl implements CocktailService {
             return  result;
         } catch (DaoException e) {
             throw  new ServiceException();
+        }
+    }
+
+
+
+    @Override
+    public int getCocktailsAmount() throws ServiceException {
+        CocktailsDao cocktailsDao = CocktailsDaoImpl.getInstance();
+        try {
+            return cocktailsDao.getCocktailsAmount();
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+    }
+
+    @Override
+    public List<Cocktail> getLimited(int start, int amount) throws ServiceException {
+        CocktailsDao cocktailsDao = CocktailsDaoImpl.getInstance();
+        try {
+            List<Cocktail> cocktails =  cocktailsDao.getLimited(start, amount);
+            for (Cocktail c : cocktails) {
+                encodeImage(c);
+            }
+            return cocktails;
+        } catch (DaoException e) {
+            throw new ServiceException();
+        } catch (IOException e) {
+            throw new ServiceException();
         }
     }
 

@@ -38,7 +38,7 @@ public class ConnectionPool {
                 ProxyConnection proxyConnection = new ProxyConnection(connection);
                 availableConnections.offer(proxyConnection);
             } catch (SQLException e) {
-                e.printStackTrace();
+                //FIXME
             }
 
             if (availableConnections.isEmpty()) {
@@ -68,7 +68,7 @@ public class ConnectionPool {
             availableConnections.put(proxyConnection);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            //logger
+            //FIXME
         }
     }
 
@@ -77,10 +77,9 @@ public class ConnectionPool {
             try {
                 availableConnections.take().closeConnection();
             } catch (SQLException | InterruptedException e) {
-                //logger
+                //FIXME
             }
         }
-
         deregisterDrivers();
     }
 
@@ -91,7 +90,7 @@ public class ConnectionPool {
             try {
                 DriverManager.deregisterDriver(driver);
             } catch (SQLException e) {
-                //logger
+                //FIXME
             }
         }
     }

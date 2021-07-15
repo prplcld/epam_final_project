@@ -39,6 +39,9 @@ public class ControllerServlet extends HttpServlet {
             case REDIRECT:
                 response.sendRedirect(router.getPagePath());
                 break;
+            default:
+                //FIXME
+                break;
         }
     }
 }

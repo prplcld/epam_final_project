@@ -15,4 +15,14 @@
     <servlet-name>controllerServlet</servlet-name>
     <url-pattern>/controller</url-pattern>
   </servlet-mapping>
+
+<servlet>
+  <servlet-name>ajaxServlet</servlet-name>
+  <servlet-class>by.silebin.final_project.controller.AjaxServlet</servlet-class>
+</servlet>
+
+  <servlet-mapping>
+    <servlet-name>ajaxServlet</servlet-name>
+    <url-pattern>/ajax</url-pattern>
+  </servlet-mapping>
 </web-app>

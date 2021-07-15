@@ -1,6 +1,7 @@
 package by.silebin.final_project.command;
 
 import by.silebin.final_project.command.impl.GetCocktailsListCommand;
+import by.silebin.final_project.command.impl.LoginUserCommand;
 import by.silebin.final_project.command.impl.go.GoToLoginPageCommand;
 
 import java.util.HashMap;
@@ -12,9 +13,10 @@ public class CommandProvider {
 
 
     private CommandProvider() {
-        commands.put(CommandType.GO_TO_LIST_PAGE, new GetCocktailsListCommand());
+        commands.put(CommandType.GET_COCKTAILS_LIST, new GetCocktailsListCommand());
         commands.put(CommandType.GO_TO_LOGIN, new GoToLoginPageCommand());
         commands.put(CommandType.DEFAULT, new GetCocktailsListCommand());
+        commands.put(CommandType.LOGIN_USER, new LoginUserCommand());
     }
 
     public static CommandProvider getInstance() {

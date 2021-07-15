@@ -20,6 +20,7 @@ public class HashUtil {
             salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
             return Base64.encodeBase64String(salt) + "$" + hash(password, salt);
         } catch (NoSuchAlgorithmException e) {
+            //FIXME
             e.printStackTrace();
         }
         throw new RuntimeException("unable to encode password");
@@ -43,6 +44,7 @@ public class HashUtil {
             SecretKey key = f.generateSecret(new PBEKeySpec(password.toCharArray(), salt, iterations, desiredKeyLen));
             return Base64.encodeBase64String(key.getEncoded());
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            //FIXME
             e.printStackTrace();
         }
         throw new RuntimeException("unable to encode password");

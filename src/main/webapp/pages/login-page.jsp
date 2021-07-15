@@ -18,7 +18,7 @@
         </div>
 
         <!-- Login Form -->
-        <form action="login">
+        <form action="controller?command=login_user" method="post">
             <input type="text" id="login" class="fadeIn second" name="username" placeholder="login">
             <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
             <input type="submit" class="fadeIn fourth" value="Log In">
