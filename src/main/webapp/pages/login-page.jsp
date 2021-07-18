@@ -2,19 +2,20 @@
 
 
 <head>
-    <%@ include file="bootstrap-styles-scripts.jsp" %>
+    <%@include file="bootstrap-head-styles-scripts.jsp" %>
     <link rel="stylesheet" href="pages/static/css/login-page.css">
 </head>
 
 <body>
-<%@ include file="header.jsp"%>
+<%@include file="bootstrap-body-styles-scripts.jsp" %>
+<%@ include file="header.jsp" %>
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <!-- Tabs Titles -->
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="pages/static/image/user.png" id="icon" alt="User Icon" />
+            <img src="pages/static/image/user.png" id="icon" alt="User Icon"/>
         </div>
 
         <!-- Login Form -->

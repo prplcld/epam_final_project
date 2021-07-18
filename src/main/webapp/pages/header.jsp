@@ -16,7 +16,7 @@
           <a class="nav-link" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="controller?command=get_cocktails_list">List</a>
+          <a class="nav-link" href="controller?command=go_to_cocktails_list">List</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="controller?command=go_to_login">Login</a>

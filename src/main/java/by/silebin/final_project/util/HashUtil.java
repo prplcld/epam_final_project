@@ -1,6 +1,8 @@
 package by.silebin.final_project.util;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -13,6 +15,8 @@ public class HashUtil {
     private static final int iterations = 10;
     private static final int saltLen = 8;
     private static final int desiredKeyLen = 32;
+    private static final Logger logger = LogManager.getLogger(HashUtil.class);
+
 
     public static String hash(String password) {
         byte[] salt;
@@ -20,8 +24,7 @@ public class HashUtil {
             salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
             return Base64.encodeBase64String(salt) + "$" + hash(password, salt);
         } catch (NoSuchAlgorithmException e) {
-            //FIXME
-            e.printStackTrace();
+            logger.fatal("wrong random algorithm", e);
         }
         throw new RuntimeException("unable to encode password");
     }
@@ -44,8 +47,7 @@ public class HashUtil {
             SecretKey key = f.generateSecret(new PBEKeySpec(password.toCharArray(), salt, iterations, desiredKeyLen));
             return Base64.encodeBase64String(key.getEncoded());
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            //FIXME
-            e.printStackTrace();
+            logger.fatal("wrong random algorithm", e);
         }
         throw new RuntimeException("unable to encode password");
     }

@@ -3,12 +3,8 @@ package by.silebin.final_project;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.exception.DaoException;
 import by.silebin.final_project.exception.ServiceException;
-import by.silebin.final_project.model.dao.UserDao;
-import by.silebin.final_project.model.dao.impl.UserDaoImpl;
-import by.silebin.final_project.model.service.CocktailService;
-import by.silebin.final_project.model.service.UserService;
-import by.silebin.final_project.model.service.impl.CocktailServiceImpl;
-import by.silebin.final_project.model.service.impl.UserServiceImpl;
+import by.silebin.final_project.service.CocktailService;
+import by.silebin.final_project.service.impl.CocktailServiceImpl;
 
 import java.io.File;
 import java.io.FileInputStream;

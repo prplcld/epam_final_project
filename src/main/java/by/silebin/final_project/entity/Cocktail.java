@@ -1,6 +1,7 @@
 package by.silebin.final_project.entity;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 public class Cocktail {
     private int cocktailId;
@@ -9,8 +10,6 @@ public class Cocktail {
     private transient InputStream icon;
     private int userId;
     private String base64Icon;
-
- //TODO equals hashcode
 
     public Cocktail() {
     }
@@ -69,5 +68,19 @@ public class Cocktail {
 
     public void setBase64Icon(String base64Icon) {
         this.base64Icon = base64Icon;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cocktail cocktail = (Cocktail) o;
+        return cocktailId == cocktail.cocktailId && userId == cocktail.userId && name.equals(cocktail.name) && description.equals(cocktail.description);
+    }
+
+    @Override
+    public int hashCode() {
+        //FIXME
+        return Objects.hash(cocktailId, name, description, userId);
     }
 }

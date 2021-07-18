@@ -1,19 +1,12 @@
 package by.silebin.final_project.entity;
 
+import java.util.Objects;
+
 public class User {
     private int userId;
     private String login;
-    private String password;
     private String email;
-
-    //TODO how to store image, role? equals, hashcode, remove password field
-
-    public User(int userId, String login, String password, String email) {
-        this.userId = userId;
-        this.login = login;
-        this.password = password;
-        this.email = email;
-    }
+    private Role role;
 
     public User() {
     }
@@ -34,19 +27,33 @@ public class User {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId && login.equals(user.login) && email.equals(user.email) && role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        //FIXME
+        return Objects.hash(userId, login, email, role);
     }
 }
