@@ -7,6 +7,7 @@ public final class PagePath {
     public static final String COCKTAIL_PAGE = "pages/cocktail.jsp";
     public static final String LIST_PAGE = "pages/list.jsp";
     public static final String LOGIN_PAGE = "pages/login-page.jsp";
+    public static final String ADD_COCKTAIL_PAGE = "pages/add-cocktail.jsp";
 
     private PagePath() {
     }

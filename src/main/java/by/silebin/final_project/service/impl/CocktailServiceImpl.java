@@ -31,10 +31,10 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public boolean insert(Cocktail cocktail) throws ServiceException {
+    public int insert(Cocktail cocktail) throws ServiceException {
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
         try {
-            boolean result = cocktailDao.insert(cocktail);
+            int result = cocktailDao.insert(cocktail);
             return  result;
         } catch (DaoException e) {
             throw  new ServiceException("Can't handle insert at CocktailService", e);
@@ -77,4 +77,19 @@ public class CocktailServiceImpl implements CocktailService {
             throw new ServiceException("Can't handle get by id at CocktailService", e);
         }
     }
+
+    @Override
+    public List<Cocktail> getByNameLike(String name) throws ServiceException {
+        CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
+        try {
+            List<Cocktail> cocktails = cocktailDao.getByNameLike(name);
+            for(Cocktail c : cocktails) {
+                CocktailImageEncoder.encodeImage(c);
+            }
+            return cocktails;
+        } catch (DaoException | IOException e) {
+            throw new ServiceException("Can't handle get by name like at CocktailService");
+        }
+    }
+
 }

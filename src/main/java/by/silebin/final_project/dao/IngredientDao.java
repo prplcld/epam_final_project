@@ -8,7 +8,7 @@ import java.util.List;
 public interface IngredientDao {
     List<Ingredient> getAll() throws DaoException;
 
-    List<Ingredient> getIngredientsForCocktail(int cocktailId) throws DaoException;
+    List<Ingredient> getIngredientsByCocktailId(int cocktailId) throws DaoException;
 
     boolean insert(Ingredient ingredient) throws DaoException;
 
@@ -16,4 +16,5 @@ public interface IngredientDao {
 
     boolean delete(int ingredientId) throws DaoException;
 
+    boolean insertIngredientForCocktail(int cocktailId, int ingredientId, int amount) throws DaoException;
 }

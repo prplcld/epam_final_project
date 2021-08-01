@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="pages/static/css/bs-pagination.min.css">
     <link rel="stylesheet" href="pages/static/css/list.css">
 
-    <title>Hello, world!</title>
+    <title>Cocktails List</title>
 </head>
 <body>
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
 <script src="pages/static/js/pagination.min.js"></script>
 <%@ include file="header.jsp"%>
 
-<!--- Cards -->
 <div  class="container-fluid padding">
+    <div class="input-group">
+        <input id="search" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+               aria-describedby="search-addon" />
+        <button id="search-btn" type="button" class="btn btn-outline-primary">search</button>
+    </div>
     <div id="content" class="row padding">
 <%--        <c:forEach items="${cocktails}" var="c">--%>
 <%--            <div class="col-md-3">--%>
@@ -35,21 +39,47 @@
 
 <script>
     var items_per_page = 8;
-    $(document).ready(function (){
+    $(document).ready(function () {
         init_pagination();
         $.ajax({
             type: "post",
-            url: "ajax?page=1",
+            url: "ajax?command=get_cocktails&page=1",
             success: function (result) {
                 print_cocktails(result);
             }
         });
+        init_search();
     });
+
+    function init_search(){
+        $("#search-btn").click(function (){
+            var searchValue = $("#search").val();
+            if (searchValue === "") {
+                init_pagination();
+                $.ajax({
+                    type: "post",
+                    url: "ajax?command=get_cocktails&page=1",
+                    success: function (result) {
+                        print_cocktails(result);
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: "ajax?command=search&value=" + searchValue,
+                    success: function (result) {
+                        $("#paginator").html("");
+                        print_cocktails(result);
+                    }
+                });
+            }
+        });
+    }
 
     function init_pagination(){
         $.ajax({
             type:"get",
-            url: "ajax",
+            url: "ajax?command=get_cocktails_amount",
             success: function (result) {
                 $('#paginator').pagination({
                     total: result,
@@ -61,7 +91,7 @@
                     click:function (e) {
                         $.ajax({
                             type: "post",
-                            url: "ajax?page=" + this.current,
+                            url: "ajax?command=get_cocktails&page=" + this.current,
                             success: function (result) {
                                 print_cocktails(result);
                             }
@@ -75,7 +105,8 @@
     function print_cocktails(res) {
         var content = $('#content');
         content.html("");
-        $.each(JSON.parse(res), function (index, value) {
+        var json = JSON.parse(res);
+        $.each(json, function (index, value) {
            var data = "<div class=\"col-md-3\">" +
                 "<div class=\"card\">" +
                 "<img class=\"card-img-top\" src=\"data:image/jpg;base64," + value.base64Icon +"\" style=\"width: 30%\">" +
@@ -89,7 +120,6 @@
             content.append(data);
         });
     }
-
 </script>
 </body>
 </html>

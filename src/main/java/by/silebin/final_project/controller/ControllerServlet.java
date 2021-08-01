@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet(name = "controllerServlet", urlPatterns = "/controller")
 public class ControllerServlet extends HttpServlet {
 
-    private final CommandProvider COMMAND_PROVIDER = CommandProvider.getInstance();
+    private final CommandProvider commandProvider = CommandProvider.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class ControllerServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String commandName = request.getParameter("command");
-        Command command = COMMAND_PROVIDER.getCommand(commandName);
+        Command command = commandProvider.getCommand(commandName);
         Router router = command.execute(request);
         switch (router.getRouterType()) {
             case FORWARD:

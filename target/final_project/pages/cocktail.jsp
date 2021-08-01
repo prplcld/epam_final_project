@@ -19,6 +19,9 @@
         <div class="col-md-7">
             <h2>${cocktail.name}</h2>
             <p>${cocktail.description}</p>
+            <c:forEach items="${ingredients}" var="i">
+                <p>${i.name}, ${i.amount}, ${i.amountScale}</p>
+            </c:forEach>
         </div>
     </div>
 </div>

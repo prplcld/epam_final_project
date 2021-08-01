@@ -6,7 +6,7 @@ public class Ingredient {
     private int ingredientId;
     private String name;
     private String amountScale;
-    private int amount;
+    transient private int amount;
 
     public Ingredient() {
     }

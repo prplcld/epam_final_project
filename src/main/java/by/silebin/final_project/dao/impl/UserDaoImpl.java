@@ -44,6 +44,7 @@ public class UserDaoImpl implements UserDao {
                 User user = new User();
                 user.setUserId(resultSet.getInt(ID));
                 user.setLogin(resultSet.getString(USERS_LOGIN));
+                //FIXME join role
                 return Optional.of(user);
             }
 

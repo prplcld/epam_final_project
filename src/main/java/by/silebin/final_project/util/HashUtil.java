@@ -41,9 +41,8 @@ public class HashUtil {
     private static String hash(String password, byte[] salt) {
         if (password == null || password.length() == 0)
             throw new IllegalArgumentException("Empty passwords are not supported.");
-        SecretKeyFactory f = null;
         try {
-            f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             SecretKey key = f.generateSecret(new PBEKeySpec(password.toCharArray(), salt, iterations, desiredKeyLen));
             return Base64.encodeBase64String(key.getEncoded());
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
