@@ -1,9 +1,11 @@
 package by.silebin.final_project.dao.impl;
 
+import by.silebin.final_project.dao.CocktailDao;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.exception.DaoException;
-import by.silebin.final_project.dao.CocktailDao;
 import by.silebin.final_project.pool.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import static by.silebin.final_project.dao.ColumnName.*;
 
 
 public class CocktailDaoImpl implements CocktailDao {
+
+    private static final Logger logger = LogManager.getLogger(CocktailDaoImpl.class);
 
     private static final CocktailDaoImpl instance = new CocktailDaoImpl();
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -52,6 +56,7 @@ public class CocktailDaoImpl implements CocktailDao {
                 return Optional.of(cocktail);
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle find by id request", e);
         }
         return Optional.empty();
@@ -67,6 +72,7 @@ public class CocktailDaoImpl implements CocktailDao {
             preparedStatement.setInt(4, cocktail.getCocktailId());
             return !preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle update request", e);
         }
     }
@@ -78,6 +84,7 @@ public class CocktailDaoImpl implements CocktailDao {
             preparedStatement.setInt(1, id);
             return !preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle delete request", e);
         }
     }
@@ -96,6 +103,7 @@ public class CocktailDaoImpl implements CocktailDao {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle insert request", e);
         }
         return -1;
@@ -109,6 +117,7 @@ public class CocktailDaoImpl implements CocktailDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             buildListFromResultSet(resultSet, cocktails);
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle get all request", e);
         }
         return cocktails;
@@ -125,6 +134,7 @@ public class CocktailDaoImpl implements CocktailDao {
                 throw new DaoException();
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle get amount request", e);
         }
     }
@@ -139,6 +149,7 @@ public class CocktailDaoImpl implements CocktailDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             buildListFromResultSet(resultSet, cocktails);
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle get limited request", e);
         }
         return cocktails;
@@ -153,6 +164,7 @@ public class CocktailDaoImpl implements CocktailDao {
         ResultSet resultSet = preparedStatement.executeQuery();
         buildListFromResultSet(resultSet, cocktails);
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException("Can't handle get like request");
         }
         return cocktails;
@@ -167,6 +179,7 @@ public class CocktailDaoImpl implements CocktailDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             buildListFromResultSet(resultSet, cocktails);
         } catch (SQLException e) {
+            logger.error(e);
             throw  new DaoException("Can't handle get by user id request");
         }
         return cocktails;

@@ -17,8 +17,8 @@ public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static ConnectionPool instance;
     private static final int DEFAULT_POOL_SIZE = 8;
-    private final BlockingQueue<ProxyConnection> availableConnections;
-    private final BlockingQueue<ProxyConnection> usedConnections;
+    private BlockingQueue<ProxyConnection> availableConnections;
+    private BlockingQueue<ProxyConnection> usedConnections;
 
     private static final AtomicBoolean instanceInitialized = new AtomicBoolean(false);
 
@@ -32,6 +32,10 @@ public class ConnectionPool {
     }
 
     private ConnectionPool() {
+
+    }
+
+    public void initPool() {
         availableConnections = new LinkedBlockingQueue<>(DEFAULT_POOL_SIZE);
         usedConnections = new LinkedBlockingQueue<>(DEFAULT_POOL_SIZE);
 
@@ -46,6 +50,7 @@ public class ConnectionPool {
             }
 
             if (availableConnections.isEmpty()) {
+                logger.fatal("empty pool");
                 throw new RuntimeException("can't create connections, empty pool");
             }
         }
@@ -64,6 +69,7 @@ public class ConnectionPool {
 
     public void releaseConnection(Connection connection) {
         if(!(connection instanceof ProxyConnection)) {
+            logger.fatal("unknown connection");
             throw new RuntimeException("unknown connection");
         }
         ProxyConnection proxyConnection = (ProxyConnection) connection;
@@ -71,6 +77,7 @@ public class ConnectionPool {
         try {
             availableConnections.put(proxyConnection);
         } catch (InterruptedException e) {
+            logger.error(e);
             Thread.currentThread().interrupt();
         }
     }

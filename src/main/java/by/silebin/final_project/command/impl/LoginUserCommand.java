@@ -7,12 +7,16 @@ import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.UserService;
 import by.silebin.final_project.service.impl.UserServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class LoginUserCommand implements Command {
+
+    private static final Logger logger = LogManager.getLogger(LoginUserCommand.class);
 
     UserService userService = new UserServiceImpl();
 
@@ -30,15 +34,14 @@ public class LoginUserCommand implements Command {
                 User user = userOptional.get();
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                router = new Router(PagePath.GO_TO_LIST_PAGE, Router.RouterType.FORWARD);
+                router = new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
             } else {
-                //FIXME tell user that credentials are invalid
                 request.setAttribute("message", "invalid login or password");
-                router = new Router(PagePath.NOT_FOUND, Router.RouterType.FORWARD);
+                router = new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
             }
 
         } catch (ServiceException e) {
-            //FIXME logger
+            logger.error(e);
             request.setAttribute("exception", e);
             router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }

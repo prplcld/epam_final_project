@@ -4,6 +4,8 @@ import by.silebin.final_project.dao.CommentDao;
 import by.silebin.final_project.entity.Comment;
 import by.silebin.final_project.exception.DaoException;
 import by.silebin.final_project.pool.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.util.List;
 import static by.silebin.final_project.dao.ColumnName.*;
 
 public class CommentDaoImpl implements CommentDao {
+
+    private static final Logger logger = LogManager.getLogger(CommentDaoImpl.class);
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final CommentDaoImpl instance = new CommentDaoImpl();
@@ -48,7 +52,8 @@ public class CommentDaoImpl implements CommentDao {
                 comments.add(comment);
             }
         } catch (SQLException e) {
-            throw new DaoException();
+            logger.error(e);
+            throw new DaoException(e);
         }
         return comments;
     }
@@ -63,7 +68,8 @@ public class CommentDaoImpl implements CommentDao {
             preparedStatement.setInt(4, comment.getUserId());
             return !preparedStatement.execute();
         } catch (SQLException e) {
-            throw new DaoException();
+            logger.error(e);
+            throw new DaoException(e);
         }
     }
 
@@ -74,7 +80,8 @@ public class CommentDaoImpl implements CommentDao {
             preparedStatement.setInt(1, commentId);
             return !preparedStatement.execute();
         } catch (SQLException e) {
-            throw new DaoException();
+            logger.error(e);
+            throw new DaoException(e);
         }
     }
 
@@ -89,7 +96,8 @@ public class CommentDaoImpl implements CommentDao {
             preparedStatement.setInt(5, comment.getCommentId());
             return !preparedStatement.execute();
         } catch (SQLException e) {
-            throw new DaoException();
+            logger.error(e);
+            throw new DaoException(e);
         }
     }
 }

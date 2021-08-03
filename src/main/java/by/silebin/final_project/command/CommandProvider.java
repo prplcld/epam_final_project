@@ -2,6 +2,7 @@ package by.silebin.final_project.command;
 
 import by.silebin.final_project.command.impl.AddCocktailCommand;
 import by.silebin.final_project.command.impl.CocktailInfoCommand;
+import by.silebin.final_project.command.impl.LogoutUserCommand;
 import by.silebin.final_project.command.impl.go.GoToAddCocktailPageCommand;
 import by.silebin.final_project.command.impl.go.GoToCocktailsListCommand;
 import by.silebin.final_project.command.impl.LoginUserCommand;
@@ -23,6 +24,7 @@ public class CommandProvider {
         commands.put(CommandType.COCKTAIL_INFO, new CocktailInfoCommand());
         commands.put(CommandType.GO_TO_ADD_COCKTAIL, new GoToAddCocktailPageCommand());
         commands.put(CommandType.ADD_COCKTAIL, new AddCocktailCommand());
+        commands.put(CommandType.LOGOUT_USER, new LogoutUserCommand());
     }
 
     public static CommandProvider getInstance() {

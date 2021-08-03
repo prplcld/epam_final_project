@@ -1,7 +1,6 @@
 package by.silebin.final_project.entity;
 
 import java.io.InputStream;
-import java.util.Objects;
 
 public class Cocktail {
     private int cocktailId;
@@ -80,7 +79,8 @@ public class Cocktail {
 
     @Override
     public int hashCode() {
-        //FIXME
-        return Objects.hash(cocktailId, name, description, userId);
+        int result = 1;
+        result *= name.hashCode() * description.hashCode() * cocktailId * userId;
+        return result;
     }
 }

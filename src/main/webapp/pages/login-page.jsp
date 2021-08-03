@@ -18,6 +18,7 @@
             <img src="pages/static/image/user.png" id="icon" alt="User Icon"/>
         </div>
 
+        ${message}
         <!-- Login Form -->
         <form action="controller?command=login_user" method="post">
             <input type="text" id="login" class="fadeIn second" name="username" placeholder="login">

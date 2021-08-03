@@ -4,6 +4,8 @@ import by.silebin.final_project.dao.IngredientDao;
 import by.silebin.final_project.entity.Ingredient;
 import by.silebin.final_project.exception.DaoException;
 import by.silebin.final_project.pool.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.util.List;
 import static by.silebin.final_project.dao.ColumnName.*;
 
 public class IngredientDaoImpl implements IngredientDao {
+
+    private static final Logger logger = LogManager.getLogger(IngredientDaoImpl.class);
 
     private static final IngredientDaoImpl instance = new IngredientDaoImpl();
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -49,6 +53,7 @@ public class IngredientDaoImpl implements IngredientDao {
                 ingredients.add(ingredient);
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException();
         }
         return ingredients;
@@ -69,6 +74,7 @@ public class IngredientDaoImpl implements IngredientDao {
                 ingredients.add(ingredient);
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException();
         }
         return ingredients;
@@ -82,6 +88,7 @@ public class IngredientDaoImpl implements IngredientDao {
             preparedStatement.setString(2, ingredient.getAmountScale());
             return !preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException();
         }
     }
@@ -95,6 +102,7 @@ public class IngredientDaoImpl implements IngredientDao {
             preparedStatement.setInt(3, ingredient.getIngredientId());
             return !preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException();
         }
     }
@@ -106,6 +114,7 @@ public class IngredientDaoImpl implements IngredientDao {
             preparedStatement.setInt(1, ingredientId);
             return !preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException();
         }
     }
@@ -119,6 +128,7 @@ public class IngredientDaoImpl implements IngredientDao {
             preparedStatement.setInt(3, amount);
             return !preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException();
         }
     }

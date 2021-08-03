@@ -54,6 +54,7 @@ public class User {
     @Override
     public int hashCode() {
         //FIXME
-        return Objects.hash(userId, login, email, role);
+        int result = userId * login.hashCode() * email.hashCode();
+        return result;
     }
 }

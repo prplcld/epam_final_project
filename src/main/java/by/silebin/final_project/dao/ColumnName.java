@@ -7,7 +7,7 @@ public final class ColumnName {
     public static final String USERS_LOGIN = "login";
     public static final String USERS_PASSWORD = "password";
     public static final String USERS_EMAIL = "email";
-    public static final String USERS_ROLE_ID = "role_id";
+    public static final String USERS_ROLE_NAME = "name";
 
     //COCKTAILS TABLE
     public static final String COCKTAILS_NAME = "name";

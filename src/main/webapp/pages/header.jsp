@@ -19,9 +19,21 @@
         <li class="nav-item">
           <a class="nav-link" href="controller?command=go_to_cocktails_list">List</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="controller?command=go_to_login">Login</a>
-        </li>
+          <c:if test="${sessionScope.user == null}">
+              <li class="nav-item">
+                  <a class="nav-link" href="controller?command=go_to_login">Login</a>
+              </li>
+          </c:if>
+          <c:if test="${sessionScope.user != null}">
+              <li class="nav-item">
+                  <a class="nav-link" href="#">${sessionScope.user.login}</a>
+              </li>
+          </c:if>
+          <c:if test="${sessionScope.user != null}">
+              <li class="nav-item">
+                  <a class="nav-link" href="controller?command=logout_user">Logout</a>
+              </li>
+          </c:if>
       </ul>
     </div>
   </div>

@@ -1,7 +1,5 @@
 package by.silebin.final_project.entity;
 
-import java.util.Objects;
-
 public class Comment {
     private int commentId;
     private String text;
@@ -62,7 +60,8 @@ public class Comment {
 
     @Override
     public int hashCode() {
-        //FIXME
-        return Objects.hash(commentId, text, cocktailId, mark, userId);
+        int result = 1;
+        result *= cocktailId * commentId * text.hashCode() * mark;
+        return result;
     }
 }

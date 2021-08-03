@@ -1,7 +1,5 @@
 package by.silebin.final_project.entity;
 
-import java.util.Objects;
-
 public class Ingredient {
     private int ingredientId;
     private String name;
@@ -53,7 +51,7 @@ public class Ingredient {
 
     @Override
     public int hashCode() {
-        //FIXME
-        return Objects.hash(ingredientId, name, amountScale);
+        int result = ingredientId * name.hashCode() * amountScale.hashCode();
+        return result;
     }
 }

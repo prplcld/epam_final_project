@@ -2,7 +2,10 @@ package by.silebin.final_project.controller;
 
 import by.silebin.final_project.command.Command;
 import by.silebin.final_project.command.CommandProvider;
+import by.silebin.final_project.command.PagePath;
 import by.silebin.final_project.command.Router;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +17,8 @@ import java.io.IOException;
 
 @WebServlet(name = "controllerServlet", urlPatterns = "/controller")
 public class ControllerServlet extends HttpServlet {
+
+    private static final Logger logger = LogManager.getLogger(ControllerServlet.class);
 
     private final CommandProvider commandProvider = CommandProvider.getInstance();
 
@@ -40,7 +45,8 @@ public class ControllerServlet extends HttpServlet {
                 response.sendRedirect(router.getPagePath());
                 break;
             default:
-                //FIXME
+                logger.error("incorrect router type " + router.getRouterType());
+                response.sendRedirect(PagePath.ERROR_PAGE);
                 break;
         }
     }
