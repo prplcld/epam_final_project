@@ -26,7 +26,7 @@
           </c:if>
           <c:if test="${sessionScope.user != null}">
               <li class="nav-item">
-                  <a class="nav-link" href="#">${sessionScope.user.login}</a>
+                  <a class="nav-link" href="controller?command=profile&id=${sessionScope.user.userId}">${sessionScope.user.login}</a>
               </li>
           </c:if>
           <c:if test="${sessionScope.user != null}">

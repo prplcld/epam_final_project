@@ -104,4 +104,18 @@ public class CocktailServiceImpl implements CocktailService {
         }
     }
 
+    @Override
+    public List<Cocktail> getByUserId(int id) throws ServiceException {
+        CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
+        try {
+            List<Cocktail> cocktails = cocktailDao.getByUserId(id);
+            for(Cocktail c : cocktails) {
+                CocktailImageEncoder.encodeImage(c);
+            }
+            return cocktails;
+        } catch (DaoException | IOException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+    }
 }

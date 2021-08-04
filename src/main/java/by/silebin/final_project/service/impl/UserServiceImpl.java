@@ -26,4 +26,16 @@ public class UserServiceImpl implements UserService {
             throw  new ServiceException(e);
         }
     }
+
+    @Override
+    public Optional<User> getById(int id) throws ServiceException {
+        UserDao userDao = UserDaoImpl.getInstance();
+        try {
+            Optional<User> user =userDao.findById(id);
+            return user;
+        } catch (DaoException e) {
+            logger.error(e);
+            throw  new ServiceException(e);
+        }
+    }
 }

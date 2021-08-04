@@ -68,9 +68,8 @@ public class AddCocktailCommand implements Command {
             }
 
         } catch (FileUploadException | IOException | ServiceException e) {
-            e.printStackTrace();
+           //FIXME
         }
-
         return new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
     }
 }

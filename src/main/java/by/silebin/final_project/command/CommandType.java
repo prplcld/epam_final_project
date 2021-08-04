@@ -8,5 +8,7 @@ public enum CommandType {
     LOGOUT_USER,
     COCKTAIL_INFO,
     ADD_COCKTAIL,
+    LEAVE_COMMENT,
+    PROFILE,
     DEFAULT
 }

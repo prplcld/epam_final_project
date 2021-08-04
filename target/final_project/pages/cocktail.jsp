@@ -25,5 +25,36 @@
         </div>
     </div>
 </div>
+
+<c:if test="${sessionScope.user != null }">
+    <div class="container">
+        <div class="post-comments">
+            <form action="controller?command=leave_comment" method="post">
+                <div class="form-group">
+                    <label>Your Comment</label>
+                    <textarea name="comment" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Send</button>
+            </form>
+        </div>
+    </div>
+</c:if>
+
+<div class="container">
+    <div class="row">
+        <h2>Comments</h2>
+    </div>
+    <hr>
+    <c:forEach items="${comments}" var="c">
+        <div class="row comment">
+            <div class="head">
+                <small><strong class='user'>${c.login}</strong>  30.10.2017 12:13</small>
+            </div>
+            <p>${c.text}</p>
+        </div>
+    </c:forEach>
+
+    <hr>
+</div>
 </body>
 </html>

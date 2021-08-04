@@ -5,10 +5,13 @@ import by.silebin.final_project.command.PagePath;
 import by.silebin.final_project.command.Router;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.entity.Ingredient;
+import by.silebin.final_project.entity.dto.CommentDto;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
+import by.silebin.final_project.service.CommentService;
 import by.silebin.final_project.service.IngredientService;
 import by.silebin.final_project.service.impl.CocktailServiceImpl;
+import by.silebin.final_project.service.impl.CommentServiceImpl;
 import by.silebin.final_project.service.impl.IngredientServiceImpl;
 import by.silebin.final_project.util.CocktailImageEncoder;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +28,7 @@ public class CocktailInfoCommand implements Command {
 
     CocktailService cocktailService = new CocktailServiceImpl();
     IngredientService ingredientService = new IngredientServiceImpl();
+    CommentService commentService = new CommentServiceImpl();
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -37,9 +41,11 @@ public class CocktailInfoCommand implements Command {
                 CocktailImageEncoder.encodeImage(cocktail);
                 request.setAttribute("cocktail", cocktail);
                 List<Ingredient> ingredients = ingredientService.getIngredientsForCocktail(cocktail.getCocktailId());
-                System.out.println(ingredients);
                 request.setAttribute("ingredients", ingredients);
-                //FIXME get comments
+
+                List<CommentDto> comments  = commentService.getCommentsForCocktail(id);
+                request.setAttribute("comments", comments);
+
                 router = new Router(PagePath.COCKTAIL_PAGE, Router.RouterType.FORWARD);
             }
             else {
@@ -52,6 +58,7 @@ public class CocktailInfoCommand implements Command {
             request.setAttribute("exception", e);
             router =  new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
+        request.getSession().setAttribute("cocktailId", id);
         return router;
     }
 }

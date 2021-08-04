@@ -1,11 +1,8 @@
 package by.silebin.final_project.command;
 
-import by.silebin.final_project.command.impl.AddCocktailCommand;
-import by.silebin.final_project.command.impl.CocktailInfoCommand;
-import by.silebin.final_project.command.impl.LogoutUserCommand;
+import by.silebin.final_project.command.impl.*;
 import by.silebin.final_project.command.impl.go.GoToAddCocktailPageCommand;
 import by.silebin.final_project.command.impl.go.GoToCocktailsListCommand;
-import by.silebin.final_project.command.impl.LoginUserCommand;
 import by.silebin.final_project.command.impl.go.GoToLoginPageCommand;
 
 import java.util.HashMap;
@@ -25,6 +22,8 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_ADD_COCKTAIL, new GoToAddCocktailPageCommand());
         commands.put(CommandType.ADD_COCKTAIL, new AddCocktailCommand());
         commands.put(CommandType.LOGOUT_USER, new LogoutUserCommand());
+        commands.put(CommandType.LEAVE_COMMENT, new LeaveCommentCommand());
+        commands.put(CommandType.PROFILE, new ProfileCommand());
     }
 
     public static CommandProvider getInstance() {

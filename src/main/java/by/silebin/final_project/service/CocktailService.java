@@ -8,9 +8,16 @@ import java.util.Optional;
 
 public interface CocktailService {
     List<Cocktail> getAllCocktails() throws ServiceException;
+
     int insert(Cocktail cocktail) throws ServiceException;
+
     int getCocktailsAmount() throws ServiceException;
+
     List<Cocktail> getLimited(int start, int amount) throws ServiceException;
-    Optional<Cocktail> getById(int id) throws  ServiceException;
+
+    Optional<Cocktail> getById(int id) throws ServiceException;
+
     List<Cocktail> getByNameLike(String name) throws ServiceException;
+
+    List<Cocktail> getByUserId(int id) throws ServiceException;
 }
