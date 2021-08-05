@@ -32,6 +32,8 @@ public class LeaveCommentCommand implements Command {
         comment.setUserId(user.getUserId());
         String text = request.getParameter("comment");
         comment.setText(text);
+        int mark = Integer.parseInt(request.getParameter("rating"));
+        comment.setMark(mark);
         try {
             commentService.leaveComment(comment);
         } catch (ServiceException e) {

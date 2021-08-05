@@ -18,6 +18,7 @@
         </div>
         <div class="col-md-7">
             <h2>${cocktail.name}</h2>
+            <h2><a href="controller?command=profile&id=${cocktail.userId}">creator</a> </h2>
             <p>${cocktail.description}</p>
             <c:forEach items="${ingredients}" var="i">
                 <p>${i.name}, ${i.amount}, ${i.amountScale}</p>
@@ -34,6 +35,15 @@
                     <label>Your Comment</label>
                     <textarea name="comment" class="form-control" rows="3"></textarea>
                 </div>
+
+                <select name="rating" class="form-select">
+                    <option selected value="1">1*</option>
+                    <option value="2">2*</option>
+                    <option value="3">3*</option>
+                    <option value="4">4*</option>
+                    <option value="5">5*</option>
+                </select>
+
                 <button type="submit" class="btn btn-default">Send</button>
             </form>
         </div>
@@ -48,12 +58,12 @@
     <c:forEach items="${comments}" var="c">
         <div class="row comment">
             <div class="head">
-                <small><strong class='user'>${c.login}</strong> 30.10.2017 12:13</small>
+                <small><a class='user' href="controller?command=profile&id=${c.userId}">${c.login}</a> 30.10.2017 12:13</small>
+                ${c.mark}*
             </div>
             <p>${c.text}</p>
         </div>
     </c:forEach>
-
     <hr>
 </div>
 </body>

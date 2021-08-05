@@ -1,6 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <link rel="stylesheet" href="pages/static/css/list.css">
+
+<c:if test="${not empty sessionScope.locale}">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+</c:if>
+<fmt:setBundle basename="locale"/>
+
 <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
     <div class="container-fluid">
         <%--    <a class="navbar-brand" href="#">--%>
@@ -24,10 +31,15 @@
                         <a class="nav-link" href="controller?command=go_to_login">Login</a>
                     </li>
                 </c:if>
+                <c:if test="${sessionScope.user == null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="controller?command=go_to_register">Register</a>
+                    </li>
+                </c:if>
                 <c:if test="${sessionScope.user != null}">
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="controller?command=profile&id=${sessionScope.user.userId}">${sessionScope.user.login}</a>
+                           href="controller?command=profile&id=${sessionScope.user.userId}"><c:out value="${sessionScope.user.login}"/></a>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.user != null}">

@@ -9,4 +9,6 @@ public interface UserService {
     Optional<User> login(String login, String password) throws ServiceException;
 
     Optional<User> getById(int id) throws ServiceException;
+
+    boolean register(String login, String password, String email) throws ServiceException;
 }

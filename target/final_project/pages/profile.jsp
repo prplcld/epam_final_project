@@ -21,6 +21,32 @@
                         <p><strong>Role: </strong>
                             <span class="tags">${user.role}</span>
                         </p>
+                        <p><strong>Average Rating:</strong>${mark}*</p>
+                        <c:if test="${sessionScope.user != null}">
+                            <c:if test="${sessionScope.user.userId != user.userId}">
+                                <p>
+                                    <strong>Your rating:</strong>
+                                    <c:if test="${userMark != null}">
+                                        ${userMark.mark}*
+                                    </c:if>
+                                    <c:if test="${userMark == null}">
+                                        You haven't rated this user yet
+                                    </c:if>
+                                </p>
+                                <form action="controller?command=rate_user&id=${user.userId}" method="post">
+                                    <select name="rating" class="form-select">
+                                        <option selected value="1">1*</option>
+                                        <option value="2">2*</option>
+                                        <option value="3">3*</option>
+                                        <option value="4">4*</option>
+                                        <option value="5">5*</option>
+                                    </select>
+
+                                    <button type="submit" class="btn btn-default">Rate</button>
+                                </form>
+
+                            </c:if>
+                        </c:if>
 
                     </div>
                 </div>

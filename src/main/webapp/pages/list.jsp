@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,7 +8,13 @@
     <link rel="stylesheet" href="pages/static/css/bs-pagination.min.css">
     <link rel="stylesheet" href="pages/static/css/list.css">
 
-    <title>Cocktails List</title>
+    <c:if test="${not empty sessionScope.locale}">
+        <fmt:setLocale value="${sessionScope.locale}"/>
+    </c:if>
+    <fmt:setBundle basename="locale"/>
+    <fmt:message key="list" var="locale_list"/>
+
+    <title>${locale_list}</title>
 </head>
 <body>
 <%@include file="bootstrap-body-styles-scripts.jsp" %>

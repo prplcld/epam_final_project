@@ -4,6 +4,7 @@ import by.silebin.final_project.command.impl.*;
 import by.silebin.final_project.command.impl.go.GoToAddCocktailPageCommand;
 import by.silebin.final_project.command.impl.go.GoToCocktailsListCommand;
 import by.silebin.final_project.command.impl.go.GoToLoginPageCommand;
+import by.silebin.final_project.command.impl.go.GoToRegisterPageCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,6 @@ import java.util.Map;
 public class CommandProvider {
     private static CommandProvider instance;
     private final Map<CommandType, Command> commands = new HashMap<>();
-
 
     private CommandProvider() {
         commands.put(CommandType.GO_TO_COCKTAILS_LIST, new GoToCocktailsListCommand());
@@ -24,6 +24,9 @@ public class CommandProvider {
         commands.put(CommandType.LOGOUT_USER, new LogoutUserCommand());
         commands.put(CommandType.LEAVE_COMMENT, new LeaveCommentCommand());
         commands.put(CommandType.PROFILE, new ProfileCommand());
+        commands.put(CommandType.GO_TO_REGISTER, new GoToRegisterPageCommand());
+        commands.put(CommandType.REGISTER_USER, new RegisterUserCommand());
+        commands.put(CommandType.RATE_USER, new RateUserCommand());
     }
 
     public static CommandProvider getInstance() {

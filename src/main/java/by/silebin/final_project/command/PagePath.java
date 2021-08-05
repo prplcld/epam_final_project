@@ -9,6 +9,8 @@ public final class PagePath {
     public static final String ADD_COCKTAIL_PAGE = "pages/add-cocktail.jsp";
     public static final String GO_TO_COCKTAIL_PAGE = "controller?command=cocktail_info&id=";
     public static final String PROFILE_PAGE = "pages/profile.jsp";
+    public static final String REGISTER_PAGE = "pages/register.jsp";
+    public static final String GO_TO_PROFILE = "controller?command=profile&id=";
 
     private PagePath() {
     }

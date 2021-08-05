@@ -38,4 +38,15 @@ public class UserServiceImpl implements UserService {
             throw  new ServiceException(e);
         }
     }
+
+    @Override
+    public boolean register(String login, String password, String email) throws ServiceException {
+        UserDao userDao = UserDaoImpl.getInstance();
+        try {
+            return userDao.register(login, password, email);
+        } catch (DaoException e) {
+            logger.error(e);
+           throw new ServiceException(e);
+        }
+    }
 }

@@ -26,7 +26,9 @@ public final class ColumnName {
     public static final String COMMENTS_MARK = "mark";
     public static final String COMMENTS_USER_ID = "user_id";
 
-    //
+    //MARKS TABLE
+    public static final String MARKS_MARK = "mark";
+    public static final String MARKS_AVG = "avg(mark)";
 
     private ColumnName() {}
 }

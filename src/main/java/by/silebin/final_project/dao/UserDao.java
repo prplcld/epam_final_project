@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserDao {
     Optional<User> login(String login, String password) throws DaoException;
 
-    boolean register(String login, String password) throws DaoException;
+    boolean register(String login, String password, String email) throws DaoException;
 
     Optional<User> findById(int id) throws DaoException;
 
