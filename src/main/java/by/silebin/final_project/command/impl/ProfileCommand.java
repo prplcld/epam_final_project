@@ -2,6 +2,7 @@ package by.silebin.final_project.command.impl;
 
 import by.silebin.final_project.command.Command;
 import by.silebin.final_project.command.PagePath;
+import by.silebin.final_project.command.RequestAttribute;
 import by.silebin.final_project.command.Router;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.entity.Mark;
@@ -24,9 +25,9 @@ public class ProfileCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(ProfileCommand.class);
 
-    CocktailService cocktailService = new CocktailServiceImpl();
-    UserService userService = new UserServiceImpl();
-    MarkService markService = new MarkServiceImpl();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
+    private final MarkService markService = MarkServiceImpl.getInstance();
 
 
     @Override
@@ -37,23 +38,23 @@ public class ProfileCommand implements Command {
             Optional<User> userOptional = userService.getById(id);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                request.setAttribute("user", user);
+                request.setAttribute(RequestAttribute.USER, user);
                 List<Cocktail> cocktails = cocktailService.getByUserId(id);
-                request.setAttribute("cocktails", cocktails);
+                request.setAttribute(RequestAttribute.COCKTAILS, cocktails);
                 int mark = markService.getAverageUserMark(id);
-                request.setAttribute("mark", mark);
-                User loggedInUser = (User)request.getSession().getAttribute("user");
+                request.setAttribute(RequestAttribute.MARK, mark);
+                User loggedInUser = (User)request.getSession().getAttribute(RequestAttribute.USER);
                 if (loggedInUser != null && loggedInUser.getUserId() != user.getUserId()) {
                     Optional<Mark> markOptional = markService.getMark(user.getUserId(), loggedInUser.getUserId());
                     if (markOptional.isPresent()) {
                         Mark loggedInUserMark = markOptional.get();
-                        request.setAttribute("userMark", loggedInUserMark);
+                        request.setAttribute(RequestAttribute.USER_MARK, loggedInUserMark);
                     }
                 }
                 router = new Router(PagePath.PROFILE_PAGE, Router.RouterType.FORWARD);
             }
             else {
-                request.setAttribute("message", "user not found");
+                request.setAttribute(RequestAttribute.MESSAGE, "user not found");
                 router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
             }
         } catch (ServiceException e) {

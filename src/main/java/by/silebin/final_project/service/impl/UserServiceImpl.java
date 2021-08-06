@@ -15,6 +15,16 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
+    private static final UserServiceImpl instance = new UserServiceImpl();
+
+    public static UserServiceImpl getInstance() {
+        return instance;
+    }
+
+    private UserServiceImpl() {
+
+    }
+
     @Override
     public Optional<User> login(String login, String password) throws ServiceException {
         UserDao userDao = UserDaoImpl.getInstance();

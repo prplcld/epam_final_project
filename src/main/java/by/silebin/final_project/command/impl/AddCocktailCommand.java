@@ -1,8 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
@@ -24,8 +22,8 @@ import java.util.List;
 
 public class AddCocktailCommand implements Command {
 
-    CocktailService cocktailService = new CocktailServiceImpl();
-    IngredientService ingredientService = new IngredientServiceImpl();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
+    private final IngredientService ingredientService = IngredientServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -39,13 +37,13 @@ public class AddCocktailCommand implements Command {
             for(FileItem item : items) {
                 if (item.isFormField()) {
                     switch (item.getFieldName()) {
-                        case "name" : cocktail.setName(item.getString());
+                        case RequestParameter.NAME : cocktail.setName(item.getString());
                         break;
-                        case "description" : cocktail.setDescription(item.getString());
+                        case RequestParameter.DESCRIPTION: cocktail.setDescription(item.getString());
                         break;
-                        case "dropdown" : ingredients.add(Integer.parseInt(item.getString()));
+                        case RequestParameter.DROPDOWN : ingredients.add(Integer.parseInt(item.getString()));
                         break;
-                        case "amount" : amounts.add(Integer.parseInt(item.getString()));
+                        case RequestParameter.AMOUNT : amounts.add(Integer.parseInt(item.getString()));
                         break;
                     }
 
@@ -57,7 +55,10 @@ public class AddCocktailCommand implements Command {
             }
 
             HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
+            User user = (User) session.getAttribute(RequestAttribute.USER);
+            if(user == null) {
+                //FIXME
+            }
             cocktail.setUserId(user.getUserId());
             int insertId = cocktailService.insert(cocktail);
 

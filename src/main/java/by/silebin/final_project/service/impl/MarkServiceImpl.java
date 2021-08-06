@@ -15,6 +15,16 @@ public class MarkServiceImpl implements MarkService {
 
     private static final Logger logger = LogManager.getLogger(MarkServiceImpl.class);
 
+    private static final MarkServiceImpl instance = new MarkServiceImpl();
+
+    public static MarkServiceImpl getInstance() {
+        return instance;
+    }
+
+    private MarkServiceImpl() {
+
+    }
+
     @Override
     public int getAverageUserMark(int userId) throws ServiceException {
         MarkDao markDao = MarkDaoImpl.getInstance();

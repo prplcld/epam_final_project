@@ -1,6 +1,7 @@
 package by.silebin.final_project.command.impl.ajax;
 
 import by.silebin.final_project.command.AjaxCommand;
+import by.silebin.final_project.command.RequestParameter;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
@@ -18,12 +19,12 @@ public class GetCocktailsAjaxCommand implements AjaxCommand {
 
     private static final Logger logger = LogManager.getLogger(GetCocktailsAjaxCommand.class);
 
-    CocktailService cocktailService = new CocktailServiceImpl();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
     private static final int itemsPerPage = 8;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        int page = Integer.parseInt(request.getParameter("page"));
+        int page = Integer.parseInt(request.getParameter(RequestParameter.PAGE));
         try {
             List<Cocktail> cocktails = cocktailService.getLimited((page - 1) * itemsPerPage, itemsPerPage);
             String json = new Gson().toJson(cocktails);

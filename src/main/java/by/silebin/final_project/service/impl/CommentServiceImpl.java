@@ -16,6 +16,16 @@ public class CommentServiceImpl implements CommentService {
 
     private static final Logger logger = LogManager.getLogger(CommentServiceImpl.class);
 
+    private static final CommentServiceImpl instance = new CommentServiceImpl();
+
+    public static CommentServiceImpl getInstance() {
+        return instance;
+    }
+
+    private CommentServiceImpl() {
+
+    }
+
     @Override
     public List<CommentDto> getCommentsForCocktail(int cocktailId) throws ServiceException {
         CommentDao commentDao = CommentDaoImpl.getInstance();

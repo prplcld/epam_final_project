@@ -1,6 +1,7 @@
 package by.silebin.final_project.command.impl.ajax;
 
 import by.silebin.final_project.command.AjaxCommand;
+import by.silebin.final_project.command.RequestParameter;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
@@ -18,12 +19,12 @@ public class SearchCocktailsCommand implements AjaxCommand {
 
     private static final Logger logger = LogManager.getLogger(SearchCocktailsCommand.class);
 
-    CocktailService cocktailService = new CocktailServiceImpl();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String search = request.getParameter("value");
+            String search = request.getParameter(RequestParameter.VALUE);
             List<Cocktail> cocktails = cocktailService.getByNameLike(search);
             String json = new Gson().toJson(cocktails);
             response.getWriter().append(json);

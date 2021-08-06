@@ -16,6 +16,17 @@ public class IngredientServiceImpl implements IngredientService {
     private static final Logger logger = LogManager.getLogger(IngredientServiceImpl.class);
 
 
+    private static final IngredientServiceImpl instance = new IngredientServiceImpl();
+
+    public static IngredientServiceImpl getInstance() {
+        return instance;
+    }
+
+    private IngredientServiceImpl() {
+
+    }
+
+
     @Override
     public List<Ingredient> getIngredientsForCocktail(int cocktailId) throws ServiceException {
         IngredientDao ingredientDao = IngredientDaoImpl.getInstance();

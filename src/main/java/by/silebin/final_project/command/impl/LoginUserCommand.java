@@ -1,8 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.UserService;
@@ -18,13 +16,13 @@ public class LoginUserCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(LoginUserCommand.class);
 
-    UserService userService = new UserServiceImpl();
+    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router;
-        String login = request.getParameter("username");
-        String password = request.getParameter("password");
+        String login = request.getParameter(RequestParameter.USERNAME);
+        String password = request.getParameter(RequestParameter.PASSWORD);
 
         Optional<User> userOptional;
 
@@ -33,10 +31,10 @@ public class LoginUserCommand implements Command {
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 HttpSession session = request.getSession();
-                session.setAttribute("user", user);
+                session.setAttribute(RequestAttribute.USER, user);
                 router = new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
             } else {
-                request.setAttribute("message", "invalid login or password");
+                request.setAttribute(RequestAttribute.MESSAGE, "invalid login or password");
                 router = new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
             }
 

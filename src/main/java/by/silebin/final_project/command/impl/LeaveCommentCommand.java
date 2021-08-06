@@ -1,8 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Comment;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
@@ -17,22 +15,22 @@ public class LeaveCommentCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(LeaveCommentCommand.class);
 
-    CommentService commentService = new CommentServiceImpl();
+    private final CommentService commentService = CommentServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) {
         Comment comment = new Comment();
 
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute(RequestAttribute.USER);
         if(user == null) {
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
-        int cocktailId = (int) request.getSession().getAttribute("cocktailId");
+        int cocktailId = Integer.parseInt(request.getParameter(RequestParameter.COCKTAIL_ID));
         comment.setCocktailId(cocktailId);
         comment.setUserId(user.getUserId());
-        String text = request.getParameter("comment");
+        String text = request.getParameter(RequestParameter.COMMENT);
         comment.setText(text);
-        int mark = Integer.parseInt(request.getParameter("rating"));
+        int mark = Integer.parseInt(request.getParameter(RequestParameter.RATING));
         comment.setMark(mark);
         try {
             commentService.leaveComment(comment);

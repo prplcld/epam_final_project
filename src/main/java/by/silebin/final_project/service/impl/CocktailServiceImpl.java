@@ -18,6 +18,16 @@ public class CocktailServiceImpl implements CocktailService {
 
     private static final Logger logger = LogManager.getLogger(CocktailServiceImpl.class);
 
+    private static final CocktailServiceImpl instance = new CocktailServiceImpl();
+
+    public static CocktailServiceImpl getInstance() {
+        return instance;
+    }
+
+    private CocktailServiceImpl(){
+
+    }
+
     @Override
     public List<Cocktail> getAllCocktails() throws ServiceException {
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();

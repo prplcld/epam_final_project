@@ -18,7 +18,7 @@ public class GetIngredientsAjaxCommand implements AjaxCommand {
 
     private static final Logger logger = LogManager.getLogger(GetIngredientsAjaxCommand.class);
 
-    IngredientService ingredientService = new IngredientServiceImpl();
+    private final IngredientService ingredientService = IngredientServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

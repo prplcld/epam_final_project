@@ -1,8 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.entity.Ingredient;
 import by.silebin.final_project.entity.dto.CommentDto;
@@ -26,31 +24,31 @@ public class CocktailInfoCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(CocktailInfoCommand.class);
 
-    CocktailService cocktailService = new CocktailServiceImpl();
-    IngredientService ingredientService = new IngredientServiceImpl();
-    CommentService commentService = new CommentServiceImpl();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
+    private final IngredientService ingredientService = IngredientServiceImpl.getInstance();
+    private final CommentService commentService = CommentServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router;
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
         try {
             Optional<Cocktail> cocktailOptional = cocktailService.getById(id);
             if (cocktailOptional.isPresent()) {
                 Cocktail cocktail = cocktailOptional.get();
                 CocktailImageEncoder.encodeImage(cocktail);
-                request.setAttribute("cocktail", cocktail);
+                request.setAttribute(RequestAttribute.COCKTAIL, cocktail);
                 List<Ingredient> ingredients = ingredientService.getIngredientsForCocktail(cocktail.getCocktailId());
-                request.setAttribute("ingredients", ingredients);
+                request.setAttribute(RequestAttribute.INGREDIENTS, ingredients);
 
                 List<CommentDto> comments  = commentService.getCommentsForCocktail(id);
-                request.setAttribute("comments", comments);
+                request.setAttribute(RequestAttribute.COMMENTS, comments);
 
                 router = new Router(PagePath.COCKTAIL_PAGE, Router.RouterType.FORWARD);
             }
             else {
                 logger.error("cocktail not found");
-                request.setAttribute("message", "cocktail not found");
+                request.setAttribute(RequestAttribute.MESSAGE, "cocktail not found");
                 router = new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }
         } catch (ServiceException | IOException e) {
@@ -58,7 +56,6 @@ public class CocktailInfoCommand implements Command {
             request.setAttribute("exception", e);
             router =  new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
-        request.getSession().setAttribute("cocktailId", id);
         return router;
     }
 }

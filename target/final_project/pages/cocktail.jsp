@@ -30,7 +30,7 @@
 <c:if test="${sessionScope.user != null }">
     <div class="container">
         <div class="post-comments">
-            <form action="controller?command=leave_comment" method="post">
+            <form action="controller?command=leave_comment&cocktailId=${cocktail.cocktailId}" method="post">
                 <div class="form-group">
                     <label>Your Comment</label>
                     <textarea name="comment" class="form-control" rows="3"></textarea>

@@ -15,7 +15,7 @@ public class GetCocktailsAmountAjaxCommand implements AjaxCommand {
 
     private static final Logger logger = LogManager.getLogger(GetCocktailsAjaxCommand.class);
 
-    CocktailService cocktailService = new CocktailServiceImpl();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
     private static final int itemsPerPage = 8;
 
     @Override

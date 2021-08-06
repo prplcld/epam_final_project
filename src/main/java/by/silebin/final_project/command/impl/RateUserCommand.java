@@ -1,8 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Mark;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
@@ -13,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RateUserCommand implements Command {
 
-    MarkService markService = new MarkServiceImpl();
+    private final MarkService markService = MarkServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
-        User user = (User) request.getSession().getAttribute("user");
+        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
+        User user = (User) request.getSession().getAttribute(RequestAttribute.USER);
         try {
 
             if (user == null) {
@@ -27,7 +25,7 @@ public class RateUserCommand implements Command {
                 Mark mark = new Mark();
                 mark.setTargetUserId(id);
                 mark.setMarkUserId(user.getUserId());
-                int rating = Integer.parseInt(request.getParameter("rating"));
+                int rating = Integer.parseInt(request.getParameter(RequestParameter.RATING));
                 mark.setMark(rating);
                 markService.saveMark(mark);
             }
