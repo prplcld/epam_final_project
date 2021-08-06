@@ -10,18 +10,27 @@
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
 <%@ include file="header.jsp" %>
 
+<c:if test="${not empty sessionScope.locale}">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+</c:if>
+<fmt:setBundle basename="locale"/>
+
+<fmt:message key="profile.email" var="locale_email"/>
+<fmt:message key="profile.role" var="locale_role"/>
+<fmt:message key="profile.rating" var="locale_rating"/>
+
 <div class="container">
     <div class="row">
         <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
             <div class="well profile">
                 <div class="col-sm-12">
                     <div class="col-xs-12 col-sm-8">
-                        <h2>${user.login}</h2>
-                        <p><strong>Email: </strong> ${user.email} </p>
-                        <p><strong>Role: </strong>
+                        <h2><c:out value="${user.login}"/></h2>
+                        <p><strong><c:out value="${locale_email}"/>: </strong> ${user.email} </p>
+                        <p><strong><c:out value="${locale_role}"/>: </strong>
                             <span class="tags">${user.role}</span>
                         </p>
-                        <p><strong>Average Rating:</strong>${mark}*</p>
+                        <p><strong><c:out value="${locale_rating}"/>:</strong>${mark}*</p>
                         <c:if test="${sessionScope.user != null}">
                             <c:if test="${sessionScope.user.userId != user.userId}">
                                 <p>

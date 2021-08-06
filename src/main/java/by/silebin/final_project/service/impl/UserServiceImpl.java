@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
             return user;
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException(e);
+            throw  new ServiceException("Can't handle UserServiceImpl.login", e);
         }
     }
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
             return user;
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException(e);
+            throw  new ServiceException("Can't handle UserServiceImpl.getById", e);
         }
     }
 
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
             return userDao.register(login, password, email);
         } catch (DaoException e) {
             logger.error(e);
-           throw new ServiceException(e);
+           throw new ServiceException("Can't handle UserServiceImpl.register", e);
         }
     }
 }

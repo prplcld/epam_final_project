@@ -42,7 +42,7 @@ public class CocktailServiceImpl implements CocktailService {
             throw  new ServiceException("Error during encoding image", e);
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle get all cocktails at CocktailService", e);
+            throw  new ServiceException("Can't handle CocktailServiceImpl.getAllCocktails", e);
         }
     }
 
@@ -54,7 +54,7 @@ public class CocktailServiceImpl implements CocktailService {
             return  result;
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle insert at CocktailService", e);
+            throw  new ServiceException("Can't handle CocktailServiceImpl.insert", e);
         }
     }
 
@@ -65,7 +65,7 @@ public class CocktailServiceImpl implements CocktailService {
             return cocktailDao.getCocktailsAmount();
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException("Can't handle get cocktails amount at CocktailService", e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.getCocktailsAmount", e);
         }
     }
 
@@ -80,7 +80,7 @@ public class CocktailServiceImpl implements CocktailService {
             return cocktails;
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException("Can't handle get limited cocktails at CocktailService", e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.getLimited", e);
         } catch (IOException e) {
             logger.error(e);
             throw new ServiceException("Error during encoding image", e);
@@ -95,7 +95,7 @@ public class CocktailServiceImpl implements CocktailService {
             return cocktailDao.findById(id);
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException("Can't handle get by id at CocktailService", e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.getById", e);
         }
     }
 
@@ -110,7 +110,7 @@ public class CocktailServiceImpl implements CocktailService {
             return cocktails;
         } catch (DaoException | IOException e) {
             logger.error(e);
-            throw new ServiceException("Can't handle get by name like at CocktailService");
+            throw new ServiceException("Can't handle CocktailServiceImpl.getByNameLike", e);
         }
     }
 
@@ -125,7 +125,7 @@ public class CocktailServiceImpl implements CocktailService {
             return cocktails;
         } catch (DaoException | IOException e) {
             logger.error(e);
-            throw new ServiceException(e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.getByUserId", e);
         }
     }
 }

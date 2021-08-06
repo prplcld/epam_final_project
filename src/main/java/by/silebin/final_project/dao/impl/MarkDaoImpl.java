@@ -45,7 +45,7 @@ public class MarkDaoImpl implements MarkDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException(e);
+            throw new DaoException("Can't handle MarkDaoImpl.insert request", e);
         }
     }
 
@@ -59,7 +59,7 @@ public class MarkDaoImpl implements MarkDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle MarkDaoImpl.update request", e);
         }
     }
 
@@ -74,7 +74,7 @@ public class MarkDaoImpl implements MarkDao {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle MarkDaoImpl.getAverageByTargetUserId request", e);
         }
         return 0;
     }
@@ -95,7 +95,7 @@ public class MarkDaoImpl implements MarkDao {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException(e);
+            throw new DaoException("Can't handle MarkDaoImpl.getByUserIds request", e);
         }
         return Optional.empty();
     }
@@ -108,7 +108,7 @@ public class MarkDaoImpl implements MarkDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException(e);
+            throw new DaoException("Can't handle MarkDaoImpl.delete request", e);
         }
     }
 }

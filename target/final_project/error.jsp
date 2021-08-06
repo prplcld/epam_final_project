@@ -6,6 +6,8 @@
 </head>
 <body>
 <p>${exception.getMessage()}</p>
-<p>${exception.printStackTrace()}</p>
+<p><c:forEach var="stackTraceElem" items="${exception.stackTrace}">
+    <c:out value="${stackTraceElem}"/><br/>
+</c:forEach></p>
 </body>
 </html>

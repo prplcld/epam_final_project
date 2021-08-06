@@ -54,7 +54,7 @@ public class IngredientDaoImpl implements IngredientDao {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle IngredientDao.getAll request", e);
         }
         return ingredients;
     }
@@ -75,7 +75,7 @@ public class IngredientDaoImpl implements IngredientDao {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle IngredientDao.getIngredientsByCocktailId request", e);
         }
         return ingredients;
     }
@@ -89,7 +89,7 @@ public class IngredientDaoImpl implements IngredientDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle IngredientDao.insert request", e);
         }
     }
 
@@ -103,7 +103,7 @@ public class IngredientDaoImpl implements IngredientDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle IngredientDao.update request", e);
         }
     }
 
@@ -115,7 +115,7 @@ public class IngredientDaoImpl implements IngredientDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle IngredientDao.delete request", e);
         }
     }
 
@@ -129,7 +129,7 @@ public class IngredientDaoImpl implements IngredientDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException();
+            throw new DaoException("Can't handle IngredientDao.insertIngredientForCocktail request", e);
         }
     }
 }

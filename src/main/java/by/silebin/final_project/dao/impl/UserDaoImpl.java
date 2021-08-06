@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             logger.error(e);
-           throw  new DaoException("Can't handle login request", e);
+           throw  new DaoException("Can't handle UserDaoImpl.login request", e);
         }
         return Optional.empty();
     }
@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw  new DaoException("Can't handle register request", e);
+            throw  new DaoException("Can't handle UserDaoImpl.register request", e);
         }
     }
 
@@ -97,7 +97,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw  new DaoException("Can't handle find by id request", e);
+            throw  new DaoException("Can't handle UserDaoImpl.findById request", e);
         }
         return Optional.empty();
     }
@@ -112,7 +112,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setInt(4, 1); // FIXME manage role foreign key
             return !preparedStatement.execute();
         } catch (SQLException e) {
-            throw  new DaoException("Can't handle update request", e);
+            throw  new DaoException("Can't handle UserDaoImpl.update request", e);
         }
     }
 }

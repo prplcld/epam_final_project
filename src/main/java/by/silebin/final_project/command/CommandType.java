@@ -13,5 +13,6 @@ public enum CommandType {
     ADD_COCKTAIL,
     LEAVE_COMMENT,
     PROFILE,
+    CHANGE_LOCALE,
     DEFAULT
 }

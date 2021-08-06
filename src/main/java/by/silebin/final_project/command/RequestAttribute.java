@@ -9,6 +9,9 @@ public final class RequestAttribute {
     public static final String COCKTAILS = "cocktails";
     public static final String MARK = "mark";
     public static final String USER_MARK = "userMark";
+    public static final String LOCALE = "locale";
+    public static final String CONTROLLER_URL = "controller?";
+    public static final String PREV_REQUEST = "prev_request";
 
 
     private RequestAttribute() {

@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
             return commentDao.getByCocktailId(cocktailId);
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException();
+            throw new ServiceException("Can't handle CommentServiceImpl.getCommentsForCocktail", e);
         }
     }
 
@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
             return commentDao.insert(comment);
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException(e);
+            throw  new ServiceException("Can't handle CommentServiceImpl.leaveComment", e);
         }
     }
 }

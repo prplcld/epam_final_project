@@ -12,9 +12,10 @@
         <fmt:setLocale value="${sessionScope.locale}"/>
     </c:if>
     <fmt:setBundle basename="locale"/>
-    <fmt:message key="list" var="locale_list"/>
+    <fmt:message key="title.list" var="locale_title"/>
+    <fmt:message key="button.info" var="locale_info"/>
 
-    <title>${locale_list}</title>
+    <title><c:out value="${locale_title}"/></title>
 </head>
 <body>
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
@@ -120,7 +121,7 @@
                 "<div class=\"card-body\">" +
                "<h4 class=\"card-title\">" + value.name + "</h4>" +
                "<p class=\"card-text\">" + value.description +"</p>" +
-               "<a href=\"controller?command=cocktail_info&id="+ value.cocktailId +"\" class=\"btn-outline-secondary\">More</a>" +
+               "<a href=\"controller?command=cocktail_info&id="+ value.cocktailId +"\" class=\"btn-outline-secondary\">" + "${locale_info}" + "</a>" +
                "</div>" +
                "</div>" +
                "</div>";

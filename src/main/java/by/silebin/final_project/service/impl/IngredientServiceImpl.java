@@ -35,7 +35,7 @@ public class IngredientServiceImpl implements IngredientService {
             return ingredientDao.getIngredientsByCocktailId(cocktailId);
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException(e);
+            throw new ServiceException("Can't handle IngredientServiceImpl.getIngredientsForCocktail", e);
         }
     }
 
@@ -46,7 +46,7 @@ public class IngredientServiceImpl implements IngredientService {
             return ingredientDao.getAll();
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException();
+            throw new ServiceException("Can't handle IngredientServiceImpl.getIngredients", e);
         }
     }
 
@@ -71,7 +71,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException();
+            throw new ServiceException("Can't handle IngredientServiceImpl.addIngredientsForCocktail", e);
         }
     }
 }

@@ -32,7 +32,7 @@ public class MarkServiceImpl implements MarkService {
             return markDao.getAverageByTargetUserId(userId);
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException();
+            throw new ServiceException("Can't handle MarkServiceImpl.getAverageUserMark", e);
         }
     }
 
@@ -42,7 +42,7 @@ public class MarkServiceImpl implements MarkService {
         try {
             return markDao.getByUserIds(targetUserId, markUserId);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Can't handle MarkServiceImpl.getMark", e);
         }
     }
 
@@ -58,7 +58,7 @@ public class MarkServiceImpl implements MarkService {
             }
         } catch (DaoException e) {
             logger.error(e);
-            throw new ServiceException(e);
+            throw new ServiceException("Can't handle MarkServiceImpl.saveMark", e);
         }
         return false;
     }

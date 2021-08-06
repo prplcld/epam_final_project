@@ -16,6 +16,7 @@ public final class RequestParameter {
     public static final String PASSWORD = "password";
     public static final String EMAIL = "email";
     public static final String CONFIRM_PASSWORD = "confirmPassword";
+    public static final String LOCALE = "locale";
 
     private RequestParameter() {
 

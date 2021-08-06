@@ -56,7 +56,7 @@ public class CommentDaoImpl implements CommentDao {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException(e);
+            throw new DaoException("Can't handle CommentDaoImpl.getByCocktailId", e);
         }
         return commentDtoList;
     }
@@ -72,7 +72,7 @@ public class CommentDaoImpl implements CommentDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException(e);
+            throw new DaoException("Can't handle CommentDaoImpl.insert", e);
         }
     }
 
@@ -84,7 +84,7 @@ public class CommentDaoImpl implements CommentDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException(e);
+            throw new DaoException("Can't handle CommentDaoImpl.delete", e);
         }
     }
 
@@ -100,7 +100,7 @@ public class CommentDaoImpl implements CommentDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw new DaoException(e);
+            throw new DaoException("Can't handle CommentDaoImpl.update", e);
         }
     }
 }

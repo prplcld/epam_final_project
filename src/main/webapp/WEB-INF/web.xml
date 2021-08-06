@@ -27,9 +27,11 @@
     <url-pattern>/ajax</url-pattern>
   </servlet-mapping>
 
-  <error-page>
-    <exception-type>java.lang.Exception</exception-type>
-    <location>/error.jsp</location>
-  </error-page>
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <scripting-invalid>true</scripting-invalid>
+    </jsp-property-group>
+  </jsp-config>
 
 </web-app>

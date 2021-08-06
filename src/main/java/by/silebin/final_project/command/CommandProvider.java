@@ -27,6 +27,7 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_REGISTER, new GoToRegisterPageCommand());
         commands.put(CommandType.REGISTER_USER, new RegisterUserCommand());
         commands.put(CommandType.RATE_USER, new RateUserCommand());
+        commands.put(CommandType.CHANGE_LOCALE, new ChangeLocaleCommand());
     }
 
     public static CommandProvider getInstance() {
