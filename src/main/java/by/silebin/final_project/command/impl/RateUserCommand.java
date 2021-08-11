@@ -6,11 +6,14 @@ import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.MarkService;
 import by.silebin.final_project.service.impl.MarkServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class RateUserCommand implements Command {
 
+    private static final Logger logger = LogManager.getLogger(RateUserCommand.class);
     private final MarkService markService = MarkServiceImpl.getInstance();
 
     @Override
@@ -20,7 +23,8 @@ public class RateUserCommand implements Command {
         try {
 
             if (user == null) {
-                //FIXME
+                request.setAttribute(RequestAttribute.MESSAGE, "you should log in to rate user");
+                return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
             } else {
                 Mark mark = new Mark();
                 mark.setTargetUserId(id);
@@ -30,7 +34,9 @@ public class RateUserCommand implements Command {
                 markService.saveMark(mark);
             }
         } catch (ServiceException e) {
-            //FIXME
+            logger.error(e);
+            request.setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
         return new Router(PagePath.GO_TO_PROFILE + id, Router.RouterType.FORWARD);
     }

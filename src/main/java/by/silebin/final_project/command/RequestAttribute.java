@@ -12,6 +12,8 @@ public final class RequestAttribute {
     public static final String LOCALE = "locale";
     public static final String CONTROLLER_URL = "controller?";
     public static final String PREV_REQUEST = "prev_request";
+    public static final String STAT = "stat";
+    public static final String EXCEPTION = "exception";
 
 
     private RequestAttribute() {

@@ -32,7 +32,7 @@ public class ProfileCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        Router router;
+
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             Optional<User> userOptional = userService.getById(id);
@@ -51,17 +51,17 @@ public class ProfileCommand implements Command {
                         request.setAttribute(RequestAttribute.USER_MARK, loggedInUserMark);
                     }
                 }
-                router = new Router(PagePath.PROFILE_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.PROFILE_PAGE, Router.RouterType.FORWARD);
             }
             else {
                 request.setAttribute(RequestAttribute.MESSAGE, "user not found");
-                router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
             }
         } catch (ServiceException e) {
             logger.error(e);
-            request.getSession().setAttribute("exception", "error");
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
+            request.setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
-        return router;
+
     }
 }

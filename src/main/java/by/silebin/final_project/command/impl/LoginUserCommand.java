@@ -20,7 +20,7 @@ public class LoginUserCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        Router router;
+
         String login = request.getParameter(RequestParameter.USERNAME);
         String password = request.getParameter(RequestParameter.PASSWORD);
 
@@ -32,18 +32,16 @@ public class LoginUserCommand implements Command {
                 User user = userOptional.get();
                 HttpSession session = request.getSession();
                 session.setAttribute(RequestAttribute.USER, user);
-                router = new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
             } else {
                 request.setAttribute(RequestAttribute.MESSAGE, "invalid login or password");
-                router = new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
             }
 
         } catch (ServiceException e) {
             logger.error(e);
-            request.setAttribute("exception", e);
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
-
-        return router;
     }
 }

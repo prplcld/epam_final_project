@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class CocktailServiceImpl implements CocktailService {
         return instance;
     }
 
-    private CocktailServiceImpl(){
+    private CocktailServiceImpl() {
 
     }
 
@@ -33,16 +34,16 @@ public class CocktailServiceImpl implements CocktailService {
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
         try {
             List<Cocktail> cocktails = cocktailDao.getAll();
-            for(Cocktail c : cocktails) {
+            for (Cocktail c : cocktails) {
                 CocktailImageEncoder.encodeImage(c);
             }
             return cocktails;
         } catch (IOException e) {
             logger.error(e);
-            throw  new ServiceException("Error during encoding image", e);
+            throw new ServiceException("Error during encoding image", e);
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle CocktailServiceImpl.getAllCocktails", e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.getAllCocktails", e);
         }
     }
 
@@ -51,10 +52,10 @@ public class CocktailServiceImpl implements CocktailService {
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
         try {
             int result = cocktailDao.insert(cocktail);
-            return  result;
+            return result;
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle CocktailServiceImpl.insert", e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.insert", e);
         }
     }
 
@@ -73,7 +74,7 @@ public class CocktailServiceImpl implements CocktailService {
     public List<Cocktail> getLimited(int start, int amount) throws ServiceException {
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
         try {
-            List<Cocktail> cocktails =  cocktailDao.getLimited(start, amount);
+            List<Cocktail> cocktails = cocktailDao.getLimited(start, amount);
             for (Cocktail c : cocktails) {
                 CocktailImageEncoder.encodeImage(c);
             }
@@ -104,7 +105,7 @@ public class CocktailServiceImpl implements CocktailService {
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
         try {
             List<Cocktail> cocktails = cocktailDao.getByNameLike(name);
-            for(Cocktail c : cocktails) {
+            for (Cocktail c : cocktails) {
                 CocktailImageEncoder.encodeImage(c);
             }
             return cocktails;
@@ -119,13 +120,60 @@ public class CocktailServiceImpl implements CocktailService {
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
         try {
             List<Cocktail> cocktails = cocktailDao.getByUserId(id);
-            for(Cocktail c : cocktails) {
+            for (Cocktail c : cocktails) {
                 CocktailImageEncoder.encodeImage(c);
             }
             return cocktails;
         } catch (DaoException | IOException e) {
             logger.error(e);
             throw new ServiceException("Can't handle CocktailServiceImpl.getByUserId", e);
+        }
+    }
+
+    @Override
+    public List<Cocktail> getUnapprovedCocktails() throws ServiceException {
+        CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
+        try {
+            List<Cocktail> cocktails = cocktailDao.getUnapprovedCocktails();
+            for (Cocktail c : cocktails) {
+                CocktailImageEncoder.encodeImage(c);
+            }
+            return cocktails;
+        } catch (DaoException | IOException e) {
+            logger.error(e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.getUnapprovedCocktails", e);
+        }
+    }
+
+    @Override
+    public boolean approveCocktail(int cocktailId) throws ServiceException {
+        CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
+        try {
+            return cocktailDao.updateCocktailApproval(cocktailId);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.approveCocktail", e);
+        }
+    }
+
+    @Override
+    public boolean deleteCocktail(int cocktailId) throws ServiceException {
+        CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
+        try {
+            return cocktailDao.delete(cocktailId);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException("Can't handle CocktailServiceImpl.deleteCocktail", e);
+        }
+    }
+
+    @Override
+    public int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws ServiceException {
+        CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
+        try {
+            return cocktailDao.insertCocktailWithIngredients(cocktail, ingredientIds, ingredientAmounts);
+        } catch (DaoException | SQLException e) {
+            throw new ServiceException();
         }
     }
 }

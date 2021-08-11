@@ -2,6 +2,7 @@ package by.silebin.final_project.command.impl;
 
 import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Cocktail;
+import by.silebin.final_project.entity.Role;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
@@ -57,20 +58,17 @@ public class AddCocktailCommand implements Command {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute(RequestAttribute.USER);
             if(user == null) {
-                //FIXME
+                request.setAttribute(RequestAttribute.MESSAGE, "you should log in to create cocktail");
+                return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
             }
             cocktail.setUserId(user.getUserId());
-            int insertId = cocktailService.insert(cocktail);
-
-            if (insertId == -1) {
-                //FIXME error during insert
-            } else {
-                ingredientService.addIngredientsForCocktail(ingredients, amounts, insertId);
-            }
+            cocktail.setApproved(user.getRole() != Role.USER);
+            int insertId = cocktailService.insertCocktailWithIngredients(cocktail, ingredients, amounts);
+            return new Router(PagePath.GO_TO_COCKTAIL_PAGE + insertId, Router.RouterType.FORWARD);
 
         } catch (FileUploadException | IOException | ServiceException e) {
-           //FIXME
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
-        return new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
+
     }
 }

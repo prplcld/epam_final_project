@@ -3,6 +3,7 @@ package by.silebin.final_project.dao;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.exception.DaoException;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,4 +26,10 @@ public interface CocktailDao {
     List<Cocktail> getByNameLike(String name) throws DaoException;
 
     List<Cocktail> getByUserId(int userId) throws DaoException;
+
+    List<Cocktail> getUnapprovedCocktails() throws DaoException;
+
+    boolean updateCocktailApproval(int cocktailId) throws DaoException;
+
+    int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws DaoException, SQLException;
 }

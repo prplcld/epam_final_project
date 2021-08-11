@@ -23,6 +23,7 @@ public class LeaveCommentCommand implements Command {
 
         User user = (User) request.getSession().getAttribute(RequestAttribute.USER);
         if(user == null) {
+            request.setAttribute(RequestAttribute.MESSAGE, "you should log in to leave comment");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
         int cocktailId = Integer.parseInt(request.getParameter(RequestParameter.COCKTAIL_ID));
@@ -36,8 +37,8 @@ public class LeaveCommentCommand implements Command {
             commentService.leaveComment(comment);
         } catch (ServiceException e) {
             logger.error(e);
+            request.setAttribute(RequestAttribute.EXCEPTION, e);
             return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
-            //FIXME
         }
         return new Router(PagePath.GO_TO_COCKTAIL_PAGE + cocktailId, Router.RouterType.FORWARD);
     }

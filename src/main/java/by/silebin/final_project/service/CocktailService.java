@@ -20,4 +20,12 @@ public interface CocktailService {
     List<Cocktail> getByNameLike(String name) throws ServiceException;
 
     List<Cocktail> getByUserId(int id) throws ServiceException;
+
+    List<Cocktail> getUnapprovedCocktails() throws ServiceException;
+
+    boolean approveCocktail(int cocktailId) throws ServiceException;
+
+    boolean deleteCocktail(int cocktailId) throws ServiceException;
+
+    int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws ServiceException;
 }

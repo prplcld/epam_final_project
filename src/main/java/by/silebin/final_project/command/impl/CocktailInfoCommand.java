@@ -30,7 +30,7 @@ public class CocktailInfoCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        Router router;
+
         int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
         try {
             Optional<Cocktail> cocktailOptional = cocktailService.getById(id);
@@ -44,18 +44,17 @@ public class CocktailInfoCommand implements Command {
                 List<CommentDto> comments  = commentService.getCommentsForCocktail(id);
                 request.setAttribute(RequestAttribute.COMMENTS, comments);
 
-                router = new Router(PagePath.COCKTAIL_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.COCKTAIL_PAGE, Router.RouterType.FORWARD);
             }
             else {
                 logger.error("cocktail not found");
                 request.setAttribute(RequestAttribute.MESSAGE, "cocktail not found");
-                router = new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }
         } catch (ServiceException | IOException e) {
             logger.error(e);
-            request.setAttribute("exception", e);
-            router =  new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
-        return router;
     }
 }

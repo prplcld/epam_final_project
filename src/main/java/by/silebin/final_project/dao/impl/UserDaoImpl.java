@@ -3,6 +3,7 @@ package by.silebin.final_project.dao.impl;
 import by.silebin.final_project.dao.UserDao;
 import by.silebin.final_project.entity.Role;
 import by.silebin.final_project.entity.User;
+import by.silebin.final_project.entity.dto.UserStatDto;
 import by.silebin.final_project.exception.DaoException;
 import by.silebin.final_project.pool.ConnectionPool;
 import by.silebin.final_project.util.HashUtil;
@@ -13,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static by.silebin.final_project.dao.ColumnName.*;
@@ -28,6 +31,12 @@ public class UserDaoImpl implements UserDao {
     private static final String INSERT_USER_SQL = "insert into users(login, password, email, role_id) values(?, ?, ?, ?)";
     private static final String SELECT_USER_BY_ID = "select u.login, u.email, r.name from users u join roles r on role_id = r.id where u.id = ?";
     private static final String UPDATE_USER = "update users set login = ?, password = ?, email = ?, role_id = ? where id = ?";
+    private static final String GET_USER_STAT = "select u.id, u.login, avg(m.mark), count(c.id), r.name from users u " +
+            "join marks m on m.target_user_id = u.id " +
+            "join cocktails c on c.user_id = u.id " +
+            "join roles r on u.role_id = r.id " +
+            "where u.role_id != 1 " +
+            "group by u.login";
     private static final int defaultRoleId = 2;
 
     private UserDaoImpl() {
@@ -112,7 +121,30 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setInt(4, 1); // FIXME manage role foreign key
             return !preparedStatement.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw  new DaoException("Can't handle UserDaoImpl.update request", e);
         }
+    }
+
+    @Override
+    public List<UserStatDto> getUsersStat() throws DaoException {
+        List<UserStatDto> userStatDtoList = new ArrayList<>();
+        try(Connection connection = connectionPool.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_STAT)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                UserStatDto userStatDto = new UserStatDto();
+                userStatDto.setUserId(resultSet.getInt(ID));
+                userStatDto.setLogin(resultSet.getString(USERS_LOGIN));
+                userStatDto.setAverageMark((int)resultSet.getDouble(MARKS_M_AVG));
+                userStatDto.setCocktailsAmount(resultSet.getInt(COCKTAILS_COUNT));
+                userStatDto.setRole(Role.valueOf(resultSet.getString(USERS_ROLE_NAME).toUpperCase()));
+                userStatDtoList.add(userStatDto);
+            }
+        } catch (SQLException e) {
+            logger.error(e);
+            throw  new DaoException("Can't handle UserDaoImpl.getUsersStat request", e);
+        }
+        return userStatDtoList;
     }
 }

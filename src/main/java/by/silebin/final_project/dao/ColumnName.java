@@ -14,6 +14,7 @@ public final class ColumnName {
     public static final String COCKTAILS_DESCRIPTION = "description";
     public static final String COCKTAILS_USER_ID = "user_id";
     public static final String COCKTAILS_ICON = "icon";
+    public static final String COCKTAILS_COUNT = "count(c.id)";
 
     //INGREDIENTS TABLE
     public static final String INGREDIENTS_NAME = "name";
@@ -29,6 +30,7 @@ public final class ColumnName {
     //MARKS TABLE
     public static final String MARKS_MARK = "mark";
     public static final String MARKS_AVG = "avg(mark)";
+    public static final String MARKS_M_AVG = "avg(m.mark)";
 
     private ColumnName() {}
 }

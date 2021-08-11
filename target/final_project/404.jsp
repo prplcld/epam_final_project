@@ -5,7 +5,6 @@
     <title>404 not found</title>
 </head>
 <body>
-<p>${message}</p>
-<p>kek</p>
+<p>404 not found</p>
 </body>
 </html>

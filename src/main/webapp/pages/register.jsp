@@ -1,4 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<c:if test="${not empty sessionScope.locale}">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+</c:if>
+<fmt:setBundle basename="locale"/>
+<fmt:message key="register.login" var="locale_login"/>
+<fmt:message key="register.email" var="locale_email"/>
+<fmt:message key="register.password" var="locale_password"/>
+<fmt:message key="register.confirm_password" var="locale_confirm_password"/>
+<fmt:message key="register.submit" var="locale_submit"/>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,28 +23,30 @@
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
 <%@ include file="header.jsp" %>
 
+
+
 <div class="container register-form">
     <div class="form">
         <form class="form-content" action="controller?command=register_user" method="post">
             <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="username" class="form-control" placeholder="Login" value=""/>
+                            <input type="text" name="username" class="form-control" placeholder="${locale_login}" value=""/>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control" placeholder="Email" value=""/>
+                            <input type="email" name="email" class="form-control" placeholder="${locale_email}" value=""/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="password" name="password" class="form-control" placeholder="Your Password *" value=""/>
+                            <input type="password" name="password" class="form-control" placeholder="${locale_password}" value=""/>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password *" value=""/>
+                            <input type="password" name="confirmPassword" class="form-control" placeholder="${locale_confirm_password}" value=""/>
                         </div>
                     </div>
             </div>
-            <button type="submit" class="btnSubmit">Submit</button>
+            <button type="submit" class="btnSubmit">${locale_submit}</button>
         </form>
     </div>
 </div>

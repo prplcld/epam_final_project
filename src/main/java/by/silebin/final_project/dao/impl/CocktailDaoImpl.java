@@ -23,14 +23,17 @@ public class CocktailDaoImpl implements CocktailDao {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String GET_COCKTAIL_BY_ID_SQL = "select id, name, description, icon, user_id from cocktails where id = ?";
-    private static final String GET_ALL_COCKTAILS_SQL = "select id, name, description, icon, user_id from cocktails";
-    private static final String INSERT_COCKTAIL_SQL = "insert into cocktails(name, description, icon, user_id) values(?, ?, ?, ?)";
+    private static final String GET_ALL_COCKTAILS_SQL = "select id, name, description, icon, user_id from cocktails where approved = true";
+    private static final String INSERT_COCKTAIL_SQL = "insert into cocktails(name, description, icon, user_id, approved) values(?, ?, ?, ?, ?)";
     private static final String COUNT_COCKTAILS_SQL = "select count(*) from cocktails";
-    private static final String GET_LIMIT_COCKTAILS_SQL = "select id, name, description, icon, user_id from cocktails limit ?, ?";
+    private static final String GET_LIMIT_COCKTAILS_SQL = "select id, name, description, icon, user_id from cocktails where approved = true limit ?, ?";
     private static final String UPDATE_COCKTAIL_SQL = "update cocktails set name = ?, description = ?, icon = ? where id = ?";
     private static final String DELETE_COCKTAIL_SQL = "delete from cocktails where id = ?";
-    private static final String GET_COCKTAILS_LIKE = "select id, name, description, icon, user_id from cocktails where name like ?";
-    private static final String GET_COCKTAILS_BY_USER_ID = "select id, name, description, icon, user_id from cocktails where user_id = ?";
+    private static final String GET_COCKTAILS_LIKE = "select id, name, description, icon, user_id from cocktails where name like ? and approved = true";
+    private static final String GET_COCKTAILS_BY_USER_ID = "select id, name, description, icon, user_id from cocktails where user_id = ? and approved = true";
+    private static final String GET_UNAPPROVED_COCKTAILS = "select id, name, description, icon, user_id from cocktails where approved = false";
+    private static final String UPDATE_COCKTAIL_APPROVAL = "update cocktails set approved = true where id = ?";
+    private static final String INSERT_INGREDIENT_FOR_COCKTAIL = "insert into ingredients_in_cocktail(cocktail_id, ingredient_id, amount) values(?, ?, ?)";
 
 
     private CocktailDaoImpl() {
@@ -159,10 +162,10 @@ public class CocktailDaoImpl implements CocktailDao {
     public List<Cocktail> getByNameLike(String name) throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(GET_COCKTAILS_LIKE)) {
-        preparedStatement.setString(1, "%" + name + "%");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        buildListFromResultSet(resultSet, cocktails);
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_COCKTAILS_LIKE)) {
+            preparedStatement.setString(1, "%" + name + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            buildListFromResultSet(resultSet, cocktails);
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException("Can't handle CocktailDao.getByNameLike request", e);
@@ -173,16 +176,87 @@ public class CocktailDaoImpl implements CocktailDao {
     @Override
     public List<Cocktail> getByUserId(int userId) throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(GET_COCKTAILS_BY_USER_ID)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_COCKTAILS_BY_USER_ID)) {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             buildListFromResultSet(resultSet, cocktails);
         } catch (SQLException e) {
             logger.error(e);
-            throw  new DaoException("Can't handle CocktailDao.getByUserId request", e);
+            throw new DaoException("Can't handle CocktailDao.getByUserId request", e);
         }
         return cocktails;
+    }
+
+    @Override
+    public List<Cocktail> getUnapprovedCocktails() throws DaoException {
+        List<Cocktail> cocktails = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_UNAPPROVED_COCKTAILS)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            buildListFromResultSet(resultSet, cocktails);
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException("Can't handle CocktailDao.getUnapprovedCocktails request", e);
+        }
+        return cocktails;
+    }
+
+    @Override
+    public boolean updateCocktailApproval(int cocktailId) throws DaoException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COCKTAIL_APPROVAL)) {
+            preparedStatement.setInt(1, cocktailId);
+            return !preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException("Can't handle CocktailDao. updateCocktailApproval request", e);
+        }
+    }
+
+    @Override
+    public int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws DaoException, SQLException {
+        PreparedStatement preparedStatement = null;
+        Connection connection = connectionPool.getConnection();
+        try {
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(INSERT_COCKTAIL_SQL, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, cocktail.getName());
+            preparedStatement.setString(2, cocktail.getDescription());
+            preparedStatement.setBinaryStream(3, cocktail.getIcon());
+            preparedStatement.setInt(4, cocktail.getUserId());
+            preparedStatement.setBoolean(5, cocktail.isApproved());
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            int insertId;
+            if (resultSet.next()) {
+                insertId = resultSet.getInt(1);
+            } else {
+                connection.rollback();
+                throw new DaoException("could not get insert cocktail id");
+            }
+
+            for (int i = 0; i < ingredientIds.size(); i++) {
+                preparedStatement = connection.prepareStatement(INSERT_INGREDIENT_FOR_COCKTAIL);
+                preparedStatement.setInt(1,insertId);
+                preparedStatement.setInt(2, ingredientIds.get(i));
+                preparedStatement.setInt(3, ingredientAmounts.get(i));
+                preparedStatement.execute();
+            }
+
+            connection.commit();
+            return insertId;
+        } catch (SQLException e) {
+            connection.rollback();
+            logger.error(e);
+            throw new DaoException("Can't handle CocktailDao. updateCocktailApproval request", e);
+        } finally {
+            connection.setAutoCommit(true);
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            connection.close();
+        }
     }
 
     private void buildListFromResultSet(ResultSet resultSet, List<Cocktail> cocktails) throws SQLException {

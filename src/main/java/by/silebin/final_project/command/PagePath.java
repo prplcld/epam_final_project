@@ -11,6 +11,9 @@ public final class PagePath {
     public static final String PROFILE_PAGE = "pages/profile.jsp";
     public static final String REGISTER_PAGE = "pages/register.jsp";
     public static final String GO_TO_PROFILE = "controller?command=profile&id=";
+    public static final String COCKTAIL_APPROVAL_PAGE = "pages/cocktail-approval.jsp";
+    public static final String GO_TO_APPROVE_COCKTAILS = "controller?command=unapproved_cocktails";
+    public static final String USER_STAT = "pages/userstat.jsp";
 
     private PagePath() {
     }

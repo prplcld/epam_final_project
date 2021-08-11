@@ -28,6 +28,11 @@ public class CommandProvider {
         commands.put(CommandType.REGISTER_USER, new RegisterUserCommand());
         commands.put(CommandType.RATE_USER, new RateUserCommand());
         commands.put(CommandType.CHANGE_LOCALE, new ChangeLocaleCommand());
+        commands.put(CommandType.UNAPPROVED_COCKTAILS, new UnapprovedCocktailsCommand());
+        commands.put(CommandType.APPROVE_COCKTAIL, new ApproveCocktailCommand());
+        commands.put(CommandType.DELETE_COMMENT, new DeleteCommentCommand());
+        commands.put(CommandType.USERS_STAT, new UsersStatCommand());
+        commands.put(CommandType.DELETE_COCKTAIL, new DeleteCocktailCommand());
     }
 
     public static CommandProvider getInstance() {

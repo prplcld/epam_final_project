@@ -10,4 +10,6 @@ public interface CommentService {
     List<CommentDto> getCommentsForCocktail(int cocktailId) throws ServiceException;
 
     boolean leaveComment(Comment comment) throws ServiceException;
+
+    boolean delete(int commentId) throws ServiceException;
 }

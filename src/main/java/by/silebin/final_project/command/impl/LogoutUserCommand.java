@@ -10,6 +10,6 @@ public class LogoutUserCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         request.getSession().invalidate();
-        return new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
+        return new Router(PagePath.LIST_PAGE, Router.RouterType.REDIRECT);
     }
 }

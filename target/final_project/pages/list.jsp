@@ -1,6 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
+<c:if test="${not empty sessionScope.locale}">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+</c:if>
+<fmt:setBundle basename="locale"/>
+<fmt:message key="title.list" var="locale_title"/>
+<fmt:message key="button.info" var="locale_info"/>
+<fmt:message key="button.search" var="locale_search"/>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,12 +18,6 @@
     <link rel="stylesheet" href="pages/static/css/bs-pagination.min.css">
     <link rel="stylesheet" href="pages/static/css/list.css">
 
-    <c:if test="${not empty sessionScope.locale}">
-        <fmt:setLocale value="${sessionScope.locale}"/>
-    </c:if>
-    <fmt:setBundle basename="locale"/>
-    <fmt:message key="title.list" var="locale_title"/>
-    <fmt:message key="button.info" var="locale_info"/>
 
     <title><c:out value="${locale_title}"/></title>
 </head>
@@ -26,7 +30,7 @@
     <div class="input-group">
         <input id="search" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                aria-describedby="search-addon" />
-        <button id="search-btn" type="button" class="btn btn-outline-primary">search</button>
+        <button id="search-btn" type="button" class="btn btn-outline-primary"><c:out value="${locale_search}"/></button>
     </div>
     <div id="content" class="row padding">
 <%--        <c:forEach items="${cocktails}" var="c">--%>

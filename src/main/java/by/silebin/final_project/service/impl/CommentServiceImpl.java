@@ -48,4 +48,16 @@ public class CommentServiceImpl implements CommentService {
             throw  new ServiceException("Can't handle CommentServiceImpl.leaveComment", e);
         }
     }
+
+    @Override
+    public boolean delete(int commentId) throws ServiceException {
+        CommentDao commentDao = CommentDaoImpl.getInstance();
+
+        try {
+            return commentDao.delete(commentId);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw  new ServiceException("Can't handle CommentServiceImpl.delete", e);
+        }
+    }
 }

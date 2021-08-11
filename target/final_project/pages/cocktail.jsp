@@ -1,5 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<c:if test="${not empty sessionScope.locale}">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+</c:if>
+<fmt:setBundle basename="locale"/>
+
 <!doctype html>
 <html lang="en">
 <title>Cocktail</title>
@@ -23,6 +30,7 @@
             <c:forEach items="${ingredients}" var="i">
                 <p>${i.name}, ${i.amount}, ${i.amountScale}</p>
             </c:forEach>
+            <a href="controller?command=delete_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">Delete</a>
         </div>
     </div>
 </div>
@@ -58,7 +66,10 @@
     <c:forEach items="${comments}" var="c">
         <div class="row comment">
             <div class="head">
-                <small><a class='user' href="controller?command=profile&id=${c.userId}">${c.login}</a> 30.10.2017 12:13</small>
+                <small><a class='user' href="controller?command=profile&id=${c.userId}">${c.login}</a></small>
+                <c:if test="${sessionScope.user.userId == comment.userId}">
+                    <small><a href="controller?command=delete_comment&id=${c.commentId}&cocktailId=${cocktail.cocktailId}&userId=${c.userId}">delete</a> </small>
+                </c:if>
                 ${c.mark}*
             </div>
             <p>${c.text}</p>

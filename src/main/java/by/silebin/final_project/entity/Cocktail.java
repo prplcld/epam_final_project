@@ -9,6 +9,7 @@ public class Cocktail {
     private transient InputStream icon;
     private int userId;
     private String base64Icon;
+    private boolean approved;
 
     public Cocktail() {
     }
@@ -67,6 +68,14 @@ public class Cocktail {
 
     public void setBase64Icon(String base64Icon) {
         this.base64Icon = base64Icon;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     @Override

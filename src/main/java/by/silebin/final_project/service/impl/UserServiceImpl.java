@@ -3,12 +3,14 @@ package by.silebin.final_project.service.impl;
 import by.silebin.final_project.dao.UserDao;
 import by.silebin.final_project.dao.impl.UserDaoImpl;
 import by.silebin.final_project.entity.User;
+import by.silebin.final_project.entity.dto.UserStatDto;
 import by.silebin.final_project.exception.DaoException;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -57,6 +59,17 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             logger.error(e);
            throw new ServiceException("Can't handle UserServiceImpl.register", e);
+        }
+    }
+
+    @Override
+    public List<UserStatDto> getUsersStat() throws ServiceException {
+        UserDao userDao = UserDaoImpl.getInstance();
+        try {
+            return userDao.getUsersStat();
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException("Can't handle UserServiceImpl.getUsersStat", e);
         }
     }
 }
