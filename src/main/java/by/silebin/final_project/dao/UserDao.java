@@ -1,5 +1,6 @@
 package by.silebin.final_project.dao;
 
+import by.silebin.final_project.entity.Role;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.entity.dto.UserStatDto;
 import by.silebin.final_project.exception.DaoException;
@@ -17,4 +18,6 @@ public interface UserDao {
     boolean update(User user) throws DaoException;
 
     List<UserStatDto> getUsersStat() throws DaoException;
+
+    boolean updateUserRole(int userId, Role role) throws DaoException;
 }

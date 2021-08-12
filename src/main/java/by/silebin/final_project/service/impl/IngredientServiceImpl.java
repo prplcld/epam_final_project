@@ -52,26 +52,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void addIngredientsForCocktail(List<Integer> ingredientIds, List<Integer> ingredientAmounts, int cocktailId) throws ServiceException {
-        int ingredientIdsLength = ingredientIds.size();
-        int ingredientAmountsLength = ingredientAmounts.size();
-        if (ingredientAmountsLength != ingredientIdsLength) {
-            logger.error("lists' lengths do not match");
-            throw new ServiceException("lists' lengths do not match");
-        }
-
-        try {
-            IngredientDao ingredientDao = IngredientDaoImpl.getInstance();
-
-            for (int i = 0; i < ingredientIdsLength; i++) {
-                int ingredientId = ingredientIds.get(i);
-                int ingredientAmount = ingredientAmounts.get(i);
-
-                ingredientDao.insertIngredientForCocktail(cocktailId, ingredientId, ingredientAmount);
-            }
-
-        } catch (DaoException e) {
-            logger.error(e);
-            throw new ServiceException("Can't handle IngredientServiceImpl.addIngredientsForCocktail", e);
-        }
+        //FIXME
+        throw new ServiceException();
     }
 }

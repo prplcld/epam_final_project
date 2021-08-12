@@ -44,7 +44,13 @@ public class AddCocktailCommand implements Command {
                         break;
                         case RequestParameter.DROPDOWN : ingredients.add(Integer.parseInt(item.getString()));
                         break;
-                        case RequestParameter.AMOUNT : amounts.add(Integer.parseInt(item.getString()));
+                        case RequestParameter.AMOUNT :
+                            String itemStr = item.getString();
+                            if (itemStr.equals("")){
+                                //FIXME return new Router()
+                            }
+
+                            amounts.add(Integer.parseInt(item.getString()));
                         break;
                     }
 

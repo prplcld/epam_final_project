@@ -22,9 +22,9 @@
 <%@ include file="header.jsp" %>
 
 <form id="cocktail-builder" action="controller?command=add_cocktail" method="post" enctype="multipart/form-data">
-    <input type="text" name="name" placeholder="${locale_name}">
-    <input type="text" name="description" placeholder="${locale_description}">
-    <input type="submit" value="${locale_create}">
+    <input type="text" name="name" placeholder="<c:out value="${locale_name}"/> ">
+    <input type="text" name="description" placeholder="<c:out value="${locale_description}"/> ">
+    <input type="submit" value="<c:out value="${locale_create}"/> ">
     <input type="file" name="icon">
 </form>
 <button id="plus">

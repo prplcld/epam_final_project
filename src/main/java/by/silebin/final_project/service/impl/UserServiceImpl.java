@@ -2,6 +2,7 @@ package by.silebin.final_project.service.impl;
 
 import by.silebin.final_project.dao.UserDao;
 import by.silebin.final_project.dao.impl.UserDaoImpl;
+import by.silebin.final_project.entity.Role;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.entity.dto.UserStatDto;
 import by.silebin.final_project.exception.DaoException;
@@ -70,6 +71,17 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException("Can't handle UserServiceImpl.getUsersStat", e);
+        }
+    }
+
+    @Override
+    public boolean updateUserRole(int userId, Role role) throws ServiceException {
+        UserDao userDao = UserDaoImpl.getInstance();
+        try {
+            return userDao.updateUserRole(userId, role);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException("Can't handle UserServiceImpl.updateUserRole", e);
         }
     }
 }

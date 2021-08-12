@@ -94,22 +94,7 @@ public class CocktailDaoImpl implements CocktailDao {
 
     @Override
     public int insert(Cocktail cocktail) throws DaoException {
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COCKTAIL_SQL, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, cocktail.getName());
-            preparedStatement.setString(2, cocktail.getDescription());
-            preparedStatement.setBinaryStream(3, cocktail.getIcon());
-            preparedStatement.setInt(4, cocktail.getUserId());
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new DaoException("Can't handle CocktailDao.insert request", e);
-        }
-        return -1;
+        throw new UnsupportedOperationException("unsupported method");
     }
 
     @Override

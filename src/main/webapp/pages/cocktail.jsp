@@ -7,9 +7,14 @@
 </c:if>
 <fmt:setBundle basename="locale"/>
 
+<fmt:message key="title.cocktail" var="locale_title_cocktail"/>
+<fmt:message key="cocktail.creator" var="locale_creator"/>
+<fmt:message key="cocktail.delete" var="locale_delete"/>
+<fmt:message key="cocktail.send" var="locale_send"/>
+
 <!doctype html>
 <html lang="en">
-<title>Cocktail</title>
+<title>${locale_title_cocktail}</title>
 <head>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
     <link rel="stylesheet" href="pages/static/css/cocktail.css">
@@ -25,12 +30,12 @@
         </div>
         <div class="col-md-7">
             <h2>${cocktail.name}</h2>
-            <h2><a href="controller?command=profile&id=${cocktail.userId}">creator</a> </h2>
+            <h2><a href="controller?command=profile&id=${cocktail.userId}">${locale_creator}</a> </h2>
             <p>${cocktail.description}</p>
             <c:forEach items="${ingredients}" var="i">
                 <p>${i.name}, ${i.amount}, ${i.amountScale}</p>
             </c:forEach>
-            <a href="controller?command=delete_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">Delete</a>
+            <a href="controller?command=delete_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">${locale_delete}</a>
         </div>
     </div>
 </div>
@@ -52,7 +57,7 @@
                     <option value="5">5*</option>
                 </select>
 
-                <button type="submit" class="btn btn-default">Send</button>
+                <button type="submit" class="btn btn-default">${locale_send}</button>
             </form>
         </div>
     </div>

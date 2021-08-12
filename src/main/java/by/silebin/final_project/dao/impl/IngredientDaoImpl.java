@@ -121,15 +121,6 @@ public class IngredientDaoImpl implements IngredientDao {
 
     @Override
     public boolean insertIngredientForCocktail(int cocktailId, int ingredientId, int amount) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INGREDIENT_FOR_COCKTAIL)) {
-            preparedStatement.setInt(1, cocktailId);
-            preparedStatement.setInt(2, ingredientId);
-            preparedStatement.setInt(3, amount);
-            return !preparedStatement.execute();
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new DaoException("Can't handle IngredientDao.insertIngredientForCocktail request", e);
-        }
+        throw new UnsupportedOperationException("unsupported method");
     }
 }

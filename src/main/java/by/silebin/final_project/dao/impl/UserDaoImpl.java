@@ -37,6 +37,7 @@ public class UserDaoImpl implements UserDao {
             "join roles r on u.role_id = r.id " +
             "where u.role_id != 1 " +
             "group by u.login";
+    private static final String UPDATE_USER_ROLE = "update users set role = ? where id = ?";
     private static final int defaultRoleId = 2;
 
     private UserDaoImpl() {
@@ -54,7 +55,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 String hashSaltPassword = resultSet.getString(USERS_PASSWORD);
                 if (!HashUtil.check(password, hashSaltPassword)) {
                     return Optional.empty();
@@ -69,15 +70,15 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             logger.error(e);
-           throw  new DaoException("Can't handle UserDaoImpl.login request", e);
+            throw new DaoException("Can't handle UserDaoImpl.login request", e);
         }
         return Optional.empty();
     }
 
     @Override
     public boolean register(String login, String password, String email) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
             String hashSaltPassword = HashUtil.hash(password);
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, hashSaltPassword);
@@ -86,17 +87,17 @@ public class UserDaoImpl implements UserDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw  new DaoException("Can't handle UserDaoImpl.register request", e);
+            throw new DaoException("Can't handle UserDaoImpl.register request", e);
         }
     }
 
     @Override
     public Optional<User> findById(int id) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 User user = new User();
                 user.setUserId(id);
                 user.setLogin(resultSet.getString(USERS_LOGIN));
@@ -106,15 +107,15 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw  new DaoException("Can't handle UserDaoImpl.findById request", e);
+            throw new DaoException("Can't handle UserDaoImpl.findById request", e);
         }
         return Optional.empty();
     }
 
     @Override
     public boolean update(User user) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, "213"); //FIXME change method to take password and confirm password
             preparedStatement.setString(3, user.getEmail());
@@ -122,29 +123,42 @@ public class UserDaoImpl implements UserDao {
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);
-            throw  new DaoException("Can't handle UserDaoImpl.update request", e);
+            throw new DaoException("Can't handle UserDaoImpl.update request", e);
         }
     }
 
     @Override
     public List<UserStatDto> getUsersStat() throws DaoException {
         List<UserStatDto> userStatDtoList = new ArrayList<>();
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_STAT)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_STAT)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 UserStatDto userStatDto = new UserStatDto();
                 userStatDto.setUserId(resultSet.getInt(ID));
                 userStatDto.setLogin(resultSet.getString(USERS_LOGIN));
-                userStatDto.setAverageMark((int)resultSet.getDouble(MARKS_M_AVG));
+                userStatDto.setAverageMark((int) resultSet.getDouble(MARKS_M_AVG));
                 userStatDto.setCocktailsAmount(resultSet.getInt(COCKTAILS_COUNT));
                 userStatDto.setRole(Role.valueOf(resultSet.getString(USERS_ROLE_NAME).toUpperCase()));
                 userStatDtoList.add(userStatDto);
             }
         } catch (SQLException e) {
             logger.error(e);
-            throw  new DaoException("Can't handle UserDaoImpl.getUsersStat request", e);
+            throw new DaoException("Can't handle UserDaoImpl.getUsersStat request", e);
         }
         return userStatDtoList;
+    }
+
+    @Override
+    public boolean updateUserRole(int userId, Role role) throws DaoException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_ROLE)) {
+            preparedStatement.setString(1, role.toString().toLowerCase());
+            preparedStatement.setInt(2, userId);
+            return !preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException("Can't handle UserDaoImpl.updateUserRole request", e);
+        }
     }
 }
