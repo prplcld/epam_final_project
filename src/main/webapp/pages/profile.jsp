@@ -14,11 +14,12 @@
 <fmt:message key="profile.your_rating" var="locale_your_rating"/>
 <fmt:message key="profile.no_rating" var="locale_no_rating"/>
 <fmt:message key="profile.rate" var="locale_rate"/>
+<fmt:message key="title.profile" var="locale_title_profile"/>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Profile</title>
+    <title>${locale_title_profile}</title>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
 </head>
 <body>

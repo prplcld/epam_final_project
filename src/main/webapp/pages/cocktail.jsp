@@ -11,6 +11,8 @@
 <fmt:message key="cocktail.creator" var="locale_creator"/>
 <fmt:message key="cocktail.delete" var="locale_delete"/>
 <fmt:message key="cocktail.send" var="locale_send"/>
+<fmt:message key="comment.comments" var="locale_comments"/>
+<fmt:message key="comment.your_comment" var="locale_your_comment"/>
 
 <!doctype html>
 <html lang="en">
@@ -33,9 +35,10 @@
             <h2><a href="controller?command=profile&id=${cocktail.userId}">${locale_creator}</a> </h2>
             <p>${cocktail.description}</p>
             <c:forEach items="${ingredients}" var="i">
-                <p>${i.name}, ${i.amount}, ${i.amountScale}</p>
+                <p>${i.name}, ${i.amount} ${i.amountScale}</p>
             </c:forEach>
             <a href="controller?command=delete_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">${locale_delete}</a>
+            <a href="controller?command=edit_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">edit</a>
         </div>
     </div>
 </div>
@@ -45,7 +48,7 @@
         <div class="post-comments">
             <form action="controller?command=leave_comment&cocktailId=${cocktail.cocktailId}" method="post">
                 <div class="form-group">
-                    <label>Your Comment</label>
+                    <label>${locale_your_comment}</label>
                     <textarea name="comment" class="form-control" rows="3"></textarea>
                 </div>
 
@@ -65,15 +68,18 @@
 
 <div class="container">
     <div class="row">
-        <h2>Comments</h2>
+        <h2>${locale_comments}</h2>
     </div>
     <hr>
     <c:forEach items="${comments}" var="c">
         <div class="row comment">
             <div class="head">
-                <small><a class='user' href="controller?command=profile&id=${c.userId}">${c.login}</a></small>
+                <small><a class='user' href="controller?command=profile&id=${c.userId}"><c:out value="${c.login}"/></a></small>
                 <c:if test="${sessionScope.user.userId == comment.userId}">
-                    <small><a href="controller?command=delete_comment&id=${c.commentId}&cocktailId=${cocktail.cocktailId}&userId=${c.userId}">delete</a> </small>
+                    <p>
+                        <small><a href="controller?command=delete_comment&id=${c.commentId}&cocktailId=${cocktail.cocktailId}&userId=${c.userId}">${locale_delete}</a> </small>
+                    </p>
+
                 </c:if>
                 ${c.mark}*
             </div>

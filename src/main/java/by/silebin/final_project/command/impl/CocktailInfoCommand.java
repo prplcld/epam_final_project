@@ -30,7 +30,6 @@ public class CocktailInfoCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-
         int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
         try {
             Optional<Cocktail> cocktailOptional = cocktailService.getById(id);

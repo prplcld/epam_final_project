@@ -1,9 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.RequestAttribute;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Role;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
@@ -17,22 +14,21 @@ import javax.servlet.http.HttpSession;
 
 public class DeleteCocktailCommand implements Command {
 
-    CocktailService cocktailService = CocktailServiceImpl.getInstance();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
     private static final Logger logger = LogManager.getLogger(DeleteCocktailCommand.class);
 
     @Override
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        String creator = request.getParameter("creator");
+        User user = (User) session.getAttribute(RequestAttribute.USER);
+        int creatorId = Integer.parseInt(request.getParameter(RequestParameter.CREATOR));
 
-        if (user.getRole() != Role.ADMIN) {
-            if (creator != null) {
-                //FIXME
-            }
+        if(user.getRole() != Role.ADMIN || creatorId != user.getUserId()) {
+            request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this cocktail");
+            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
         try {
             cocktailService.deleteCocktail(id);
             return new Router(PagePath.LIST_PAGE, Router.RouterType.REDIRECT);

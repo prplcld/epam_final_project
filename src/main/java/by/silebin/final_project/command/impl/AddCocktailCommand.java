@@ -6,13 +6,13 @@ import by.silebin.final_project.entity.Role;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
-import by.silebin.final_project.service.IngredientService;
 import by.silebin.final_project.service.impl.CocktailServiceImpl;
-import by.silebin.final_project.service.impl.IngredientServiceImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,7 +24,7 @@ import java.util.List;
 public class AddCocktailCommand implements Command {
 
     private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
-    private final IngredientService ingredientService = IngredientServiceImpl.getInstance();
+    private static final Logger logger = LogManager.getLogger(AddCocktailCommand.class);
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -47,13 +47,12 @@ public class AddCocktailCommand implements Command {
                         case RequestParameter.AMOUNT :
                             String itemStr = item.getString();
                             if (itemStr.equals("")){
-                                //FIXME return new Router()
+                                request.setAttribute(RequestAttribute.MESSAGE, "amount field shouldn't be empty");
+                                return new Router(PagePath.ADD_COCKTAIL_PAGE, Router.RouterType.FORWARD);
                             }
-
                             amounts.add(Integer.parseInt(item.getString()));
                         break;
                     }
-
                 }
                 else {
                     InputStream inputStream  = item.getInputStream();
@@ -70,9 +69,11 @@ public class AddCocktailCommand implements Command {
             cocktail.setUserId(user.getUserId());
             cocktail.setApproved(user.getRole() != Role.USER);
             int insertId = cocktailService.insertCocktailWithIngredients(cocktail, ingredients, amounts);
-            return new Router(PagePath.GO_TO_COCKTAIL_PAGE + insertId, Router.RouterType.FORWARD);
+            return new Router(PagePath.GO_TO_COCKTAIL_PAGE + insertId, Router.RouterType.REDIRECT);
 
         } catch (FileUploadException | IOException | ServiceException e) {
+            logger.error(e);
+            request.setAttribute(RequestAttribute.EXCEPTION, e);
             return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
 

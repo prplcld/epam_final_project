@@ -19,5 +19,9 @@ public enum CommandType {
     DELETE_COMMENT,
     USERS_STAT,
     DELETE_COCKTAIL,
+    CHANGE_USER_ROLE,
+    EDIT_COCKTAIL,
+    EDIT_USER,
+    SAVE_COCKTAIL,
     DEFAULT
 }

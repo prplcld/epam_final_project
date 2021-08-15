@@ -34,7 +34,7 @@
             <td><c:out value="${s.averageMark}"/></td>
             <td><c:out value="${s.cocktailsAmount}"/></td>
             <td><c:out value="${s.role}"/></td>
-            <td><a href="#">change role</a></td>
+            <td><a href="controller?command=change_user_role&userId=${s.userId}&upgrade=${s.role == 'USER' ? 'true' : 'false'}">change role</a></td>
         </tr>
     </c:forEach>
     </tbody>

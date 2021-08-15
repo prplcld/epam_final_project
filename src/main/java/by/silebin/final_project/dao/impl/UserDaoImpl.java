@@ -30,14 +30,14 @@ public class UserDaoImpl implements UserDao {
     private static final String GET_USER_BY_LOGIN_SQL = "select u.id, u.login, u.password, email, r.name from users u join roles r on u.role_id = r.id where login = ?";
     private static final String INSERT_USER_SQL = "insert into users(login, password, email, role_id) values(?, ?, ?, ?)";
     private static final String SELECT_USER_BY_ID = "select u.login, u.email, r.name from users u join roles r on role_id = r.id where u.id = ?";
-    private static final String UPDATE_USER = "update users set login = ?, password = ?, email = ?, role_id = ? where id = ?";
+    private static final String UPDATE_USER = "update users set login = ?, email = ? where id = ?";
     private static final String GET_USER_STAT = "select u.id, u.login, avg(m.mark), count(c.id), r.name from users u " +
             "join marks m on m.target_user_id = u.id " +
             "join cocktails c on c.user_id = u.id " +
             "join roles r on u.role_id = r.id " +
             "where u.role_id != 1 " +
             "group by u.login";
-    private static final String UPDATE_USER_ROLE = "update users set role = ? where id = ?";
+    private static final String UPDATE_USER_ROLE = "update users set role_id = (select id from roles where name`` = ?) where id = ?";
     private static final int defaultRoleId = 2;
 
     private UserDaoImpl() {
@@ -117,9 +117,8 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
             preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, "213"); //FIXME change method to take password and confirm password
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setInt(4, 1); // FIXME manage role foreign key
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setInt(3, user.getUserId());
             return !preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e);

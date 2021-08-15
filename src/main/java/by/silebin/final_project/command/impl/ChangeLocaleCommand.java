@@ -12,9 +12,9 @@ public class ChangeLocaleCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        final HttpSession SESSION = request.getSession();
-        final String LOCALE = request.getParameter(RequestParameter.LOCALE);
-        final String PREVIOUS_REQUEST = (String) SESSION.getAttribute(RequestAttribute.PREV_REQUEST);
+        HttpSession SESSION = request.getSession();
+        String LOCALE = request.getParameter(RequestParameter.LOCALE);
+        String PREVIOUS_REQUEST = (String) SESSION.getAttribute(RequestAttribute.PREV_REQUEST);
         SESSION.setAttribute(RequestAttribute.LOCALE, LOCALE);
         Router router = new Router(PREVIOUS_REQUEST, Router.RouterType.REDIRECT);
         return router;

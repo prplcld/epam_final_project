@@ -34,6 +34,7 @@ public class CocktailDaoImpl implements CocktailDao {
     private static final String GET_UNAPPROVED_COCKTAILS = "select id, name, description, icon, user_id from cocktails where approved = false";
     private static final String UPDATE_COCKTAIL_APPROVAL = "update cocktails set approved = true where id = ?";
     private static final String INSERT_INGREDIENT_FOR_COCKTAIL = "insert into ingredients_in_cocktail(cocktail_id, ingredient_id, amount) values(?, ?, ?)";
+    private static final String DELETE_INGREDIENTS_FROM_COCKTAIL = "delete from ingredients_in_cocktail where cocktail_id = ?";
 
 
     private CocktailDaoImpl() {
@@ -234,7 +235,46 @@ public class CocktailDaoImpl implements CocktailDao {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e);
-            throw new DaoException("Can't handle CocktailDao. updateCocktailApproval request", e);
+            throw new DaoException("Can't handle CocktailDao.insertCocktailWithIngredients request", e);
+        } finally {
+            connection.setAutoCommit(true);
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            connection.close();
+        }
+    }
+
+    @Override
+    public void updateCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws DaoException, SQLException {
+        PreparedStatement preparedStatement = null;
+        Connection connection = connectionPool.getConnection();
+        try {
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(UPDATE_COCKTAIL_SQL);
+            preparedStatement.setString(1, cocktail.getName());
+            preparedStatement.setString(2, cocktail.getDescription());
+            preparedStatement.setBinaryStream(3, cocktail.getIcon());
+            preparedStatement.setInt(4, cocktail.getCocktailId());
+            preparedStatement.execute();
+
+            preparedStatement = connection.prepareStatement(DELETE_INGREDIENTS_FROM_COCKTAIL);
+            preparedStatement.setInt(1, cocktail.getCocktailId());
+            preparedStatement.execute();
+
+            for (int i = 0; i < ingredientIds.size(); i++) {
+                preparedStatement = connection.prepareStatement(INSERT_INGREDIENT_FOR_COCKTAIL);
+                preparedStatement.setInt(1,cocktail.getCocktailId());
+                preparedStatement.setInt(2, ingredientIds.get(i));
+                preparedStatement.setInt(3, ingredientAmounts.get(i));
+                preparedStatement.execute();
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            logger.error(e);
+            throw new DaoException("Can't handle CocktailDao.updateCocktailWithIngredients request", e);
         } finally {
             connection.setAutoCommit(true);
             if (preparedStatement != null) {

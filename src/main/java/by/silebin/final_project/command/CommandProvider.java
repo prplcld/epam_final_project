@@ -33,6 +33,10 @@ public class CommandProvider {
         commands.put(CommandType.DELETE_COMMENT, new DeleteCommentCommand());
         commands.put(CommandType.USERS_STAT, new UsersStatCommand());
         commands.put(CommandType.DELETE_COCKTAIL, new DeleteCocktailCommand());
+        commands.put(CommandType.EDIT_COCKTAIL, new EditCocktailCommand());
+        //commands.put(CommandType.EDIT_USER, new EditUserCommand());
+        commands.put(CommandType.CHANGE_USER_ROLE, new ChangeUserRoleCommand());
+        commands.put(CommandType.SAVE_COCKTAIL, new SaveCocktailCommand());
     }
 
     public static CommandProvider getInstance() {

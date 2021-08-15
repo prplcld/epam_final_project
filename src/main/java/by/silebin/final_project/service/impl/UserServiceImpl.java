@@ -84,4 +84,21 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Can't handle UserServiceImpl.updateUserRole", e);
         }
     }
+
+    @Override
+    public boolean update(User user, String password, String login) throws ServiceException {
+        UserDao userDao = UserDaoImpl.getInstance();
+
+        try {
+            Optional<User> userOptional = userDao.login(login, password);
+            if(userOptional.isPresent()) {
+                userDao.update(user);
+                return true;
+            }
+            else return false;
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException("Can't handle UserServiceImpl.update", e);
+        }
+    }
 }

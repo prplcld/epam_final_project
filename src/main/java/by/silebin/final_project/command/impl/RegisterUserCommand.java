@@ -36,7 +36,7 @@ public class RegisterUserCommand implements Command {
             else {
                 try {
                     userService.register(login, password, email);
-                    return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
+                    return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
                 } catch (ServiceException e) {
                     logger.error(e);
                     request.setAttribute(RequestAttribute.EXCEPTION, e);

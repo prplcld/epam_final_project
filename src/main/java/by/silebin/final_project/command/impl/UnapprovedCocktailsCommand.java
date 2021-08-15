@@ -20,7 +20,7 @@ import java.util.List;
 public class UnapprovedCocktailsCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(UnapprovedCocktailsCommand.class);
-    CocktailService cocktailService = CocktailServiceImpl.getInstance();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) {

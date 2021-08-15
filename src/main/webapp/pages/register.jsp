@@ -11,11 +11,12 @@
 <fmt:message key="register.password" var="locale_password"/>
 <fmt:message key="register.confirm_password" var="locale_confirm_password"/>
 <fmt:message key="register.submit" var="locale_submit"/>
+<fmt:message key="title.register" var="locale_title_register"/>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Register</title>
+    <title>${locale_title_register}</title>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
     <link rel="stylesheet" href="pages/static/css/register.css">
 </head>
@@ -31,18 +32,18 @@
             <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="username" class="form-control" placeholder="${locale_login}" value=""/>
+                            <input type="text" name="username" required="required" class="form-control" placeholder="${locale_login}" value=""/>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control" placeholder="${locale_email}" value=""/>
+                            <input type="email" name="email" required="required" class="form-control" placeholder="${locale_email}" value=""/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="password" name="password" class="form-control" placeholder="${locale_password}" value=""/>
+                            <input type="password" name="password" required="required" class="form-control" placeholder="${locale_password}" value=""/>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="confirmPassword" class="form-control" placeholder="${locale_confirm_password}" value=""/>
+                            <input type="password" name="confirmPassword" required="required" class="form-control" placeholder="${locale_confirm_password}" value=""/>
                         </div>
                     </div>
             </div>

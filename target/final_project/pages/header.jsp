@@ -15,12 +15,11 @@
 <fmt:message key="header.login" var="locale_login"/>
 <fmt:message key="header.logout" var="locale_logout"/>
 <fmt:message key="header.register" var="locale_register"/>
+<fmt:message key="header.stat" var="locale_stat"/>
+<fmt:message key="header.unapproved" var="locale_unapproved"/>
 
 <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
     <div class="container-fluid">
-        <%--    <a class="navbar-brand" href="#">--%>
-        <%--      <img src="pages/static/image/logo.png"/>--%>
-        <%--    </a>--%>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,19 +29,21 @@
 
                 <c:if test="${sessionScope.user.role == 'ADMIN'}">
                     <li class="nav-item">
-                        <a class="nav-link" href="controller?command=users_stat">Stat</a>
+                        <a class="nav-link" href="controller?command=users_stat"><c:out value="${locale_stat}"/> </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="controller?command=unapproved_cocktails">Unapproved</a>
+                        <a class="nav-link" href="controller?command=unapproved_cocktails"><c:out value="${locale_unapproved}"/></a>
+                    </li>
+                </c:if>
+
+                <c:if test="${sessionScope.user != null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="controller?command=go_to_add_cocktail"><c:out value="${locale_add}"/></a>
                     </li>
                 </c:if>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="controller?command=go_to_add_cocktail"><c:out value="${locale_add}"/></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="controller?command=go_to_cocktails_list"><c:out
-                            value="${locale_list}"/></a>
+                    <a class="nav-link" href="controller?command=go_to_cocktails_list"><c:out value="${locale_list}"/></a>
                 </li>
                 <c:if test="${sessionScope.user == null}">
                     <li class="nav-item">

@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> login(String login, String password) throws ServiceException;
 
+    boolean update(User user, String password, String login) throws ServiceException;
+
     Optional<User> getById(int id) throws ServiceException;
 
     boolean register(String login, String password, String email) throws ServiceException;

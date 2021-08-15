@@ -29,7 +29,6 @@ public class ProfileCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
     private final MarkService markService = MarkServiceImpl.getInstance();
 
-
     @Override
     public Router execute(HttpServletRequest request) {
 

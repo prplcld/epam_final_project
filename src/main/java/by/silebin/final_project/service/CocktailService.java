@@ -28,4 +28,6 @@ public interface CocktailService {
     boolean deleteCocktail(int cocktailId) throws ServiceException;
 
     int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws ServiceException;
+
+    void updateCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws ServiceException;
 }

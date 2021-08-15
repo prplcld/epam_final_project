@@ -18,6 +18,8 @@ public final class RequestParameter {
     public static final String CONFIRM_PASSWORD = "confirmPassword";
     public static final String LOCALE = "locale";
     public static final String USER_ID = "userId";
+    public static final String CREATOR = "creator";
+    public static final String UPGRADE = "upgrade";
 
     private RequestParameter() {
 

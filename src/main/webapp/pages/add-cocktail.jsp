@@ -11,8 +11,8 @@
 <fmt:message key="cocktail.description" var="locale_description"/>
 <fmt:message key="cocktail.create" var="locale_create"/>
 <fmt:message key="title.add_cocktail" var="locale_title_add_cocktail"/>
-
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <title>${locale_title_add_cocktail}</title>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
@@ -21,11 +21,12 @@
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
 <%@ include file="header.jsp" %>
 
+<c:out value="${message}"/>
 <form id="cocktail-builder" action="controller?command=add_cocktail" method="post" enctype="multipart/form-data">
-    <input type="text" name="name" placeholder="<c:out value="${locale_name}"/> ">
-    <input type="text" name="description" placeholder="<c:out value="${locale_description}"/> ">
+    <input type="text" name="name" required="required" placeholder="<c:out value="${locale_name}"/> ">
+    <input type="text" name="description" required="required" placeholder="<c:out value="${locale_description}"/> ">
     <input type="submit" value="<c:out value="${locale_create}"/> ">
-    <input type="file" name="icon">
+    <input type="file" required="required" name="icon">
 </form>
 <button id="plus">
     +
@@ -55,7 +56,7 @@
             select.append($('<option />', {text: val.name, value: val.ingredientId}));
         });
         form.append(select);
-        form.append($('<input type="text" name="amount"/>'));
+        form.append($('<input type="text" name="amount" required="required" pattern="\d{1,4)"/>'));
     }
 </script>
 </body>

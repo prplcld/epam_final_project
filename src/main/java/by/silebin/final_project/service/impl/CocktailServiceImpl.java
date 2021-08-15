@@ -163,12 +163,26 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws ServiceException {
-        if  (ingredientIds.size() != ingredientAmounts.size()) {
+        if (ingredientIds.size() != ingredientAmounts.size()) {
             throw new ServiceException("size of lists do not match");
         }
         CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
         try {
             return cocktailDao.insertCocktailWithIngredients(cocktail, ingredientIds, ingredientAmounts);
+        } catch (DaoException | SQLException e) {
+            throw new ServiceException();
+        }
+    }
+
+    @Override
+    public void updateCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws ServiceException {
+        if (ingredientIds.size() != ingredientAmounts.size()) {
+            throw new ServiceException("size of lists do not match");
+        }
+        CocktailDao cocktailDao = CocktailDaoImpl.getInstance();
+
+        try {
+            cocktailDao.updateCocktailWithIngredients(cocktail, ingredientIds, ingredientAmounts);
         } catch (DaoException | SQLException e) {
             throw new ServiceException();
         }

@@ -1,9 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.RequestAttribute;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Role;
 import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
@@ -18,22 +15,22 @@ import javax.servlet.http.HttpSession;
 public class ApproveCocktailCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(ApproveCocktailCommand.class);
-    CocktailService cocktailService = CocktailServiceImpl.getInstance();
+    private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute(RequestAttribute.USER);
 
         if(user == null || user.getRole() != Role.ADMIN) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should log in as admin");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
         try {
             cocktailService.approveCocktail(id);
-            return new Router(PagePath.GO_TO_APPROVE_COCKTAILS, Router.RouterType.REDIRECT);
+            return new Router(PagePath.GO_TO_APPROVE_COCKTAILS, Router.RouterType.FORWARD);
         } catch (ServiceException e) {
             logger.error(e);
             request.setAttribute(RequestAttribute.EXCEPTION, e);

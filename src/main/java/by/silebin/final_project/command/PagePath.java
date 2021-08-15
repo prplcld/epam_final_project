@@ -14,6 +14,8 @@ public final class PagePath {
     public static final String COCKTAIL_APPROVAL_PAGE = "pages/cocktail-approval.jsp";
     public static final String GO_TO_APPROVE_COCKTAILS = "controller?command=unapproved_cocktails";
     public static final String USER_STAT = "pages/userstat.jsp";
+    public static final String EDIT_COCKTAIL = "pages/edit-cocktail.jsp";
+    public static final String GO_TO_USER_STAT = "controller?command=users_stat";
 
     private PagePath() {
     }

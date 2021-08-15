@@ -33,8 +33,8 @@
         ${message}
         <!-- Login Form -->
         <form action="controller?command=login_user" method="post">
-            <input type="text" id="login" class="fadeIn second" name="username" placeholder="${locale_login}">
-            <input type="password" id="password" class="fadeIn third" name="password" placeholder="${locale_password}">
+            <input type="text" id="login" class="fadeIn second" name="username" required="required" placeholder="${locale_login}">
+            <input type="password" id="password" class="fadeIn third" name="password" required="required" placeholder="${locale_password}">
             <input type="submit" class="fadeIn fourth" value="${locale_submit}">
         </form>
 

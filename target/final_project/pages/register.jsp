@@ -31,18 +31,18 @@
             <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="username" class="form-control" placeholder="${locale_login}" value=""/>
+                            <input type="text" name="username" required="required" class="form-control" placeholder="${locale_login}" value=""/>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control" placeholder="${locale_email}" value=""/>
+                            <input type="email" name="email" required="required" class="form-control" placeholder="${locale_email}" value=""/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="password" name="password" class="form-control" placeholder="${locale_password}" value=""/>
+                            <input type="password" name="password" required="required" class="form-control" placeholder="${locale_password}" value=""/>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="confirmPassword" class="form-control" placeholder="${locale_confirm_password}" value=""/>
+                            <input type="password" name="confirmPassword" required="required" class="form-control" placeholder="${locale_confirm_password}" value=""/>
                         </div>
                     </div>
             </div>

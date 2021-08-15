@@ -32,4 +32,6 @@ public interface CocktailDao {
     boolean updateCocktailApproval(int cocktailId) throws DaoException;
 
     int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws DaoException, SQLException;
+
+    void updateCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws DaoException, SQLException;
 }

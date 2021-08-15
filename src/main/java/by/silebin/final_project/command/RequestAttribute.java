@@ -14,6 +14,7 @@ public final class RequestAttribute {
     public static final String PREV_REQUEST = "prev_request";
     public static final String STAT = "stat";
     public static final String EXCEPTION = "exception";
+    public static final String ALL_INGREDIENTS = "allIngredients";
 
 
     private RequestAttribute() {

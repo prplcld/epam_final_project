@@ -13,12 +13,15 @@
 <fmt:message key="register.login" var="locale_login"/>
 <fmt:message key="register.password" var="locale_password"/>
 <fmt:message key="register.submit" var="locale_submit"/>
-
-
+<fmt:message key="title.login" var="locale_title_login"/>
+<!doctype html>
+<html lang="en">
 <head>
+    <title>${locale_title_login}</title>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
     <link rel="stylesheet" href="pages/static/css/login-page.css">
 </head>
+
 
 <body>
 
@@ -33,8 +36,8 @@
         ${message}
         <!-- Login Form -->
         <form action="controller?command=login_user" method="post">
-            <input type="text" id="login" class="fadeIn second" name="username" placeholder="${locale_login}">
-            <input type="password" id="password" class="fadeIn third" name="password" placeholder="${locale_password}">
+            <input type="text" id="login" class="fadeIn second" name="username" required="required" placeholder="${locale_login}">
+            <input type="password" id="password" class="fadeIn third" name="password" required="required" placeholder="${locale_password}">
             <input type="submit" class="fadeIn fourth" value="${locale_submit}">
         </form>
 

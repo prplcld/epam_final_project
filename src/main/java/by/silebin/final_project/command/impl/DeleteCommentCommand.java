@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 public class DeleteCommentCommand implements Command {
 
-    CommentService commentService = CommentServiceImpl.getInstance();
+    private final CommentService commentService = CommentServiceImpl.getInstance();
     private static final Logger logger = LogManager.getLogger(DeleteCommentCommand.class);
 
     @Override
@@ -26,11 +26,13 @@ public class DeleteCommentCommand implements Command {
         User user = (User) session.getAttribute(RequestAttribute.USER);
 
         if (user == null) {
+            request.setAttribute(RequestAttribute.MESSAGE, "you should login");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
         }
 
         if (user.getUserId() != userId || user.getRole() != Role.ADMIN) {
-            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+            request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this comment");
+            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
         }
 
         try {
