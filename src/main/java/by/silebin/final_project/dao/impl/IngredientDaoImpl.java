@@ -16,11 +16,19 @@ import java.util.List;
 
 import static by.silebin.final_project.dao.ColumnName.*;
 
+/**
+ * Implementation of {@link IngredientDao}. Provides methods to interact with Ingredient data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class IngredientDaoImpl implements IngredientDao {
 
     private static final Logger logger = LogManager.getLogger(IngredientDaoImpl.class);
 
+    /**
+     * A single instance of the class (pattern Singleton)
+     */
     private static final IngredientDaoImpl instance = new IngredientDaoImpl();
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String GET_INGREDIENTS_BY_COCKTAIL_ID_SQL = "select name, amount, amount_scale from ingredients_in_cocktail c " +
@@ -39,6 +47,12 @@ public class IngredientDaoImpl implements IngredientDao {
         return instance;
     }
 
+    /**
+     * Connects to database and returns list of all ingredients.
+     *
+     * @return List of {@link Ingredient} with all ingredient's detailed data.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Ingredient> getAll() throws DaoException {
         List<Ingredient> ingredients = new ArrayList<>();
@@ -59,6 +73,13 @@ public class IngredientDaoImpl implements IngredientDao {
         return ingredients;
     }
 
+    /**
+     * Connects to database and returns list of ingredients in cocktail.
+     *
+     * @param cocktailId is ID value of {@link Ingredient}.
+     * @return List of {@link Ingredient} with ingredients for cocktail.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Ingredient> getIngredientsByCocktailId(int cocktailId) throws DaoException {
         List<Ingredient> ingredients = new ArrayList<>();
@@ -80,6 +101,12 @@ public class IngredientDaoImpl implements IngredientDao {
         return ingredients;
     }
 
+    /**
+     * Connects to database and inserts ingredient.
+     *
+     * @param ingredient is {@link Ingredient} object that contains information for insert.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean insert(Ingredient ingredient) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -93,6 +120,12 @@ public class IngredientDaoImpl implements IngredientDao {
         }
     }
 
+    /**
+     * Connects to database and updates ingredient.
+     *
+     * @param ingredient is {@link Ingredient} object that contains information for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean update(Ingredient ingredient) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -107,6 +140,12 @@ public class IngredientDaoImpl implements IngredientDao {
         }
     }
 
+    /**
+     * Connects to database and deletes ingredient.
+     *
+     * @param ingredientId is {@link Ingredient} ID value.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean delete(int ingredientId) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
@@ -119,6 +158,14 @@ public class IngredientDaoImpl implements IngredientDao {
         }
     }
 
+    /**
+     * Connects to database and adds ingredient for cocktail.
+     *
+     * @param cocktailId is cocktail ID value.
+     * @param ingredientId is {@link Ingredient} ID value.
+     * @param amount is amount of {@link Ingredient}.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean insertIngredientForCocktail(int cocktailId, int ingredientId, int amount) throws DaoException {
         throw new UnsupportedOperationException("unsupported method");

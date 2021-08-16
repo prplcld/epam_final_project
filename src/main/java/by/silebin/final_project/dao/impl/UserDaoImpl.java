@@ -48,6 +48,14 @@ public class UserDaoImpl implements UserDao {
         return instance;
     }
 
+    /**
+     * Connects to database and logs in user.
+     *
+     * @param login    is {@link User} login.
+     * @param password is {@link User} password.
+     * @return {@link Optional<User>}.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Optional<User> login(String login, String password) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -76,6 +84,14 @@ public class UserDaoImpl implements UserDao {
         return Optional.empty();
     }
 
+    /**
+     * Connects to database and registers user.
+     *
+     * @param login    is {@link User} login.
+     * @param password is {@link User} password.
+     * @param email    is {@link User} email.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean register(String login, String password, String email) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -92,6 +108,13 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Connects to database and returns user by id.
+     *
+     * @param id is {@link User} ID value.
+     * @return {@link Optional<User>}.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Optional<User> findById(int id) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -113,6 +136,12 @@ public class UserDaoImpl implements UserDao {
         return Optional.empty();
     }
 
+    /**
+     * Connects to database and updates user.
+     *
+     * @param user is {@link User} object containing information.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean update(User user) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -127,6 +156,12 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Connects to database and returns stats of users.
+     *
+     * @return {@link List<UserStatDto>}.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<UserStatDto> getUsersStat() throws DaoException {
         List<UserStatDto> userStatDtoList = new ArrayList<>();
@@ -149,6 +184,13 @@ public class UserDaoImpl implements UserDao {
         return userStatDtoList;
     }
 
+    /**
+     * Connects to database and updates user role.
+     *
+     * @param role is {@link Role} enum value.
+     * @param userId is user ID value
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean updateUserRole(int userId, Role role) throws DaoException {
         try (Connection connection = connectionPool.getConnection();

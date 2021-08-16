@@ -14,12 +14,20 @@ import java.util.Optional;
 
 import static by.silebin.final_project.dao.ColumnName.*;
 
-
+/**
+ * Implementation of {@link CocktailDao}. Provides methods to interact with Cocktail data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class CocktailDaoImpl implements CocktailDao {
 
     private static final Logger logger = LogManager.getLogger(CocktailDaoImpl.class);
 
+    /**
+     * A single instance of the class (pattern Singleton)
+     */
     private static final CocktailDaoImpl instance = new CocktailDaoImpl();
+
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String GET_COCKTAIL_BY_ID_SQL = "select id, name, description, icon, user_id from cocktails where id = ?";
@@ -36,14 +44,27 @@ public class CocktailDaoImpl implements CocktailDao {
     private static final String INSERT_INGREDIENT_FOR_COCKTAIL = "insert into ingredients_in_cocktail(cocktail_id, ingredient_id, amount) values(?, ?, ?)";
     private static final String DELETE_INGREDIENTS_FROM_COCKTAIL = "delete from ingredients_in_cocktail where cocktail_id = ?";
 
-
+    /**
+     * Private constructor without parameters
+     */
     private CocktailDaoImpl() {
     }
 
+    /**
+     * Returns the instance of the class
+     * @return Object of {@link CocktailDaoImpl}
+     */
     public static CocktailDaoImpl getInstance() {
         return instance;
     }
 
+    /**
+     * Connects to database and returns all info about cocktail by ID.
+     *
+     * @param id is cocktail ID value.
+     * @return {@link Optional<Cocktail>}.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Optional<Cocktail> findById(int id) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -66,6 +87,12 @@ public class CocktailDaoImpl implements CocktailDao {
         return Optional.empty();
     }
 
+    /**
+     * Connects to database and updates cocktail.
+     *
+     * @param cocktail is {@link Cocktail} object that contains all info about cocktail for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean update(Cocktail cocktail) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -81,6 +108,12 @@ public class CocktailDaoImpl implements CocktailDao {
         }
     }
 
+    /**
+     * Connects to database and deletes cocktail.
+     *
+     * @param id is cocktail ID value.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean delete(int id) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -93,11 +126,23 @@ public class CocktailDaoImpl implements CocktailDao {
         }
     }
 
+    /**
+     * Connects to database and inserts cocktail.
+     *
+     * @param cocktail is {@link Cocktail} object that contains all info about cocktail for insert.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public int insert(Cocktail cocktail) throws DaoException {
         throw new UnsupportedOperationException("unsupported method");
     }
 
+    /**
+     * Connects to database and returns list of all cocktails.
+     *
+     * @return List of {@link Cocktail} with all cocktail's detailed data.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Cocktail> getAll() throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
@@ -112,6 +157,12 @@ public class CocktailDaoImpl implements CocktailDao {
         return cocktails;
     }
 
+    /**
+     * Connects to database and returns cocktails amount.
+     *
+     * @return amount of cocktails.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public int getCocktailsAmount() throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -128,6 +179,14 @@ public class CocktailDaoImpl implements CocktailDao {
         }
     }
 
+    /**
+     * Connects to database and returns limited list of cocktails.
+     *
+     * @param start is start of limit.
+     * @param amount is amount of cocktails to get.
+     * @return List of {@link Cocktail} with limited cocktail's detailed data.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Cocktail> getLimited(int start, int amount) throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
@@ -144,6 +203,13 @@ public class CocktailDaoImpl implements CocktailDao {
         return cocktails;
     }
 
+    /**
+     * Connects to database and returns list of cocktails by name.
+     *
+     * @param name is name of the cocktail to search for
+     * @return List of {@link Cocktail} with cocktails having searched name.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Cocktail> getByNameLike(String name) throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
@@ -159,6 +225,13 @@ public class CocktailDaoImpl implements CocktailDao {
         return cocktails;
     }
 
+    /**
+     * Connects to database and returns list of all cocktails of a particular user.
+     *
+     * @param userId is ID value of user that created cocktails;
+     * @return List of {@link Cocktail} with cocktail's detailed data created by one user.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Cocktail> getByUserId(int userId) throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
@@ -174,6 +247,12 @@ public class CocktailDaoImpl implements CocktailDao {
         return cocktails;
     }
 
+    /**
+     * Connects to database and returns list of unapproved cocktails.
+     *
+     * @return List of {@link Cocktail} with unapproved cocktail's detailed data.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Cocktail> getUnapprovedCocktails() throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
@@ -188,6 +267,12 @@ public class CocktailDaoImpl implements CocktailDao {
         return cocktails;
     }
 
+    /**
+     * Connects to database and returns list of all cocktails.
+     *
+     * @param cocktailId is {@link Cocktail} ID value.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean updateCocktailApproval(int cocktailId) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -200,6 +285,15 @@ public class CocktailDaoImpl implements CocktailDao {
         }
     }
 
+    /**
+     * Connects to database and returns list of all cocktails.
+     *
+     * @param cocktail is {@link Cocktail} object that contains all info about cocktail for insert.
+     * @param ingredientAmounts list of ingredient amounts.
+     * @param ingredientIds list of ingredient IDs.
+     * @return insert ID of cocktail.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public int insertCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws DaoException, SQLException {
         PreparedStatement preparedStatement = null;
@@ -224,7 +318,7 @@ public class CocktailDaoImpl implements CocktailDao {
 
             for (int i = 0; i < ingredientIds.size(); i++) {
                 preparedStatement = connection.prepareStatement(INSERT_INGREDIENT_FOR_COCKTAIL);
-                preparedStatement.setInt(1,insertId);
+                preparedStatement.setInt(1, insertId);
                 preparedStatement.setInt(2, ingredientIds.get(i));
                 preparedStatement.setInt(3, ingredientAmounts.get(i));
                 preparedStatement.execute();
@@ -245,6 +339,14 @@ public class CocktailDaoImpl implements CocktailDao {
         }
     }
 
+    /**
+     * Connects to database and returns list of all cocktails.
+     *
+     * @param cocktail is {@link Cocktail} object that contains all info about cocktail for update.
+     * @param ingredientAmounts list of ingredient amounts.
+     * @param ingredientIds list of ingredient IDs.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void updateCocktailWithIngredients(Cocktail cocktail, List<Integer> ingredientIds, List<Integer> ingredientAmounts) throws DaoException, SQLException {
         PreparedStatement preparedStatement = null;
@@ -264,7 +366,7 @@ public class CocktailDaoImpl implements CocktailDao {
 
             for (int i = 0; i < ingredientIds.size(); i++) {
                 preparedStatement = connection.prepareStatement(INSERT_INGREDIENT_FOR_COCKTAIL);
-                preparedStatement.setInt(1,cocktail.getCocktailId());
+                preparedStatement.setInt(1, cocktail.getCocktailId());
                 preparedStatement.setInt(2, ingredientIds.get(i));
                 preparedStatement.setInt(3, ingredientAmounts.get(i));
                 preparedStatement.execute();

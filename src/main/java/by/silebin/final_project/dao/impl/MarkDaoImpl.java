@@ -35,6 +35,12 @@ public class MarkDaoImpl implements MarkDao {
         return instance;
     }
 
+    /**
+     * Connects to database and inserts mark.
+     *
+     * @param mark is {@link Mark} object that contains information for insert.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean insert(Mark mark) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
@@ -49,6 +55,12 @@ public class MarkDaoImpl implements MarkDao {
         }
     }
 
+    /**
+     * Connects to database and updates mark.
+     *
+     * @param mark is {@link Mark} object that contains information for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean update(Mark mark) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
@@ -63,6 +75,13 @@ public class MarkDaoImpl implements MarkDao {
         }
     }
 
+    /**
+     * Connects to database and gets average mark for user.
+     *
+     * @param targetUserId is user ID value.
+     * @return average mark.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public int getAverageByTargetUserId(int targetUserId) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
@@ -79,6 +98,14 @@ public class MarkDaoImpl implements MarkDao {
         return 0;
     }
 
+    /**
+     * Connects to database and returns mark made by particular user on another user.
+     *
+     * @param targetUserId is ID value of user that receives mark.
+     * @param markUserId is ID value of user that places mark.
+     * @return {@link Optional<Mark>}.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Optional<Mark> getByUserIds(int targetUserId, int markUserId) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
@@ -100,6 +127,12 @@ public class MarkDaoImpl implements MarkDao {
         return Optional.empty();
     }
 
+    /**
+     * Connects to database and deletes mark.
+     *
+     * @param markId is {@link Mark} ID value.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public boolean delete(int markId) throws DaoException {
         try(Connection connection = connectionPool.getConnection();
