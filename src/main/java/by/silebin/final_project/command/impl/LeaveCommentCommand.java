@@ -6,6 +6,7 @@ import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CommentService;
 import by.silebin.final_project.service.impl.CommentServiceImpl;
+import by.silebin.final_project.validator.ParamValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,20 +27,25 @@ public class LeaveCommentCommand implements Command {
             request.setAttribute(RequestAttribute.MESSAGE, "you should log in to leave comment");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
-        int cocktailId = Integer.parseInt(request.getParameter(RequestParameter.COCKTAIL_ID));
+        String cocktailIdParam = request.getParameter(RequestParameter.COCKTAIL_ID);
+        String markParam = request.getParameter(RequestParameter.RATING);
+        if(!ParamValidator.validateIntParam(cocktailIdParam) || !ParamValidator.validateIntParam(markParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+        int cocktailId = Integer.parseInt(cocktailIdParam);
         comment.setCocktailId(cocktailId);
         comment.setUserId(user.getUserId());
         String text = request.getParameter(RequestParameter.COMMENT);
         comment.setText(text);
-        int mark = Integer.parseInt(request.getParameter(RequestParameter.RATING));
+        int mark = Integer.parseInt(markParam);
         comment.setMark(mark);
         try {
             commentService.leaveComment(comment);
         } catch (ServiceException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
-        return new Router(PagePath.GO_TO_COCKTAIL_PAGE + cocktailId, Router.RouterType.FORWARD);
+        return new Router(PagePath.GO_TO_COCKTAIL_PAGE + cocktailId, Router.RouterType.REDIRECT);
     }
 }

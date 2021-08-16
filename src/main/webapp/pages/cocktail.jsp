@@ -49,7 +49,7 @@
             <form action="controller?command=leave_comment&cocktailId=${cocktail.cocktailId}" method="post">
                 <div class="form-group">
                     <label>${locale_your_comment}</label>
-                    <textarea name="comment" class="form-control" rows="3"></textarea>
+                    <textarea name="comment" required="required" class="form-control" rows="3"></textarea>
                 </div>
 
                 <select name="rating" class="form-select">

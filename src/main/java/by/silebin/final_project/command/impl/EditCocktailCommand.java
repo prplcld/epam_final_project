@@ -11,6 +11,7 @@ import by.silebin.final_project.service.IngredientService;
 import by.silebin.final_project.service.impl.CocktailServiceImpl;
 import by.silebin.final_project.service.impl.IngredientServiceImpl;
 import by.silebin.final_project.util.CocktailImageEncoder;
+import by.silebin.final_project.validator.ParamValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,14 +33,24 @@ public class EditCocktailCommand implements Command {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
-        int creatorId = Integer.parseInt(request.getParameter(RequestParameter.CREATOR));
+        String creatorIdParam = request.getParameter(RequestParameter.ID);
+        if (!ParamValidator.validateIntParam(creatorIdParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+
+        int creatorId = Integer.parseInt(creatorIdParam);
 
         if(user.getRole() != Role.ADMIN || creatorId != user.getUserId()) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this cocktail");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
 
-        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
+        String idParam = request.getParameter(RequestParameter.ID);
+        if (!ParamValidator.validateIntParam(idParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+        int id = Integer.parseInt(idParam);
+
         try {
             Optional<Cocktail> cocktailOptional = cocktailService.getById(id);
             if (cocktailOptional.isPresent()) {
@@ -53,14 +64,13 @@ public class EditCocktailCommand implements Command {
                 return new Router(PagePath.EDIT_COCKTAIL, Router.RouterType.FORWARD);
             }
             else {
-                logger.error("cocktail not found");
                 request.setAttribute(RequestAttribute.MESSAGE, "cocktail not found");
                 return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }
         } catch (ServiceException | IOException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
     }
 }

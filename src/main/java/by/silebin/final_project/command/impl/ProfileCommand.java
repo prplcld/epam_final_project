@@ -1,9 +1,6 @@
 package by.silebin.final_project.command.impl;
 
-import by.silebin.final_project.command.Command;
-import by.silebin.final_project.command.PagePath;
-import by.silebin.final_project.command.RequestAttribute;
-import by.silebin.final_project.command.Router;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.entity.Mark;
 import by.silebin.final_project.entity.User;
@@ -14,6 +11,7 @@ import by.silebin.final_project.service.UserService;
 import by.silebin.final_project.service.impl.CocktailServiceImpl;
 import by.silebin.final_project.service.impl.MarkServiceImpl;
 import by.silebin.final_project.service.impl.UserServiceImpl;
+import by.silebin.final_project.validator.ParamValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +30,12 @@ public class ProfileCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        String idParam = request.getParameter(RequestParameter.ID);
+        if (!ParamValidator.validateIntParam(idParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+        int id = Integer.parseInt(idParam);
+
         try {
             Optional<User> userOptional = userService.getById(id);
             if (userOptional.isPresent()) {
@@ -54,12 +57,12 @@ public class ProfileCommand implements Command {
             }
             else {
                 request.setAttribute(RequestAttribute.MESSAGE, "user not found");
-                return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }
         } catch (ServiceException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
 
     }

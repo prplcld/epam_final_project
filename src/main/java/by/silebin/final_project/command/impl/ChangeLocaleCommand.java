@@ -13,10 +13,10 @@ public class ChangeLocaleCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         HttpSession SESSION = request.getSession();
-        String LOCALE = request.getParameter(RequestParameter.LOCALE);
-        String PREVIOUS_REQUEST = (String) SESSION.getAttribute(RequestAttribute.PREV_REQUEST);
-        SESSION.setAttribute(RequestAttribute.LOCALE, LOCALE);
-        Router router = new Router(PREVIOUS_REQUEST, Router.RouterType.REDIRECT);
+        String locale = request.getParameter(RequestParameter.LOCALE);
+        String previous_request = (String) SESSION.getAttribute(RequestAttribute.PREV_REQUEST);
+        SESSION.setAttribute(RequestAttribute.LOCALE, locale);
+        Router router = new Router(previous_request, Router.RouterType.REDIRECT);
         return router;
     }
 }

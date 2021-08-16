@@ -38,8 +38,8 @@ public class UnapprovedCocktailsCommand implements Command {
             return new Router(PagePath.COCKTAIL_APPROVAL_PAGE, Router.RouterType.FORWARD);
         } catch (ServiceException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
     }
 }

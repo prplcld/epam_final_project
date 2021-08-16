@@ -6,6 +6,7 @@ import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CommentService;
 import by.silebin.final_project.service.impl.CommentServiceImpl;
+import by.silebin.final_project.validator.ParamValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,28 +20,34 @@ public class DeleteCommentCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
-        int cocktailId = Integer.parseInt(request.getParameter(RequestParameter.COCKTAIL_ID));
-        int userId = Integer.parseInt(request.getParameter(RequestParameter.USER_ID));
+        String idParam = request.getParameter(RequestParameter.ID);
+        String cocktailIdParam = request.getParameter(RequestParameter.COCKTAIL_ID);
+        String userIdParam = request.getParameter(RequestParameter.USER_ID);
+        if (!ParamValidator.validateIntParam(idParam) || !ParamValidator.validateIntParam(cocktailIdParam) || !ParamValidator.validateIntParam(userIdParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+        int id = Integer.parseInt(idParam);
+        int cocktailId = Integer.parseInt(cocktailIdParam);
+        int userId = Integer.parseInt(userIdParam);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
 
         if (user == null) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login");
-            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
+            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
 
         if (user.getUserId() != userId || user.getRole() != Role.ADMIN) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this comment");
-            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
+            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
 
         try {
             commentService.delete(id);
         } catch (ServiceException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
         return new Router(PagePath.GO_TO_COCKTAIL_PAGE + cocktailId, Router.RouterType.FORWARD);
     }

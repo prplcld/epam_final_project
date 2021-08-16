@@ -49,8 +49,7 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public int insert(Cocktail cocktail) throws ServiceException {
-        //FIXME
-        throw new ServiceException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

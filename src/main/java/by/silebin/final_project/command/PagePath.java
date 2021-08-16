@@ -16,6 +16,13 @@ public final class PagePath {
     public static final String USER_STAT = "pages/userstat.jsp";
     public static final String EDIT_COCKTAIL = "pages/edit-cocktail.jsp";
     public static final String GO_TO_USER_STAT = "controller?command=users_stat";
+    public static final String GO_TO_LOGIN = "controller?command=go_to_login";
+    public static final String GO_TO_REGISTER = "controller?command=go_to_register";
+    public static final String EDIT_USER = "pages/edit-user.jsp";
+    public static final String GO_TO_ADD_COCKTAIL = "controller?command=go_to_add_cocktail";
+    public static final String GO_TO_COCKTAILS_LIST = "controller?command=go_to_cocktails_list";
+    public static final String GO_TO_EDIT_USER = "controller?command=edit_user&id=";
+    public static final String GO_TO_EDIT_COCKTAIL = "controller?command=edit_cocktail&id=";
 
     private PagePath() {
     }

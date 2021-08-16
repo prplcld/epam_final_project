@@ -6,6 +6,7 @@ import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
 import by.silebin.final_project.service.impl.CocktailServiceImpl;
+import by.silebin.final_project.validator.ParamValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,21 +22,30 @@ public class DeleteCocktailCommand implements Command {
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
-        int creatorId = Integer.parseInt(request.getParameter(RequestParameter.CREATOR));
+        String creatorIdParam = request.getParameter(RequestParameter.ID);
+        if (!ParamValidator.validateIntParam(creatorIdParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+
+        int creatorId = Integer.parseInt(creatorIdParam);
 
         if(user.getRole() != Role.ADMIN || creatorId != user.getUserId()) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this cocktail");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
 
-        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
+        String idParam = request.getParameter(RequestParameter.ID);
+        if (!ParamValidator.validateIntParam(idParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+        int id = Integer.parseInt(idParam);
         try {
             cocktailService.deleteCocktail(id);
             return new Router(PagePath.LIST_PAGE, Router.RouterType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
     }
 }

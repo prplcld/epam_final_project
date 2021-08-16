@@ -4,7 +4,7 @@ import by.silebin.final_project.command.*;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.UserService;
 import by.silebin.final_project.service.impl.UserServiceImpl;
-import by.silebin.final_project.validator.EmailValidator;
+import by.silebin.final_project.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,23 +24,27 @@ public class RegisterUserCommand implements Command {
         String password = request.getParameter(RequestParameter.PASSWORD);
         String confirmPassword = request.getParameter(RequestParameter.CONFIRM_PASSWORD);
 
-        if(!EmailValidator.isValid(email)) {
+        if(!UserValidator.validateLogin(login)){
+            request.setAttribute(RequestAttribute.MESSAGE, "invalid login");
+            return new Router(PagePath.GO_TO_REGISTER, Router.RouterType.REDIRECT);
+        }
+        if(!UserValidator.validateEmail(email)) {
             request.setAttribute(RequestAttribute.MESSAGE, "invalid email");
-            return new Router(PagePath.REGISTER_PAGE, Router.RouterType.FORWARD);
+            return new Router(PagePath.GO_TO_REGISTER, Router.RouterType.REDIRECT);
         }
         else {
             if (!password.equals(confirmPassword)) {
                 request.setAttribute(RequestAttribute.MESSAGE, "passwords do not match");
-                return new Router(PagePath.REGISTER_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.GO_TO_REGISTER, Router.RouterType.REDIRECT);
             }
             else {
                 try {
                     userService.register(login, password, email);
-                    return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
+                    return new Router(PagePath.GO_TO_LOGIN, Router.RouterType.REDIRECT);
                 } catch (ServiceException e) {
                     logger.error(e);
                     request.setAttribute(RequestAttribute.EXCEPTION, e);
-                    return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+                    return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
                 }
             }
         }

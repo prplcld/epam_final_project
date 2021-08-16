@@ -32,16 +32,16 @@ public class LoginUserCommand implements Command {
                 User user = userOptional.get();
                 HttpSession session = request.getSession();
                 session.setAttribute(RequestAttribute.USER, user);
-                return new Router(PagePath.LIST_PAGE, Router.RouterType.FORWARD);
+                return new Router(PagePath.GO_TO_COCKTAILS_LIST, Router.RouterType.REDIRECT);
             } else {
-                request.setAttribute(RequestAttribute.MESSAGE, "invalid login or password");
-                return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
+                request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid login or password");
+                return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
             }
 
         } catch (ServiceException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
     }
 }

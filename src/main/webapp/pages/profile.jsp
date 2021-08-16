@@ -40,6 +40,9 @@
                             <span class="tags">${user.role}</span>
                         </p>
                         <p><strong><c:out value="${locale_rating}"/>:</strong>${mark}*</p>
+                        <c:if test="${sessionScope.user.userId == user.userId}">
+                            <p><a href="controller?command=edit_user&id=${user.userId}">edit</a> </p>
+                        </c:if>
                         <c:if test="${sessionScope.user != null}">
                             <c:if test="${sessionScope.user.userId != user.userId}">
                                 <p>

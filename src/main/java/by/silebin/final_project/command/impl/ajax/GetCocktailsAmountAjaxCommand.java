@@ -26,7 +26,6 @@ public class GetCocktailsAmountAjaxCommand implements AjaxCommand {
             response.getWriter().append(String.valueOf((int) pages));
         } catch (ServiceException | IOException e) {
             logger.error(e);
-            //FIXME send error to user?
         }
     }
 }

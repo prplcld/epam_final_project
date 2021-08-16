@@ -52,7 +52,6 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void addIngredientsForCocktail(List<Integer> ingredientIds, List<Integer> ingredientAmounts, int cocktailId) throws ServiceException {
-        //FIXME
-        throw new ServiceException();
+        throw new UnsupportedOperationException();
     }
 }

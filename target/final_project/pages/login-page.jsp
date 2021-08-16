@@ -13,12 +13,15 @@
 <fmt:message key="register.login" var="locale_login"/>
 <fmt:message key="register.password" var="locale_password"/>
 <fmt:message key="register.submit" var="locale_submit"/>
-
-
+<fmt:message key="title.login" var="locale_title_login"/>
+<!doctype html>
+<html lang="en">
 <head>
+    <title>${locale_title_login}</title>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
     <link rel="stylesheet" href="pages/static/css/login-page.css">
 </head>
+
 
 <body>
 

@@ -22,29 +22,32 @@
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
 <%@ include file="header.jsp" %>
 
-div class="container register-form">
-<div class="form">
-    <form class="form-content" action="controller?command=save_user" method="post">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <input type="text" name="username" class="form-control" placeholder="${locale_login}" value="${user.login}"/>
+<div class="container register-form">
+    <div class="form">
+        <form class="form-content" action="controller?command=save_user" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" name="username" required="required" class="form-control" placeholder="${locale_login}"
+                               value="${user.login}"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" required="required" class="form-control" placeholder="${locale_email}"
+                               value="${user.email}"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="email" name="email" class="form-control" placeholder="${locale_email}" value="${user.email}"/>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="password" name="password" required="required" class="form-control" placeholder="${locale_password}"
+                               value=""/>
+                    </div>
                 </div>
+                <input type="hidden" value="${user.userId}" name="id">
+                <input type="hidden" value="${user.login}" name="oldLogin">
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="${locale_password}" value=""/>
-                </div>
-            </div>
-            <input type="hidden" value="${user.userId}" name="id">
-            <input type="hidden" value="${user.login}" name="old_login">
-        </div>
-        <button type="submit" class="btnSubmit">${locale_submit}</button>
-    </form>
-</div>
+            <button type="submit" class="btnSubmit">${locale_submit}</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

@@ -23,5 +23,6 @@ public enum CommandType {
     EDIT_COCKTAIL,
     EDIT_USER,
     SAVE_COCKTAIL,
+    SAVE_USER,
     DEFAULT
 }

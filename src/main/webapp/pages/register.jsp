@@ -32,10 +32,10 @@
             <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="username" required="required" class="form-control" placeholder="${locale_login}" value=""/>
+                            <input type="text" name="username"  required="required" pattern=".{3,45}" class="form-control" placeholder="${locale_login}" value=""/>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" required="required" class="form-control" placeholder="${locale_email}" value=""/>
+                            <input type="email" name="email" required="required" pattern="^(?=.{3,30}$)[^\s]+@[^\s]+\.[^\s]+$" class="form-control" placeholder="${locale_email}" value=""/>
                         </div>
                     </div>
                     <div class="col-md-6">

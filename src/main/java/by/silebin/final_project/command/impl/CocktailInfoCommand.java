@@ -12,6 +12,7 @@ import by.silebin.final_project.service.impl.CocktailServiceImpl;
 import by.silebin.final_project.service.impl.CommentServiceImpl;
 import by.silebin.final_project.service.impl.IngredientServiceImpl;
 import by.silebin.final_project.util.CocktailImageEncoder;
+import by.silebin.final_project.validator.ParamValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,13 @@ public class CocktailInfoCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter(RequestParameter.ID));
+
+        String idParam = request.getParameter(RequestParameter.ID);
+        if (!ParamValidator.validateIntParam(idParam)) {
+            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        }
+        int id = Integer.parseInt(idParam);
+
         try {
             Optional<Cocktail> cocktailOptional = cocktailService.getById(id);
             if (cocktailOptional.isPresent()) {
@@ -46,14 +53,13 @@ public class CocktailInfoCommand implements Command {
                 return new Router(PagePath.COCKTAIL_PAGE, Router.RouterType.FORWARD);
             }
             else {
-                logger.error("cocktail not found");
                 request.setAttribute(RequestAttribute.MESSAGE, "cocktail not found");
                 return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }
         } catch (ServiceException | IOException e) {
             logger.error(e);
-            request.setAttribute(RequestAttribute.EXCEPTION, e);
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
     }
 }

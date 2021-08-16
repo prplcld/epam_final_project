@@ -11,11 +11,12 @@
 <fmt:message key="register.password" var="locale_password"/>
 <fmt:message key="register.confirm_password" var="locale_confirm_password"/>
 <fmt:message key="register.submit" var="locale_submit"/>
+<fmt:message key="title.register" var="locale_title_register"/>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Register</title>
+    <title>${locale_title_register}</title>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
     <link rel="stylesheet" href="pages/static/css/register.css">
 </head>

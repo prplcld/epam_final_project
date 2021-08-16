@@ -21,7 +21,7 @@
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
 <%@ include file="header.jsp" %>
 <form id="cocktail-builder" action="controller?command=save_cocktail" method="post" enctype="multipart/form-data">
-    <input value="${cocktail.name}" type="text" required="required" name="name" placeholder="<c:out value="${locale_name}"/> ">
+    <input value="${cocktail.name}" type="text" pattern=".{3,45}" required="required" name="name" placeholder="<c:out value="${locale_name}"/> ">
     <input value="${cocktail.description}" type="text" required="required" name="description" placeholder="<c:out value="${locale_description}"/> ">
 
     <input type="file" required="required" name="icon">

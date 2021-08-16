@@ -9,11 +9,12 @@
 
 <fmt:message key="cocktail.name" var="locale_name"/>
 <fmt:message key="cocktail.description" var="locale_description"/>
-<fmt:message key="cocktail.create" var="locale_create"/>
+<fmt:message key="button.save" var="locale_save"/>
+<fmt:message key="title.edit_cocktail" var="locale_title_edit_cocktail"/>
 
 <html>
 <head>
-    <title>Title</title>
+    <title>${locale_title_edit_cocktail}</title>
     <%@include file="bootstrap-head-styles-scripts.jsp" %>
 </head>
 <body>
@@ -29,7 +30,7 @@
     <c:forEach items="${ingredients}" var="i">
         <p>${i.name}, ${i.amount} ${i.amountScale}</p>
     </c:forEach>
-    <input type="submit" value="<c:out value="${locale_create}"/>">
+    <input type="submit" value="<c:out value="${locale_save}"/>">
 </form>
 <button id="plus">
     +

@@ -23,10 +23,10 @@
 
 <c:out value="${message}"/>
 <form id="cocktail-builder" action="controller?command=add_cocktail" method="post" enctype="multipart/form-data">
-    <input type="text" name="name" required="required" placeholder="<c:out value="${locale_name}"/> ">
+    <input type="text" name="name" required="required" pattern=".{3,45}" placeholder="<c:out value="${locale_name}"/> ">
     <input type="text" name="description" required="required" placeholder="<c:out value="${locale_description}"/> ">
-    <input type="submit" value="<c:out value="${locale_create}"/> ">
     <input type="file" required="required" name="icon">
+    <input type="submit" value="<c:out value="${locale_create}"/> ">
 </form>
 <button id="plus">
     +
@@ -51,12 +51,14 @@
 
     function add_dropdown() {
         var form = $('#cocktail-builder');
+        var p = $('<p/>');
         var select = $('<select name="dropdown" id="ingredients"/>');
+        p.append(select);
         $.each(ingredients, function (i, val) {
             select.append($('<option />', {text: val.name, value: val.ingredientId}));
         });
-        form.append(select);
-        form.append($('<input type="text" name="amount" required="required" pattern="\d{1,4)"/>'));
+        form.append(p);
+        form.append($('<input type="text" name="amount" required="required" pattern="[0-9]{1,4)"/>'));
     }
 </script>
 </body>

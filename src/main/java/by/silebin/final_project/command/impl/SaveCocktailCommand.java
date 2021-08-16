@@ -7,10 +7,14 @@ import by.silebin.final_project.entity.User;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
 import by.silebin.final_project.service.impl.CocktailServiceImpl;
+import by.silebin.final_project.validator.CocktailValidator;
+import by.silebin.final_project.validator.ParamValidator;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +26,7 @@ import java.util.List;
 public class SaveCocktailCommand implements Command {
 
     private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
+    private static final Logger logger = LogManager.getLogger(SaveCocktailCommand.class);
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -35,21 +40,34 @@ public class SaveCocktailCommand implements Command {
             for(FileItem item : items) {
                 if (item.isFormField()) {
                     switch (item.getFieldName()) {
-                        case RequestParameter.CREATOR:
-
                         case RequestParameter.ID:
+                            if(!ParamValidator.validateIntParam(item.getString())) {
+                                request.getSession().setAttribute(RequestAttribute.MESSAGE, "not found");
+                                return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+                            }
                             cocktail.setCocktailId(Integer.parseInt(item.getString()));
                             break;
-                        case RequestParameter.NAME : cocktail.setName(item.getString());
+                        case RequestParameter.NAME :
+                            if(!CocktailValidator.validateName(item.getString())) {
+                                request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid name");
+                                return new Router(PagePath.GO_TO_EDIT_COCKTAIL + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
+                            }
+                            cocktail.setName(item.getString());
                             break;
                         case RequestParameter.DESCRIPTION: cocktail.setDescription(item.getString());
                             break;
-                        case RequestParameter.DROPDOWN : ingredients.add(Integer.parseInt(item.getString()));
+                        case RequestParameter.DROPDOWN :
+                            if (!ParamValidator.validateIntParam(item.getString())) {
+                                request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid parameter");
+                                return new Router(PagePath.GO_TO_EDIT_COCKTAIL + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
+                            }
+                            ingredients.add(Integer.parseInt(item.getString()));
                             break;
                         case RequestParameter.AMOUNT :
                             String itemStr = item.getString();
-                            if (itemStr.equals("")){
-                                //FIXME return new Router()
+                            if (!ParamValidator.validateIntParam(itemStr)){
+                                request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid parameter");
+                                return new Router(PagePath.GO_TO_EDIT_COCKTAIL + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
                             }
                             amounts.add(Integer.parseInt(item.getString()));
                             break;
@@ -74,7 +92,9 @@ public class SaveCocktailCommand implements Command {
             return new Router(PagePath.GO_TO_COCKTAIL_PAGE + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
 
         } catch (FileUploadException | IOException | ServiceException e) {
-            return new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            logger.error(e);
+            request.setAttribute(RequestAttribute.EXCEPTION, e);
+            return new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
 
     }
