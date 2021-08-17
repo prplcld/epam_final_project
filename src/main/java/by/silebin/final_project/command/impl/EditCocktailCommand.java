@@ -40,7 +40,7 @@ public class EditCocktailCommand implements Command {
 
         int creatorId = Integer.parseInt(creatorIdParam);
 
-        if(user.getRole() != Role.ADMIN || creatorId != user.getUserId()) {
+        if(user == null || (user.getRole() != Role.ADMIN && creatorId != user.getUserId())) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this cocktail");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }

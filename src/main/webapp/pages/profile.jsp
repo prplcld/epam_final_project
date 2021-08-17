@@ -15,6 +15,7 @@
 <fmt:message key="profile.no_rating" var="locale_no_rating"/>
 <fmt:message key="profile.rate" var="locale_rate"/>
 <fmt:message key="title.profile" var="locale_title_profile"/>
+<fmt:message key="button.edit" var="locale_button_edit"/>
 
 <!doctype html>
 <html lang="en">
@@ -41,7 +42,7 @@
                         </p>
                         <p><strong><c:out value="${locale_rating}"/>:</strong>${mark}*</p>
                         <c:if test="${sessionScope.user.userId == user.userId}">
-                            <p><a href="controller?command=edit_user&id=${user.userId}">edit</a> </p>
+                            <p><a href="controller?command=edit_user&id=${user.userId}">${locale_button_edit}</a> </p>
                         </c:if>
                         <c:if test="${sessionScope.user != null}">
                             <c:if test="${sessionScope.user.userId != user.userId}">

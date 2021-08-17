@@ -13,6 +13,7 @@
 <fmt:message key="cocktail.send" var="locale_send"/>
 <fmt:message key="comment.comments" var="locale_comments"/>
 <fmt:message key="comment.your_comment" var="locale_your_comment"/>
+<fmt:message key="button.edit" var="locale_edit"/>
 
 <!doctype html>
 <html lang="en">
@@ -37,8 +38,11 @@
             <c:forEach items="${ingredients}" var="i">
                 <p>${i.name}, ${i.amount} ${i.amountScale}</p>
             </c:forEach>
-            <a href="controller?command=delete_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">${locale_delete}</a>
-            <a href="controller?command=edit_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">edit</a>
+            <c:if test="${sessionScope.user.role == 'ADMIN' || sessionScope.user.userId == cocktail.userId}">
+                <a href="controller?command=delete_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">${locale_delete}</a>
+                <a href="controller?command=edit_cocktail&id=${cocktail.cocktailId}&creator=${cocktail.userId}">${locale_edit}</a>
+            </c:if>
+
         </div>
     </div>
 </div>
@@ -75,7 +79,7 @@
         <div class="row comment">
             <div class="head">
                 <small><a class='user' href="controller?command=profile&id=${c.userId}"><c:out value="${c.login}"/></a></small>
-                <c:if test="${sessionScope.user.userId == comment.userId}">
+                <c:if test="${sessionScope.user.role == 'ADMIN' || sessionScope.user.userId == comment.userId}">
                     <p>
                         <small><a href="controller?command=delete_comment&id=${c.commentId}&cocktailId=${cocktail.cocktailId}&userId=${c.userId}">${locale_delete}</a> </small>
                     </p>

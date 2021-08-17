@@ -22,14 +22,14 @@ public class DeleteCocktailCommand implements Command {
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
-        String creatorIdParam = request.getParameter(RequestParameter.ID);
+        String creatorIdParam = request.getParameter(RequestParameter.CREATOR);
         if (!ParamValidator.validateIntParam(creatorIdParam)) {
             return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
         }
 
         int creatorId = Integer.parseInt(creatorIdParam);
 
-        if(user.getRole() != Role.ADMIN || creatorId != user.getUserId()) {
+        if(user == null || (user.getRole() != Role.ADMIN && creatorId != user.getUserId())) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this cocktail");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
@@ -41,7 +41,7 @@ public class DeleteCocktailCommand implements Command {
         int id = Integer.parseInt(idParam);
         try {
             cocktailService.deleteCocktail(id);
-            return new Router(PagePath.LIST_PAGE, Router.RouterType.REDIRECT);
+            return new Router(PagePath.GO_TO_COCKTAILS_LIST, Router.RouterType.REDIRECT);
         } catch (ServiceException e) {
             logger.error(e);
             request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);

@@ -32,12 +32,8 @@ public class DeleteCommentCommand implements Command {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
 
-        if (user == null) {
-            request.setAttribute(RequestAttribute.MESSAGE, "you should login");
-            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
-        }
 
-        if (user.getUserId() != userId || user.getRole() != Role.ADMIN) {
+        if (user == null || (user.getRole() != Role.ADMIN && userId != user.getUserId())) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this comment");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }

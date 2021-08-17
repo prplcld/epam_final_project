@@ -1,3 +1,4 @@
 target/
 final_project.iml
 .idea/
+.gitignore
