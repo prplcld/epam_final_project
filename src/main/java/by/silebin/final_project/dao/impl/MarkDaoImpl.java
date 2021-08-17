@@ -13,12 +13,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import static by.silebin.final_project.dao.ColumnName.*;
+import static by.silebin.final_project.dao.ColumnName.MARKS_AVG;
+import static by.silebin.final_project.dao.ColumnName.MARKS_MARK;
 
+/**
+ * Implementation of {@link MarkDao}. Provides methods to interact with Mark data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class MarkDaoImpl implements MarkDao {
     private static final Logger logger = LogManager.getLogger(MarkDaoImpl.class);
 
+    /**
+     * A single instance of the class (pattern Singleton)
+     */
     private static final MarkDaoImpl instance = new MarkDaoImpl();
+
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String INSERT_MARK_SQL = "insert into marks(mark, target_user_id, mark_user_id) values(?, ?, ?)";
@@ -27,10 +37,18 @@ public class MarkDaoImpl implements MarkDao {
     private static final String GET_BY_USER_IDS_SQL = "select mark from marks where target_user_id = ? and  mark_user_id = ?";
     private static final String DELETE_MARK_SQL = "delete from marks where id = ?";
 
+
+    /**
+     * Private constructor without parameters
+     */
     private MarkDaoImpl() {
 
     }
 
+    /**
+     * Returns the instance of the class
+     * @return Object of {@link MarkDaoImpl}
+     */
     public static MarkDaoImpl getInstance() {
         return instance;
     }

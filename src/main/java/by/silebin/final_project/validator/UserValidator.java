@@ -2,7 +2,7 @@ package by.silebin.final_project.validator;
 
 public class UserValidator {
 
-    private static final String LOGIN_REGEX = "\\w{3,45}";
+    private static final String LOGIN_REGEX = ".{3,45}";
     private static final String EMAIL_REGEX = "^(?=.{3,30}$)[^\\s]+@[^\\s]+\\.[^\\s]+$";
     private static final int MAX_EMAIL_LENGTH = 45;
 
@@ -14,6 +14,9 @@ public class UserValidator {
     }
 
     public static boolean validateEmail(String email) {
+        if (email == null) {
+            return false;
+        }
         if (email.length() > MAX_EMAIL_LENGTH){
             return false;
         }

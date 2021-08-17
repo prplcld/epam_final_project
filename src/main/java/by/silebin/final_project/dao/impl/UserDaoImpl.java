@@ -20,11 +20,20 @@ import java.util.Optional;
 
 import static by.silebin.final_project.dao.ColumnName.*;
 
+/**
+ * Implementation of {@link UserDao}. Provides methods to interact with User data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class UserDaoImpl implements UserDao {
 
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
+    /**
+     * A single instance of the class (pattern Singleton)
+     */
     private static final UserDaoImpl instance = new UserDaoImpl();
+
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String GET_USER_BY_LOGIN_SQL = "select u.id, u.login, u.password, u.email, r.name from users u join roles r on u.role_id = r.id where login = ?";
@@ -40,10 +49,17 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_USER_ROLE = "update users set role_id = (select id from roles where name = ?) where id = ?";
     private static final int defaultRoleId = 2;
 
+    /**
+     * Private constructor without parameters
+     */
     private UserDaoImpl() {
 
     }
 
+    /**
+     * Returns the instance of the class
+     * @return Object of {@link UserDaoImpl}
+     */
     public static UserDaoImpl getInstance() {
         return instance;
     }
