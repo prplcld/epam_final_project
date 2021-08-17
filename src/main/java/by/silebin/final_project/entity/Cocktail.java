@@ -82,14 +82,35 @@ public class Cocktail {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Cocktail cocktail = (Cocktail) o;
-        return cocktailId == cocktail.cocktailId && userId == cocktail.userId && name.equals(cocktail.name) && description.equals(cocktail.description);
+
+        if (cocktailId != cocktail.cocktailId) return false;
+        if (userId != cocktail.userId) return false;
+        if (approved != cocktail.approved) return false;
+        if (!name.equals(cocktail.name)) return false;
+        return description.equals(cocktail.description);
     }
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result *= name.hashCode() * description.hashCode() * cocktailId * userId;
+        int result = cocktailId;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + userId;
+        result = 31 * result + (approved ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Cocktail{" +
+                "cocktailId=" + cocktailId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", userId=" + userId +
+                ", approved=" + approved +
+                '}';
+    }
 }
+

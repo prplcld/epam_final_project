@@ -47,14 +47,31 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         User user = (User) o;
-        return userId == user.userId && login.equals(user.login) && email.equals(user.email) && role == user.role;
+
+        if (userId != user.userId) return false;
+        if (!login.equals(user.login)) return false;
+        if (!email.equals(user.email)) return false;
+        return role == user.role;
     }
 
     @Override
     public int hashCode() {
-        //FIXME
-        int result = userId * login.hashCode() * email.hashCode();
+        int result = userId;
+        result = 31 * result + login.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + role.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

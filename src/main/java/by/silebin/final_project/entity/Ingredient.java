@@ -45,13 +45,31 @@ public class Ingredient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Ingredient that = (Ingredient) o;
-        return ingredientId == that.ingredientId && name.equals(that.name) && amountScale.equals(that.amountScale);
+
+        if (ingredientId != that.ingredientId) return false;
+        if (amount != that.amount) return false;
+        if (!name.equals(that.name)) return false;
+        return amountScale.equals(that.amountScale);
     }
 
     @Override
     public int hashCode() {
-        int result = ingredientId * name.hashCode() * amountScale.hashCode();
+        int result = ingredientId;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + amountScale.hashCode();
+        result = 31 * result + amount;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "ingredientId=" + ingredientId +
+                ", name='" + name + '\'' +
+                ", amountScale='" + amountScale + '\'' +
+                ", amount=" + amount +
+                '}';
     }
 }

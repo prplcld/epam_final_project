@@ -54,14 +54,34 @@ public class Comment {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Comment comment = (Comment) o;
-        return commentId == comment.commentId && cocktailId == comment.cocktailId && mark == comment.mark && userId == comment.userId && text.equals(comment.text);
+
+        if (commentId != comment.commentId) return false;
+        if (cocktailId != comment.cocktailId) return false;
+        if (mark != comment.mark) return false;
+        if (userId != comment.userId) return false;
+        return text.equals(comment.text);
     }
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result *= cocktailId * commentId * text.hashCode() * mark;
+        int result = commentId;
+        result = 31 * result + text.hashCode();
+        result = 31 * result + cocktailId;
+        result = 31 * result + mark;
+        result = 31 * result + userId;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", text='" + text + '\'' +
+                ", cocktailId=" + cocktailId +
+                ", mark=" + mark +
+                ", userId=" + userId +
+                '}';
     }
 }

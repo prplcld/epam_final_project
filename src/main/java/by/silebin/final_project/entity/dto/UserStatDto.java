@@ -51,4 +51,39 @@ public class UserStatDto {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserStatDto that = (UserStatDto) o;
+
+        if (userId != that.userId) return false;
+        if (averageMark != that.averageMark) return false;
+        if (cocktailsAmount != that.cocktailsAmount) return false;
+        if (!login.equals(that.login)) return false;
+        return role == that.role;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userId;
+        result = 31 * result + login.hashCode();
+        result = 31 * result + averageMark;
+        result = 31 * result + cocktailsAmount;
+        result = 31 * result + role.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserStatDto{" +
+                "userId=" + userId +
+                ", login='" + login + '\'' +
+                ", averageMark=" + averageMark +
+                ", cocktailsAmount=" + cocktailsAmount +
+                ", role=" + role +
+                '}';
+    }
 }
