@@ -1,7 +1,6 @@
 package by.silebin.final_project.command.impl.ajax;
 
-import by.silebin.final_project.command.AjaxCommand;
-import by.silebin.final_project.command.RequestParameter;
+import by.silebin.final_project.command.*;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.exception.ServiceException;
 import by.silebin.final_project.service.CocktailService;
@@ -23,7 +22,7 @@ public class GetCocktailsAjaxCommand implements AjaxCommand {
     private static final int itemsPerPage = 8;
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int page = Integer.parseInt(request.getParameter(RequestParameter.PAGE));
         try {
             List<Cocktail> cocktails = cocktailService.getLimited((page - 1) * itemsPerPage, itemsPerPage);
@@ -31,6 +30,8 @@ public class GetCocktailsAjaxCommand implements AjaxCommand {
             response.getWriter().append(json);
         } catch (ServiceException | IOException e) {
             logger.error(e);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            response.sendRedirect(PagePath.ERROR_PAGE);
         }
     }
 }

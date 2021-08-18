@@ -1,9 +1,6 @@
 package by.silebin.final_project.command;
 
-import by.silebin.final_project.command.impl.ajax.GetCocktailsAjaxCommand;
-import by.silebin.final_project.command.impl.ajax.GetCocktailsAmountAjaxCommand;
-import by.silebin.final_project.command.impl.ajax.GetIngredientsAjaxCommand;
-import by.silebin.final_project.command.impl.ajax.SearchCocktailsCommand;
+import by.silebin.final_project.command.impl.ajax.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +14,7 @@ public class AjaxCommandProvider {
         commands.put(AjaxCommandType.GET_COCKTAILS_AMOUNT, new GetCocktailsAmountAjaxCommand());
         commands.put(AjaxCommandType.SEARCH, new SearchCocktailsCommand());
         commands.put(AjaxCommandType.GET_INGREDIENTS, new GetIngredientsAjaxCommand());
+        commands.put(AjaxCommandType.DEFAULT, new DefaultAjaxCommand());
     }
 
     public static AjaxCommandProvider getInstance() {
@@ -27,8 +25,9 @@ public class AjaxCommandProvider {
     }
 
     public AjaxCommand getCommand(String commandName) {
+
         if (commandName == null) {
-            //FIXME
+            return commands.get(AjaxCommandType.DEFAULT);
         }
         AjaxCommandType commandType;
         try {

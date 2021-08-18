@@ -16,7 +16,7 @@ public class CommandProvider {
     private CommandProvider() {
         commands.put(CommandType.GO_TO_COCKTAILS_LIST, new GoToCocktailsListCommand());
         commands.put(CommandType.GO_TO_LOGIN, new GoToLoginPageCommand());
-        commands.put(CommandType.DEFAULT, new GoToCocktailsListCommand());
+        commands.put(CommandType.DEFAULT, new DefaultCommand());
         commands.put(CommandType.LOGIN_USER, new LoginUserCommand());
         commands.put(CommandType.COCKTAIL_INFO, new CocktailInfoCommand());
         commands.put(CommandType.GO_TO_ADD_COCKTAIL, new GoToAddCocktailPageCommand());

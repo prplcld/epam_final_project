@@ -21,6 +21,7 @@ public final class RequestParameter {
     public static final String CREATOR = "creator";
     public static final String UPGRADE = "upgrade";
     public static final String OLD_LOGIN = "oldLogin";
+    public static final String COMMAND = "command";
 
     private RequestParameter() {
 

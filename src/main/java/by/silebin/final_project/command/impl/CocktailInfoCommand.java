@@ -47,12 +47,11 @@ public class CocktailInfoCommand implements Command {
                 List<Ingredient> ingredients = ingredientService.getIngredientsForCocktail(cocktail.getCocktailId());
                 request.setAttribute(RequestAttribute.INGREDIENTS, ingredients);
 
-                List<CommentDto> comments  = commentService.getCommentsForCocktail(id);
+                List<CommentDto> comments = commentService.getCommentsForCocktail(id);
                 request.setAttribute(RequestAttribute.COMMENTS, comments);
 
                 return new Router(PagePath.COCKTAIL_PAGE, Router.RouterType.FORWARD);
-            }
-            else {
+            } else {
                 request.setAttribute(RequestAttribute.MESSAGE, "cocktail not found");
                 return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }

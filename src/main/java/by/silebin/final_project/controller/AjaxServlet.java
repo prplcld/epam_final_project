@@ -2,6 +2,7 @@ package by.silebin.final_project.controller;
 
 import by.silebin.final_project.command.AjaxCommand;
 import by.silebin.final_project.command.AjaxCommandProvider;
+import by.silebin.final_project.command.RequestParameter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,8 +26,8 @@ public class AjaxServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-        String commandName = request.getParameter("command");
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String commandName = request.getParameter(RequestParameter.COMMAND);
         AjaxCommand command = ajaxCommandProvider.getCommand(commandName);
         command.execute(request, response);
     }

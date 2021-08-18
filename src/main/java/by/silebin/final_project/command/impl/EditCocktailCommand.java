@@ -34,13 +34,14 @@ public class EditCocktailCommand implements Command {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
         String creatorIdParam = request.getParameter(RequestParameter.ID);
+
         if (!ParamValidator.validateIntParam(creatorIdParam)) {
             return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
         }
 
         int creatorId = Integer.parseInt(creatorIdParam);
 
-        if(user == null || (user.getRole() != Role.ADMIN && creatorId != user.getUserId())) {
+        if (user == null || (user.getRole() != Role.ADMIN && creatorId != user.getUserId())) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this cocktail");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
@@ -62,8 +63,7 @@ public class EditCocktailCommand implements Command {
                 List<Ingredient> allIngredients = ingredientService.getIngredients();
                 request.setAttribute(RequestAttribute.ALL_INGREDIENTS, allIngredients);
                 return new Router(PagePath.EDIT_COCKTAIL, Router.RouterType.FORWARD);
-            }
-            else {
+            } else {
                 request.setAttribute(RequestAttribute.MESSAGE, "cocktail not found");
                 return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }

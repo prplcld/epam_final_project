@@ -20,5 +20,6 @@
 <%@ include file="pages/header.jsp" %>
 
 <p>${locale_not_found}</p>
+<p>${message}</p>
 </body>
 </html>

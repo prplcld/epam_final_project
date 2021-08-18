@@ -20,12 +20,14 @@ public class DeleteCommentCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
+
         String idParam = request.getParameter(RequestParameter.ID);
         String cocktailIdParam = request.getParameter(RequestParameter.COCKTAIL_ID);
         String userIdParam = request.getParameter(RequestParameter.USER_ID);
         if (!ParamValidator.validateIntParam(idParam) || !ParamValidator.validateIntParam(cocktailIdParam) || !ParamValidator.validateIntParam(userIdParam)) {
             return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
         }
+
         int id = Integer.parseInt(idParam);
         int cocktailId = Integer.parseInt(cocktailIdParam);
         int userId = Integer.parseInt(userIdParam);

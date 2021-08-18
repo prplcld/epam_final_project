@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 public class LeaveCommentCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(LeaveCommentCommand.class);
-
     private final CommentService commentService = CommentServiceImpl.getInstance();
 
     @Override
@@ -23,15 +22,18 @@ public class LeaveCommentCommand implements Command {
         Comment comment = new Comment();
 
         User user = (User) request.getSession().getAttribute(RequestAttribute.USER);
-        if(user == null) {
+
+        if (user == null) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should log in to leave comment");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
         String cocktailIdParam = request.getParameter(RequestParameter.COCKTAIL_ID);
         String markParam = request.getParameter(RequestParameter.RATING);
-        if(!ParamValidator.validateIntParam(cocktailIdParam) || !ParamValidator.validateIntParam(markParam)) {
+
+        if (!ParamValidator.validateIntParam(cocktailIdParam) || !ParamValidator.validateIntParam(markParam)) {
             return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
         }
+
         int cocktailId = Integer.parseInt(cocktailIdParam);
         comment.setCocktailId(cocktailId);
         comment.setUserId(user.getUserId());
@@ -39,6 +41,7 @@ public class LeaveCommentCommand implements Command {
         comment.setText(text);
         int mark = Integer.parseInt(markParam);
         comment.setMark(mark);
+
         try {
             commentService.leaveComment(comment);
         } catch (ServiceException e) {

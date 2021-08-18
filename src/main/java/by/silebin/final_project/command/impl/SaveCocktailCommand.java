@@ -37,35 +37,36 @@ public class SaveCocktailCommand implements Command {
 
             Cocktail cocktail = new Cocktail();
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-            for(FileItem item : items) {
+            for (FileItem item : items) {
                 if (item.isFormField()) {
                     switch (item.getFieldName()) {
                         case RequestParameter.ID:
-                            if(!ParamValidator.validateIntParam(item.getString())) {
+                            if (!ParamValidator.validateIntParam(item.getString())) {
                                 request.getSession().setAttribute(RequestAttribute.MESSAGE, "not found");
                                 return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
                             }
                             cocktail.setCocktailId(Integer.parseInt(item.getString()));
                             break;
-                        case RequestParameter.NAME :
-                            if(!CocktailValidator.validateName(item.getString())) {
+                        case RequestParameter.NAME:
+                            if (!CocktailValidator.validateName(item.getString())) {
                                 request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid name");
                                 return new Router(PagePath.GO_TO_EDIT_COCKTAIL + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
                             }
                             cocktail.setName(item.getString());
                             break;
-                        case RequestParameter.DESCRIPTION: cocktail.setDescription(item.getString());
+                        case RequestParameter.DESCRIPTION:
+                            cocktail.setDescription(item.getString());
                             break;
-                        case RequestParameter.DROPDOWN :
+                        case RequestParameter.DROPDOWN:
                             if (!ParamValidator.validateIntParam(item.getString())) {
                                 request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid parameter");
                                 return new Router(PagePath.GO_TO_EDIT_COCKTAIL + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
                             }
                             ingredients.add(Integer.parseInt(item.getString()));
                             break;
-                        case RequestParameter.AMOUNT :
+                        case RequestParameter.AMOUNT:
                             String itemStr = item.getString();
-                            if (!ParamValidator.validateIntParam(itemStr)){
+                            if (!ParamValidator.validateIntParam(itemStr)) {
                                 request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid parameter");
                                 return new Router(PagePath.GO_TO_EDIT_COCKTAIL + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
                             }
@@ -73,18 +74,17 @@ public class SaveCocktailCommand implements Command {
                             break;
                     }
 
-                }
-                else {
-                    InputStream inputStream  = item.getInputStream();
+                } else {
+                    InputStream inputStream = item.getInputStream();
                     cocktail.setIcon(inputStream);
                 }
             }
 
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute(RequestAttribute.USER);
-            if(user == null) {
-                request.setAttribute(RequestAttribute.MESSAGE, "you should log in to edit cocktail");
-                return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
+            if (user == null) {
+                request.getSession().setAttribute(RequestAttribute.MESSAGE, "you should log in to edit cocktail");
+                return new Router(PagePath.LOGIN_PAGE, Router.RouterType.REDIRECT);
             }
             cocktail.setUserId(user.getUserId());
             cocktail.setApproved(user.getRole() != Role.USER);

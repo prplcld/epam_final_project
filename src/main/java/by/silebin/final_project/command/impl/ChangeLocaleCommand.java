@@ -16,7 +16,6 @@ public class ChangeLocaleCommand implements Command {
         String locale = request.getParameter(RequestParameter.LOCALE);
         String previous_request = (String) SESSION.getAttribute(RequestAttribute.PREV_REQUEST);
         SESSION.setAttribute(RequestAttribute.LOCALE, locale);
-        Router router = new Router(previous_request, Router.RouterType.REDIRECT);
-        return router;
+        return new Router(previous_request, Router.RouterType.REDIRECT);
     }
 }

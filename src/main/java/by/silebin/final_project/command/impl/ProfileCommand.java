@@ -45,7 +45,7 @@ public class ProfileCommand implements Command {
                 request.setAttribute(RequestAttribute.COCKTAILS, cocktails);
                 int mark = markService.getAverageUserMark(id);
                 request.setAttribute(RequestAttribute.MARK, mark);
-                User loggedInUser = (User)request.getSession().getAttribute(RequestAttribute.USER);
+                User loggedInUser = (User) request.getSession().getAttribute(RequestAttribute.USER);
                 if (loggedInUser != null && loggedInUser.getUserId() != user.getUserId()) {
                     Optional<Mark> markOptional = markService.getMark(user.getUserId(), loggedInUser.getUserId());
                     if (markOptional.isPresent()) {
@@ -54,8 +54,7 @@ public class ProfileCommand implements Command {
                     }
                 }
                 return new Router(PagePath.PROFILE_PAGE, Router.RouterType.FORWARD);
-            }
-            else {
+            } else {
                 request.setAttribute(RequestAttribute.MESSAGE, "user not found");
                 return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.FORWARD);
             }

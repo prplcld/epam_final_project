@@ -1,6 +1,8 @@
 package by.silebin.final_project.command.impl.ajax;
 
 import by.silebin.final_project.command.AjaxCommand;
+import by.silebin.final_project.command.PagePath;
+import by.silebin.final_project.command.RequestAttribute;
 import by.silebin.final_project.command.RequestParameter;
 import by.silebin.final_project.entity.Cocktail;
 import by.silebin.final_project.exception.ServiceException;
@@ -22,7 +24,7 @@ public class SearchCocktailsCommand implements AjaxCommand {
     private final CocktailService cocktailService = CocktailServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String search = request.getParameter(RequestParameter.VALUE);
             List<Cocktail> cocktails = cocktailService.getByNameLike(search);
@@ -30,6 +32,8 @@ public class SearchCocktailsCommand implements AjaxCommand {
             response.getWriter().append(json);
         } catch (ServiceException | IOException e) {
             logger.error(e);
+            request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);
+            response.sendRedirect(PagePath.ERROR_PAGE);
         }
     }
 }

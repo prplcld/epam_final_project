@@ -24,20 +24,18 @@ public class RegisterUserCommand implements Command {
         String password = request.getParameter(RequestParameter.PASSWORD);
         String confirmPassword = request.getParameter(RequestParameter.CONFIRM_PASSWORD);
 
-        if(!UserValidator.validateLogin(login)){
+        if (!UserValidator.validateLogin(login)) {
             request.setAttribute(RequestAttribute.MESSAGE, "invalid login");
             return new Router(PagePath.GO_TO_REGISTER, Router.RouterType.REDIRECT);
         }
-        if(!UserValidator.validateEmail(email)) {
+        if (!UserValidator.validateEmail(email)) {
             request.setAttribute(RequestAttribute.MESSAGE, "invalid email");
             return new Router(PagePath.GO_TO_REGISTER, Router.RouterType.REDIRECT);
-        }
-        else {
+        } else {
             if (!password.equals(confirmPassword)) {
                 request.setAttribute(RequestAttribute.MESSAGE, "passwords do not match");
                 return new Router(PagePath.GO_TO_REGISTER, Router.RouterType.REDIRECT);
-            }
-            else {
+            } else {
                 try {
                     userService.register(login, password, email);
                     return new Router(PagePath.GO_TO_LOGIN, Router.RouterType.REDIRECT);

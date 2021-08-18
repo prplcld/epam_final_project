@@ -23,13 +23,14 @@ public class DeleteCocktailCommand implements Command {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
         String creatorIdParam = request.getParameter(RequestParameter.CREATOR);
+
         if (!ParamValidator.validateIntParam(creatorIdParam)) {
             return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
         }
 
         int creatorId = Integer.parseInt(creatorIdParam);
 
-        if(user == null || (user.getRole() != Role.ADMIN && creatorId != user.getUserId())) {
+        if (user == null || (user.getRole() != Role.ADMIN && creatorId != user.getUserId())) {
             request.setAttribute(RequestAttribute.MESSAGE, "you should login as admin or creator of this cocktail");
             return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }

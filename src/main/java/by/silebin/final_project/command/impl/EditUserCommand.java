@@ -18,9 +18,9 @@ public class EditUserCommand implements Command {
         }
         int id = Integer.parseInt(idParam);
 
-        if (user == null ||user.getUserId() != id) {
-            //FIXME
-            return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);
+        if (user == null || user.getUserId() != id) {
+            request.setAttribute(RequestAttribute.MESSAGE, "you should login as this user to edit profile");
+            return new Router(PagePath.LOGIN_PAGE, Router.RouterType.FORWARD);
         }
         request.setAttribute(RequestAttribute.USER, user);
         return new Router(PagePath.EDIT_USER, Router.RouterType.FORWARD);
