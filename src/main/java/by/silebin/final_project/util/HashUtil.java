@@ -29,7 +29,7 @@ public class HashUtil {
         throw new RuntimeException("unable to encode password");
     }
 
-    public static boolean check(String pass, String hash){
+    public static boolean check(String pass, String hash) {
         String[] saltAndHash = hash.split("\\$");
         if (saltAndHash.length != 2) {
             throw new IllegalStateException("The stored password must have the form 'salt$hash'");

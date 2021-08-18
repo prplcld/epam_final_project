@@ -25,7 +25,9 @@ public class CommentDaoImpl implements CommentDao {
 
     private static final Logger logger = LogManager.getLogger(CommentDaoImpl.class);
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     /**
@@ -44,6 +46,7 @@ public class CommentDaoImpl implements CommentDao {
 
     /**
      * Returns the instance of the class
+     *
      * @return Object of {@link CommentDaoImpl}
      */
     public static CommentDaoImpl getInstance() {

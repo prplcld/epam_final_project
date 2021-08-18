@@ -28,7 +28,9 @@ public class IngredientDaoImpl implements IngredientDao {
      * A single instance of the class (pattern Singleton)
      */
     private static final IngredientDaoImpl instance = new IngredientDaoImpl();
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String GET_INGREDIENTS_BY_COCKTAIL_ID_SQL = "select name, amount, amount_scale from ingredients_in_cocktail c " +
@@ -56,8 +58,8 @@ public class IngredientDaoImpl implements IngredientDao {
     @Override
     public List<Ingredient> getAll() throws DaoException {
         List<Ingredient> ingredients = new ArrayList<>();
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_INGREDIENTS)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_INGREDIENTS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Ingredient ingredient = new Ingredient();
@@ -148,8 +150,8 @@ public class IngredientDaoImpl implements IngredientDao {
      */
     @Override
     public boolean delete(int ingredientId) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_INGREDIENT_SQL)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_INGREDIENT_SQL)) {
             preparedStatement.setInt(1, ingredientId);
             return !preparedStatement.execute();
         } catch (SQLException e) {
@@ -161,9 +163,9 @@ public class IngredientDaoImpl implements IngredientDao {
     /**
      * Connects to database and adds ingredient for cocktail.
      *
-     * @param cocktailId is cocktail ID value.
+     * @param cocktailId   is cocktail ID value.
      * @param ingredientId is {@link Ingredient} ID value.
-     * @param amount is amount of {@link Ingredient}.
+     * @param amount       is amount of {@link Ingredient}.
      * @throws DaoException when problems with database connection occurs.
      */
     @Override

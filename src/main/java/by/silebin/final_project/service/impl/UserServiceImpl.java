@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
             return user;
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle UserServiceImpl.login", e);
+            throw new ServiceException("Can't handle UserServiceImpl.login", e);
         }
     }
 
@@ -44,11 +44,11 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getById(int id) throws ServiceException {
         UserDao userDao = UserDaoImpl.getInstance();
         try {
-            Optional<User> user =userDao.findById(id);
+            Optional<User> user = userDao.findById(id);
             return user;
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle UserServiceImpl.getById", e);
+            throw new ServiceException("Can't handle UserServiceImpl.getById", e);
         }
     }
 
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
             return userDao.register(login, password, email);
         } catch (DaoException e) {
             logger.error(e);
-           throw new ServiceException("Can't handle UserServiceImpl.register", e);
+            throw new ServiceException("Can't handle UserServiceImpl.register", e);
         }
     }
 
@@ -91,11 +91,10 @@ public class UserServiceImpl implements UserService {
 
         try {
             Optional<User> userOptional = userDao.login(login, password);
-            if(userOptional.isPresent()) {
+            if (userOptional.isPresent()) {
                 userDao.update(user);
                 return true;
-            }
-            else return false;
+            } else return false;
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException("Can't handle UserServiceImpl.update", e);

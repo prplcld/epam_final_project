@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
             return commentDao.insert(comment);
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle CommentServiceImpl.leaveComment", e);
+            throw new ServiceException("Can't handle CommentServiceImpl.leaveComment", e);
         }
     }
 
@@ -57,7 +57,7 @@ public class CommentServiceImpl implements CommentService {
             return commentDao.delete(commentId);
         } catch (DaoException e) {
             logger.error(e);
-            throw  new ServiceException("Can't handle CommentServiceImpl.delete", e);
+            throw new ServiceException("Can't handle CommentServiceImpl.delete", e);
         }
     }
 }

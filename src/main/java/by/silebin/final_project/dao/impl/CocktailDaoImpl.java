@@ -27,7 +27,9 @@ public class CocktailDaoImpl implements CocktailDao {
      */
     private static final CocktailDaoImpl instance = new CocktailDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String GET_COCKTAIL_BY_ID_SQL = "select id, name, description, icon, user_id from cocktails where id = ?";
@@ -52,6 +54,7 @@ public class CocktailDaoImpl implements CocktailDao {
 
     /**
      * Returns the instance of the class
+     *
      * @return Object of {@link CocktailDaoImpl}
      */
     public static CocktailDaoImpl getInstance() {
@@ -182,7 +185,7 @@ public class CocktailDaoImpl implements CocktailDao {
     /**
      * Connects to database and returns limited list of cocktails.
      *
-     * @param start is start of limit.
+     * @param start  is start of limit.
      * @param amount is amount of cocktails to get.
      * @return List of {@link Cocktail} with limited cocktail's detailed data.
      * @throws DaoException when problems with database connection occurs.
@@ -288,9 +291,9 @@ public class CocktailDaoImpl implements CocktailDao {
     /**
      * Connects to database and returns list of all cocktails.
      *
-     * @param cocktail is {@link Cocktail} object that contains all info about cocktail for insert.
+     * @param cocktail          is {@link Cocktail} object that contains all info about cocktail for insert.
      * @param ingredientAmounts list of ingredient amounts.
-     * @param ingredientIds list of ingredient IDs.
+     * @param ingredientIds     list of ingredient IDs.
      * @return insert ID of cocktail.
      * @throws DaoException when problems with database connection occurs.
      */
@@ -342,9 +345,9 @@ public class CocktailDaoImpl implements CocktailDao {
     /**
      * Connects to database and returns list of all cocktails.
      *
-     * @param cocktail is {@link Cocktail} object that contains all info about cocktail for update.
+     * @param cocktail          is {@link Cocktail} object that contains all info about cocktail for update.
      * @param ingredientAmounts list of ingredient amounts.
-     * @param ingredientIds list of ingredient IDs.
+     * @param ingredientIds     list of ingredient IDs.
      * @throws DaoException when problems with database connection occurs.
      */
     @Override

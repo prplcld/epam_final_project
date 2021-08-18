@@ -33,7 +33,9 @@ public class UserDaoImpl implements UserDao {
      */
     private static final UserDaoImpl instance = new UserDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String GET_USER_BY_LOGIN_SQL = "select u.id, u.login, u.password, u.email, r.name from users u join roles r on u.role_id = r.id where login = ?";
@@ -58,6 +60,7 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Returns the instance of the class
+     *
      * @return Object of {@link UserDaoImpl}
      */
     public static UserDaoImpl getInstance() {
@@ -203,7 +206,7 @@ public class UserDaoImpl implements UserDao {
     /**
      * Connects to database and updates user role.
      *
-     * @param role is {@link Role} enum value.
+     * @param role   is {@link Role} enum value.
      * @param userId is user ID value
      * @throws DaoException when problems with database connection occurs.
      */

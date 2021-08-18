@@ -40,7 +40,7 @@ public class ConnectionPool {
         usedConnections = new LinkedBlockingQueue<>(DEFAULT_POOL_SIZE);
 
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        for(int i = 0; i < DEFAULT_POOL_SIZE; i++) {
+        for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 Connection connection = connectionFactory.newConnection();
                 ProxyConnection proxyConnection = new ProxyConnection(connection);
@@ -68,7 +68,7 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) {
-        if(!(connection instanceof ProxyConnection)) {
+        if (!(connection instanceof ProxyConnection)) {
             logger.fatal("unknown connection");
             throw new RuntimeException("unknown connection");
         }
@@ -87,7 +87,7 @@ public class ConnectionPool {
             try {
                 availableConnections.take().closeConnection();
             } catch (SQLException | InterruptedException e) {
-               logger.warn("connection is not deleted");
+                logger.warn("connection is not deleted");
             }
         }
         deregisterDrivers();

@@ -50,10 +50,9 @@ public class MarkServiceImpl implements MarkService {
     public boolean saveMark(Mark mark) throws ServiceException {
         MarkDao markDao = MarkDaoImpl.getInstance();
         try {
-            if(markDao.getByUserIds(mark.getTargetUserId(), mark.getMarkUserId()).isPresent()) {
+            if (markDao.getByUserIds(mark.getTargetUserId(), mark.getMarkUserId()).isPresent()) {
                 markDao.update(mark);
-            }
-            else {
+            } else {
                 markDao.insert(mark);
             }
         } catch (DaoException e) {

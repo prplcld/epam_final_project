@@ -28,7 +28,9 @@ public class MarkDaoImpl implements MarkDao {
      */
     private static final MarkDaoImpl instance = new MarkDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String INSERT_MARK_SQL = "insert into marks(mark, target_user_id, mark_user_id) values(?, ?, ?)";
@@ -47,6 +49,7 @@ public class MarkDaoImpl implements MarkDao {
 
     /**
      * Returns the instance of the class
+     *
      * @return Object of {@link MarkDaoImpl}
      */
     public static MarkDaoImpl getInstance() {
@@ -61,8 +64,8 @@ public class MarkDaoImpl implements MarkDao {
      */
     @Override
     public boolean insert(Mark mark) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MARK_SQL)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MARK_SQL)) {
             preparedStatement.setInt(1, mark.getMark());
             preparedStatement.setInt(2, mark.getTargetUserId());
             preparedStatement.setInt(3, mark.getMarkUserId());
@@ -81,8 +84,8 @@ public class MarkDaoImpl implements MarkDao {
      */
     @Override
     public boolean update(Mark mark) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MARK_SQL)){
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MARK_SQL)) {
             preparedStatement.setInt(1, mark.getMark());
             preparedStatement.setInt(2, mark.getTargetUserId());
             preparedStatement.setInt(3, mark.getMarkUserId());
@@ -102,8 +105,8 @@ public class MarkDaoImpl implements MarkDao {
      */
     @Override
     public int getAverageByTargetUserId(int targetUserId) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_AVERAGE_SQL)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_AVERAGE_SQL)) {
             preparedStatement.setInt(1, targetUserId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -120,14 +123,14 @@ public class MarkDaoImpl implements MarkDao {
      * Connects to database and returns mark made by particular user on another user.
      *
      * @param targetUserId is ID value of user that receives mark.
-     * @param markUserId is ID value of user that places mark.
+     * @param markUserId   is ID value of user that places mark.
      * @return {@link Optional<Mark>}.
      * @throws DaoException when problems with database connection occurs.
      */
     @Override
     public Optional<Mark> getByUserIds(int targetUserId, int markUserId) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_USER_IDS_SQL)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_USER_IDS_SQL)) {
             preparedStatement.setInt(1, targetUserId);
             preparedStatement.setInt(2, markUserId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -153,8 +156,8 @@ public class MarkDaoImpl implements MarkDao {
      */
     @Override
     public boolean delete(int markId) throws DaoException {
-        try(Connection connection = connectionPool.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MARK_SQL)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MARK_SQL)) {
             preparedStatement.setInt(1, markId);
             return !preparedStatement.execute();
         } catch (SQLException e) {

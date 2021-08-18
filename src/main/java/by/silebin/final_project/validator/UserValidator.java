@@ -7,7 +7,7 @@ public class UserValidator {
     private static final int MAX_EMAIL_LENGTH = 45;
 
     public static boolean validateLogin(String login) {
-        if(login.contains("<") || login.contains(">")) {
+        if (login.contains("<") || login.contains(">")) {
             return false;
         }
         return login.matches(LOGIN_REGEX);
@@ -17,7 +17,7 @@ public class UserValidator {
         if (email == null) {
             return false;
         }
-        if (email.length() > MAX_EMAIL_LENGTH){
+        if (email.length() > MAX_EMAIL_LENGTH) {
             return false;
         }
         return email.matches(EMAIL_REGEX);
