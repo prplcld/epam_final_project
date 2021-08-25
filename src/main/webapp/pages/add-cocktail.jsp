@@ -22,15 +22,26 @@
 <%@ include file="header.jsp" %>
 
 <c:out value="${message}"/>
-<form id="cocktail-builder" action="controller?command=add_cocktail" method="post" enctype="multipart/form-data">
-    <input type="text" name="name" required="required" pattern=".{3,45}" placeholder="<c:out value="${locale_name}"/> ">
-    <input type="text" name="description" required="required" placeholder="<c:out value="${locale_description}"/> ">
-    <input type="file" required="required" name="icon">
-    <input type="submit" value="<c:out value="${locale_create}"/> ">
-</form>
-<button id="plus">
-    +
-</button>
+<div class="container h-100">
+    <div class="row h-100 justify-content-center">
+        <div class="col-10 col-md-8 col-lg-6">
+            <form id="cocktail-builder" action="controller?command=add_cocktail" method="post"
+                  enctype="multipart/form-data">
+                <input class="form-control" type="text" name="name" required="required" pattern=".{3,45}"
+                       placeholder="<c:out value="${locale_name}"/> ">
+                <input class="form-control" type="text" name="description" required="required"
+                       placeholder="<c:out value="${locale_description}"/> ">
+                <input class="form-control-file" type="file" required="required" name="icon">
+                <input class="form-control" type="submit" value="<c:out value="${locale_create}"/> ">
+            </form>
+            <button id="plus">
+                +
+            </button>
+        </div>
+    </div>
+</div>
+
+
 <script>
     var ingredients;
     $(document).ready(function () {
@@ -52,13 +63,13 @@
     function add_dropdown() {
         var form = $('#cocktail-builder');
         var p = $('<p/>');
-        var select = $('<select name="dropdown" id="ingredients"/>');
+        var select = $('<select class="form-control" name="dropdown" id="ingredients"/>');
         p.append(select);
         $.each(ingredients, function (i, val) {
             select.append($('<option />', {text: val.name, value: val.ingredientId}));
         });
         form.append(p);
-        form.append($('<input type="text" name="amount" required="required" pattern="[0-9]{1,4)"/>'));
+        form.append($('<input class="form-control" type="text" name="amount" required="required" pattern="[0-9]{1,4)"/>'));
     }
 </script>
 </body>

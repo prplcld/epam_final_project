@@ -33,18 +33,7 @@
         <button id="search-btn" type="button" class="btn btn-outline-primary"><c:out value="${locale_search}"/></button>
     </div>
     <div id="content" class="row padding">
-<%--        <c:forEach items="${cocktails}" var="c">--%>
-<%--            <div class="col-md-3">--%>
-<%--                <div class="card">--%>
-<%--                    <img class="card-img-top" src="data:image/jpg;base64,${c.base64Icon}" style="width: 30%">--%>
-<%--                    <div class="card-body">--%>
-<%--                        <h4 class="card-title">${c.name}</h4>--%>
-<%--                        <p class="card-text">${c.description}</p>--%>
-<%--                        <a href="#" class="btn-outline-secondary">More</a>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </c:forEach>--%>
+
     </div>
 </div>
 <ul id="paginator" class="pagination"></ul>

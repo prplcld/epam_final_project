@@ -20,21 +20,29 @@
 <body>
 <%@include file="bootstrap-body-styles-scripts.jsp" %>
 <%@ include file="header.jsp" %>
-<form id="cocktail-builder" action="controller?command=save_cocktail" method="post" enctype="multipart/form-data">
-    <input value="${cocktail.name}" type="text" pattern=".{3,45}" required="required" name="name" placeholder="<c:out value="${locale_name}"/> ">
-    <input value="${cocktail.description}" type="text" required="required" name="description" placeholder="<c:out value="${locale_description}"/> ">
+<div class="container h-100">
+    <div class="row h-100 justify-content-center">
+        <form id="cocktail-builder" action="controller?command=save_cocktail" method="post"
+              enctype="multipart/form-data">
+            <input class="form-control" value="${cocktail.name}" type="text" pattern=".{3,45}" required="required" name="name"
+                   placeholder="<c:out value="${locale_name}"/> ">
+            <input class="form-control" value="${cocktail.description}" type="text" required="required" name="description"
+                   placeholder="<c:out value="${locale_description}"/> ">
 
-    <input type="file" required="required" name="icon">
-    <input type="hidden" name="id" value="${cocktail.cocktailId}">
-    <p>Old ingredients :</p>
-    <c:forEach items="${ingredients}" var="i">
-        <p>${i.name}, ${i.amount} ${i.amountScale}</p>
-    </c:forEach>
-    <input type="submit" value="<c:out value="${locale_save}"/>">
-</form>
-<button id="plus">
-    +
-</button>
+            <input class="form-control-file" type="file" required="required" name="icon">
+            <input type="hidden" name="id" value="${cocktail.cocktailId}">
+            <p>Old ingredients :</p>
+            <c:forEach items="${ingredients}" var="i">
+                <p>${i.name}, ${i.amount} ${i.amountScale}</p>
+            </c:forEach>
+            <input class="form-control" type="submit" value="<c:out value="${locale_save}"/>">
+        </form>
+        <button id="plus">
+            +
+        </button>
+
+    </div>
+</div>
 <script>
     var ingredients;
     $(document).ready(function () {
@@ -55,12 +63,12 @@
 
     function add_dropdown() {
         var form = $('#cocktail-builder');
-        var select = $('<select name="dropdown" id="ingredients"/>');
+        var select = $('<select class="form-control" name="dropdown" id="ingredients"/>');
         $.each(ingredients, function (i, val) {
             select.append($('<option />', {text: val.name, value: val.ingredientId}));
         });
         form.append(select);
-        form.append($('<input type="text" name="amount" required="required" pattern="\d{1,4}"/>'));
+        form.append($('<input class="form-control" type="text" name="amount" required="required" pattern="\d{1,4}"/>'));
     }
 </script>
 </body>
