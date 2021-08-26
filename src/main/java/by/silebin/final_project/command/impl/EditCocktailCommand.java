@@ -33,7 +33,7 @@ public class EditCocktailCommand implements Command {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(RequestAttribute.USER);
-        String creatorIdParam = request.getParameter(RequestParameter.ID);
+        String creatorIdParam = request.getParameter(RequestParameter.CREATOR);
 
         if (!ParamValidator.validateIntParam(creatorIdParam)) {
             return new Router(PagePath.NOT_FOUND_PAGE, Router.RouterType.REDIRECT);

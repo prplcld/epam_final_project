@@ -79,13 +79,14 @@
         <div class="row comment">
             <div class="head">
                 <small><a class='user' href="controller?command=profile&id=${c.userId}"><c:out value="${c.login}"/></a></small>
-                <c:if test="${sessionScope.user.role == 'ADMIN' || sessionScope.user.userId == comment.userId}">
+                <p>${c.mark}*</p>
+                <c:if test="${sessionScope.user.role == 'ADMIN' || sessionScope.user.userId == c.userId}">
                     <p>
                         <small><a href="controller?command=delete_comment&id=${c.commentId}&cocktailId=${cocktail.cocktailId}&userId=${c.userId}">${locale_delete}</a> </small>
                     </p>
 
                 </c:if>
-                ${c.mark}*
+
             </div>
             <p>${c.text}</p>
         </div>

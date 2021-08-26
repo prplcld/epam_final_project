@@ -57,7 +57,7 @@ public class SaveCocktailCommand implements Command {
                             cocktail.setName(name);
                             break;
                         case RequestParameter.DESCRIPTION:
-                            cocktail.setDescription(item.getString());
+                            cocktail.setDescription(new String(item.getString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
                             break;
                         case RequestParameter.DROPDOWN:
                             if (!ParamValidator.validateIntParam(item.getString())) {

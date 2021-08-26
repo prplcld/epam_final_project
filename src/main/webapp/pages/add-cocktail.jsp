@@ -69,7 +69,7 @@
             select.append($('<option />', {text: val.name + ", " + val.amountScale, value: val.ingredientId}));
         });
         form.append(p);
-        form.append($('<input class="form-control" type="text" name="amount" required="required" pattern="[0-9]{1,4)"/>'));
+        form.append($('<input class="form-control" type="text" name="amount" required="required" pattern="[0-9]{1,4}"/>'));
     }
 </script>
 </body>

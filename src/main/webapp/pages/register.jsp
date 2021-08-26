@@ -6,7 +6,7 @@
     <fmt:setLocale value="${sessionScope.locale}"/>
 </c:if>
 <fmt:setBundle basename="locale"/>
-<fmt:message key="register.login" var="locale_login"/>
+<fmt:message key="register.login" var="locale_register_login"/>
 <fmt:message key="register.email" var="locale_email"/>
 <fmt:message key="register.password" var="locale_password"/>
 <fmt:message key="register.confirm_password" var="locale_confirm_password"/>
@@ -32,7 +32,7 @@
             <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="username"  required="required" pattern=".{3,45}" class="form-control" placeholder="${locale_login}" value=""/>
+                            <input type="text" name="username"  required="required" pattern=".{3,45}" class="form-control" placeholder="${locale_register_login}" value=""/>
                         </div>
                         <div class="form-group">
                             <input type="email" name="email" required="required" pattern="^(?=.{3,30}$)[^\s]+@[^\s]+\.[^\s]+$" class="form-control" placeholder="${locale_email}" value=""/>
