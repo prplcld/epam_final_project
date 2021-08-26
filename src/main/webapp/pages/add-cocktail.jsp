@@ -66,7 +66,7 @@
         var select = $('<select class="form-control" name="dropdown" id="ingredients"/>');
         p.append(select);
         $.each(ingredients, function (i, val) {
-            select.append($('<option />', {text: val.name, value: val.ingredientId}));
+            select.append($('<option />', {text: val.name + ", " + val.amountScale, value: val.ingredientId}));
         });
         form.append(p);
         form.append($('<input class="form-control" type="text" name="amount" required="required" pattern="[0-9]{1,4)"/>'));

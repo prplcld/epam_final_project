@@ -25,6 +25,7 @@ public final class PagePath {
     public static final String GO_TO_EDIT_COCKTAIL = "controller?command=edit_cocktail&id=";
     public static final String DEFAULT = "controller?command=default";
 
+
     private PagePath() {
     }
 }

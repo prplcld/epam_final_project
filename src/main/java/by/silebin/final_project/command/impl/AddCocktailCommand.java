@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +40,15 @@ public class AddCocktailCommand implements Command {
                 if (item.isFormField()) {
                     switch (item.getFieldName()) {
                         case RequestParameter.NAME:
-                            if (!CocktailValidator.validateName(item.getString())) {
+                            String name = new String(item.getString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                            if (!CocktailValidator.validateName(name)) {
                                 request.getSession().setAttribute(RequestAttribute.MESSAGE, "name is not valid");
                                 return new Router(PagePath.GO_TO_ADD_COCKTAIL, Router.RouterType.REDIRECT);
                             }
-                            cocktail.setName(item.getString());
+                            cocktail.setName(name);
                             break;
                         case RequestParameter.DESCRIPTION:
-                            cocktail.setDescription(item.getString());
+                            cocktail.setDescription(new String(item.getString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
                             break;
                         case RequestParameter.DROPDOWN:
                             if (item.getString().equals("")) {

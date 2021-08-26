@@ -35,7 +35,7 @@
                            class="btn-outline-secondary"><c:out value="${locale_info}"/></a>
                         <a href="controller?command=approve_cocktail&id=${c.cocktailId}"
                            class="btn-outline-secondary"><c:out value="approve"/></a>
-                        <a href="controller?command=delete_cocktail&id=${c.cocktailId}"
+                        <a href="controller?command=delete_cocktail&id=${c.cocktailId}&creator=${c.userId}"
                            class="btn-outline-secondary"><c:out value="delete"/></a>
                     </div>
                 </div>

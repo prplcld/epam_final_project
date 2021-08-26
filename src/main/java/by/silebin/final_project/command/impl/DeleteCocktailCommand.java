@@ -42,7 +42,7 @@ public class DeleteCocktailCommand implements Command {
         int id = Integer.parseInt(idParam);
         try {
             cocktailService.deleteCocktail(id);
-            return new Router(PagePath.GO_TO_COCKTAILS_LIST, Router.RouterType.REDIRECT);
+            return new Router(PagePath.GO_TO_COCKTAILS_LIST, Router.RouterType.FORWARD);
         } catch (ServiceException e) {
             logger.error(e);
             request.getSession().setAttribute(RequestAttribute.EXCEPTION, e);

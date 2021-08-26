@@ -27,6 +27,7 @@ public class GetCocktailsAjaxCommand implements AjaxCommand {
         try {
             List<Cocktail> cocktails = cocktailService.getLimited((page - 1) * itemsPerPage, itemsPerPage);
             String json = new Gson().toJson(cocktails);
+            response.setCharacterEncoding("UTF8");
             response.getWriter().append(json);
         } catch (ServiceException | IOException e) {
             logger.error(e);

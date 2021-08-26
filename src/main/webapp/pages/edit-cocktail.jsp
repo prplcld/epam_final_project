@@ -65,7 +65,7 @@
         var form = $('#cocktail-builder');
         var select = $('<select class="form-control" name="dropdown" id="ingredients"/>');
         $.each(ingredients, function (i, val) {
-            select.append($('<option />', {text: val.name, value: val.ingredientId}));
+            select.append($('<option />', {text: val.name + ", " + val.amountScale, value: val.ingredientId}));
         });
         form.append(select);
         form.append($('<input class="form-control" type="text" name="amount" required="required" pattern="\d{1,4}"/>'));

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +49,12 @@ public class SaveCocktailCommand implements Command {
                             cocktail.setCocktailId(Integer.parseInt(item.getString()));
                             break;
                         case RequestParameter.NAME:
-                            if (!CocktailValidator.validateName(item.getString())) {
+                            String name = new String(item.getString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                            if (!CocktailValidator.validateName(name)) {
                                 request.getSession().setAttribute(RequestAttribute.MESSAGE, "invalid name");
                                 return new Router(PagePath.GO_TO_EDIT_COCKTAIL + cocktail.getCocktailId(), Router.RouterType.REDIRECT);
                             }
-                            cocktail.setName(item.getString());
+                            cocktail.setName(name);
                             break;
                         case RequestParameter.DESCRIPTION:
                             cocktail.setDescription(item.getString());
